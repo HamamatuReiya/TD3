@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Matrix4x4.h"
 #include "Vector3.h"
 #include <assert.h>
@@ -6,7 +6,7 @@
 #define _USE_MATH_DEFINES
 
 /// <summary>
-/// 3ŽŸŒ³ƒxƒNƒgƒ‹‰ÁŽZ
+/// 3æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«åŠ ç®—
 /// </summary>
 /// <param name="v1"></param>
 /// <param name="v2"></param>
