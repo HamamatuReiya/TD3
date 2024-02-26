@@ -11,9 +11,31 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+
+	// デバックカメラの生成
+	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
+
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_C)) {
+		isDebugCameraActive_ = true;
+	} else if (input_->TriggerKey(DIK_B)) {
+		isDebugCameraActive_ = false;
+	}
+#endif
+	if (isDebugCameraActive_) {
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
+	} else {
+
+		viewProjection_.TransferMatrix();
+	}
+
+}
 
 void GameScene::Draw() {
 
