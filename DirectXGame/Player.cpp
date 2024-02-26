@@ -59,7 +59,7 @@ void Player::Update() {
 		// 移動
 		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 
-		if (move.z != 0 || move.y != 0) {
+		if (/*move.z != 0 || move.y != 0*/ Length(move) != 0) {
 			worldTransform_.rotation_.y = std::atan2(move.x, move.z);
 		}
 	};
