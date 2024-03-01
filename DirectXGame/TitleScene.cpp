@@ -89,4 +89,7 @@ void TitleScene::Draw() {
 #pragma endregion
 }
 
-void TitleScene::sceneReset() {}
+void TitleScene::sceneReset() {
+	// フェードインの開始
+	fade_->FadeInStart();
+}
