@@ -103,6 +103,8 @@ private:
 	float PickMotionTime_;
 	//腕ディレイ
 	float ArmDelayTime_;
-
-	
+	//脚のアニメーション
+	float LegWalkMotionTime_;
+	// 脚ディレイ
+	float LegDelayTime_;
 };
