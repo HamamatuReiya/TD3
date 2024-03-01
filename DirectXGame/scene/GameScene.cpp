@@ -38,6 +38,8 @@ void GameScene::Initialize() {
 	modelFighterHead_.reset(Model::CreateFromOBJ("float_Head", true));
 	modelFighterL_arm_.reset(Model::CreateFromOBJ("float_L_arm", true));
 	modelFighterR_arm_.reset(Model::CreateFromOBJ("float_R_arm", true));
+	modelFighterL_leg_.reset(Model::CreateFromOBJ("float_L_leg", true));
+	modelFighterR_leg_.reset(Model::CreateFromOBJ("float_R_leg", true));
 	// 自キャラのワールドトランスフォームを追従カメラにセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 	// Player&followCamera
@@ -45,7 +47,7 @@ void GameScene::Initialize() {
 	// 自キャラの初期化
 	player_->Initialize(
 	    modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),
-	    modelFighterR_arm_.get());
+	    modelFighterR_arm_.get(), modelFighterL_leg_.get(), modelFighterR_leg_.get());
 
 	// 天球の生成
 	skydome_ = std::make_unique<Skydome>();
