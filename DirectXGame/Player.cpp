@@ -36,11 +36,11 @@ void Player::Initialize(
 	// 左腕の初期化
 	worldTransformL_arm.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformL_arm.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformL_arm.translation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformL_arm.translation_ = {0.0f, 3.0f, 0.0f};
 	// 右腕の初期化
 	worldTransformR_arm.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_arm.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformR_arm.translation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformR_arm.translation_ = {0.0f, 3.0f, 0.0f};
 	// 左脚の初期化
 	worldTransformL_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformL_leg.rotation_ = {0.0f, 0.0f, 0.0f};
@@ -70,11 +70,11 @@ void Player::MotionPickInitialize() {
 	// 左腕の初期化
 	worldTransformL_arm.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformL_arm.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformL_arm.translation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformL_arm.translation_ = {0.0f, 3.0f, 0.0f};
 	// 右腕の初期化
 	worldTransformR_arm.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_arm.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformR_arm.translation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformR_arm.translation_ = {0.0f, 3.0f, 0.0f};
 	// 左脚の初期化
 	worldTransformL_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformL_leg.rotation_ = {0.0f, 0.0f, 0.0f};
@@ -278,6 +278,11 @@ void Player::MotionDiveUpdate() {
 
 	// 頭
 	worldTransformHead_.translation_.y = -0.05f;
+	worldTransformHead_.translation_.z = 2.2f;
+
+	//足
+	worldTransformL_leg.rotation_.x = 1.0f;
+	worldTransformR_leg.rotation_.x = 1.0f;
 
 	// 潜るモーション範囲
 	if (worldTransform_.translation_.x > -12) {
