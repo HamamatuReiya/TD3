@@ -66,15 +66,23 @@ void Player::MotionPickInitialize() {
 	// 頭の初期化
 	worldTransformHead_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformHead_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformHead_.translation_ = {0.0f, 1.5f, 0.0f};
+	worldTransformHead_.translation_ = {0.0f, 3.0f, 0.0f};
 	// 左腕の初期化
 	worldTransformL_arm.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformL_arm.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformL_arm.translation_ = {-0.5f, 1.25f, 0.0f};
+	worldTransformL_arm.translation_ = {0.0f, 0.0f, 0.0f};
 	// 右腕の初期化
 	worldTransformR_arm.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_arm.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformR_arm.translation_ = {0.5f, 1.25f, 0.0f};
+	worldTransformR_arm.translation_ = {0.0f, 0.0f, 0.0f};
+	// 左脚の初期化
+	worldTransformL_leg.scale_ = {1.0f, 1.0f, 1.0f};
+	worldTransformL_leg.rotation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformL_leg.translation_ = {0.0f, -2.0f, 0.0f};
+	// 右脚の初期化
+	worldTransformR_leg.scale_ = {1.0f, 1.0f, 1.0f};
+	worldTransformR_leg.rotation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformR_leg.translation_ = {0.0f, -2.0f, 0.0f};
 }
 
 void Player::MotionDiveInitialize() {
@@ -134,6 +142,8 @@ void Player::Update() {
 		worldTransformHead_.UpdateMatrix();
 		worldTransformL_arm.UpdateMatrix();
 		worldTransformR_arm.UpdateMatrix();
+		worldTransformL_leg.UpdateMatrix();
+		worldTransformR_leg.UpdateMatrix();
 	}
 
 #ifdef _DEBUG
@@ -198,11 +208,11 @@ void Player::MotionPickUpdate() {
 
 	//腕
 	if (PickMotionTime_ < 7.5f) {
-		worldTransformR_arm.rotation_.y -= 0.1f;
+		worldTransformR_arm.rotation_.x -= 0.1f;
 		worldTransformR_arm.translation_.y -= 0.05f;
 		worldTransformL_arm.translation_.y -= 0.05f;
 	} else {
-		worldTransformR_arm.rotation_.y += 0.05f;
+		worldTransformR_arm.rotation_.x += 0.1f;
 		worldTransformR_arm.translation_.y += 0.05f;
 		worldTransformL_arm.translation_.y += 0.05f;
 	}
@@ -233,6 +243,8 @@ void Player::MotionDiveUpdate() {
 		worldTransformHead_.parent_ = &worldTransform_;
 		worldTransformL_arm.parent_ = &worldTransform_;
 		worldTransformR_arm.parent_ = &worldTransform_;
+		worldTransformL_leg.parent_ = &worldTransform_;
+		worldTransformR_leg.parent_ = &worldTransform_;
 		// 移動量
 		Vector3 move = {
 		    (float)joyState.Gamepad.sThumbLX / SHRT_MAX * -speed, 0.0f,
@@ -271,14 +283,7 @@ void Player::MotionDiveUpdate() {
 	if (worldTransform_.translation_.x > -12) {
 		motionRequest_ = Motion::kRun;
 	}
-	// 行列の更新
-	worldTransform_.UpdateMatrix();
-	worldTransformBody_.UpdateMatrix();
-	worldTransformHead_.UpdateMatrix();
-	worldTransformL_arm.UpdateMatrix();
-	worldTransformR_arm.UpdateMatrix();
-	worldTransformL_leg.UpdateMatrix();
-	worldTransformR_leg.UpdateMatrix();
+	
 }
 
 
