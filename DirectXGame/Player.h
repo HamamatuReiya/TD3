@@ -3,6 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <Input.h>
 #include <math.h>
+#include <optional>
 class Player {
 public:
 	/// <summary>
@@ -21,16 +22,56 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
+	/// <summary>
+	/// 走るモーション初期化
+	/// </summary>
+	void MotionRunInitialize();
+
+	/// <summary>
+	/// 拾うモーション初期化
+	/// </summary>
+	void MotionPickInitialize();
+
+	/// <summary>
+	/// 潜るモーション初期化
+	/// </summary>
+	void MotionDiveInitialize();
+
+	/// <summary>
+	/// 走るモーション更新
+	/// </summary>
+	void MotionRunUpdate();
+
+	/// <summary>
+	/// 拾うモーション更新
+	/// </summary>
+	void MotionPickUpdate();
+
+	/// <summary>
+	/// 潜るモーション更新
+	/// </summary>
+	void MotionDiveUpdate();
+
+	/// <summary>
+	/// モーション
+	/// </summary>
+	enum class Motion {
+		kRun,
+		kPick,
+		kDive
+	};
+
+	/// <summary>
+	/// Getter&Setter
+	/// </summary>
 	WorldTransform& GetWorldTransform() { return worldTransform_; };
 
 	void SetViewProjection(const ViewProjection* viewProjection) {
 		viewProjection_ = viewProjection;
 	}
 
-	// 浮遊ギミック初期化
-	void InitializeFloatingGimmick();
-
 private:
+	//ワールド変換
 	WorldTransform worldTransform_;
 	WorldTransform worldTransformBody_;
 	WorldTransform worldTransformHead_;
@@ -44,7 +85,15 @@ private:
 	Model* modelFighterHead_;
 	Model* modelFighterL_arm;
 	Model* modelFighterR_arm;
-	// 浮遊ギミック媒介変数変数
-	float floatingParamerer_ = 0.0f;
-	Vector3 velocity_ = {};
+	
+	//モーション初期化
+	Motion motion_ = Motion::kRun;
+	std::optional<Motion> motionRequest_ = std::nullopt;
+
+	//モーションタイム
+	float PickMotionTime_;
+	//腕ディレイ
+	float ArmDelayTime_;
+
+	
 };
