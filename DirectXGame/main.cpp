@@ -26,6 +26,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	dxCommon = DirectXCommon::GetInstance();
 	dxCommon->Initialize(win);
 
+
 #pragma region 汎用機能初期化
 	// ImGuiの初期化
 	ImGuiManager* imguiManager = ImGuiManager::GetInstance();
@@ -60,7 +61,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ゲームシーンの初期化
 	gameScene = new GameScene();
 	gameScene->Initialize();
-
+	
+	
 	// メインループ
 	while (true) {
 		// メッセージ処理
@@ -78,6 +80,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		axisIndicator->Update();
 		// ImGui受付終了
 		imguiManager->End();
+
+		//フルスクリーン
+		if (input->TriggerKey(DIK_F)) {
+			win->SetFullscreen(true);
+		}
+		if (input->TriggerKey(DIK_D)) {
+			win->SetFullscreen(false);
+		}
 
 		// 描画開始
 		dxCommon->PreDraw();
