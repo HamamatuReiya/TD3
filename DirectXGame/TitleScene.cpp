@@ -36,9 +36,9 @@ void TitleScene::Update() {
 			isSceneEnd_ = true;
 		}
 
+	}
 		// フェードの更新
 		fade_->Update();
-	}
 }
 
 void TitleScene::Draw() {
