@@ -9,7 +9,9 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model* modelBody, Model* modelHead, Model* modelL_arm, Model* modelR_arm);
+	void Initialize(
+	    Model* modelBody, Model* modelHead, Model* modelL_arm, Model* modelR_arm, Model* modelL_leg,
+	    Model* modelR_leg);
 
 	/// <summary>
 	/// 自キャラ
@@ -77,6 +79,8 @@ private:
 	WorldTransform worldTransformHead_;
 	WorldTransform worldTransformL_arm;
 	WorldTransform worldTransformR_arm;
+	WorldTransform worldTransformL_leg;
+	WorldTransform worldTransformR_leg;
 	// ビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
 	Model* model_ = nullptr;
@@ -85,6 +89,11 @@ private:
 	Model* modelFighterHead_;
 	Model* modelFighterL_arm;
 	Model* modelFighterR_arm;
+	Model* modelFighterL_leg;
+	Model* modelFighterR_leg;
+	// 浮遊ギミック媒介変数変数
+	float floatingParamerer_ = 0.0f;
+	Vector3 velocity_ = {};
 	
 	//モーション初期化
 	Motion motion_ = Motion::kRun;
