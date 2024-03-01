@@ -14,6 +14,8 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
+#include <Scene.h>
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -44,6 +46,14 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw();
+
+public:
+	void sceneReset();
+
+	bool isSceneEnd_ = false;
+
+	bool IsSceneEnd() { return isSceneEnd_; }
+	SceneType NextScene() { return SceneType::kTitle; }
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;

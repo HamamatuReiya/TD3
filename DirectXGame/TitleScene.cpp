@@ -1,4 +1,4 @@
-#include "TitleScene.h"
+ï»¿#include "TitleScene.h"
 
 TitleScene::TitleScene() {}
 
@@ -8,51 +8,82 @@ void TitleScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+
+	// ãƒ•ã‚§ãƒ¼ãƒ‰ã®ç”Ÿæˆ
+	fade_ = std::make_unique<Fade>();
+	// ãƒ•ã‚§ãƒ¼ãƒ‰ã®åˆæœŸåŒ–
+	fade_->Initialize();
+	//ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³ã®é–‹å§‹
+	fade_->FadeInStart();
 }
 
-void TitleScene::Update() {}
+void TitleScene::Update() {
+	// ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã®çŠ¶æ…‹ã‚’å¾—ã‚‹å¤‰æ•°(XINPUT)
+	XINPUT_STATE joyState;
+
+	// ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰çŠ¶æ…‹å–å¾—
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && fadeTimerFlag_ == false) {
+			fadeTimerFlag_ = true;
+			fade_->FadeOutStart();
+		}
+
+		if (fadeTimerFlag_ == true) {
+			fadeTimer_--;
+		}
+
+		if (fadeTimer_ <= 0) {
+			isSceneEnd_ = true;
+		}
+
+		// ãƒ•ã‚§ãƒ¼ãƒ‰ã®æ›´æ–°
+		fade_->Update();
+	}
+}
 
 void TitleScene::Draw() {
-	// ƒRƒ}ƒ“ƒhƒŠƒXƒg‚Ìæ“¾
+	// ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®å–å¾—
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
-#pragma region ”wŒiƒXƒvƒ‰ƒCƒg•`‰æ
-	// ”wŒiƒXƒvƒ‰ƒCƒg•`‰æ‘Oˆ—
+#pragma region èƒŒæ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»
+	// èƒŒæ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å‰å‡¦ç†
 	Sprite::PreDraw(commandList);
 
 	/// <summary>
-	/// ‚±‚±‚É”wŒiƒXƒvƒ‰ƒCƒg‚Ì•`‰æˆ—‚ğ’Ç‰Á‚Å‚«‚é
+	/// ã“ã“ã«èƒŒæ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®æç”»å‡¦ç†ã‚’è¿½åŠ ã§ãã‚‹
 	/// </summary>
 
-	// ƒXƒvƒ‰ƒCƒg•`‰æŒãˆ—
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å¾Œå‡¦ç†
 	Sprite::PostDraw();
-	// [“xƒoƒbƒtƒ@ƒNƒŠƒA
+	// æ·±åº¦ãƒãƒƒãƒ•ã‚¡ã‚¯ãƒªã‚¢
 	dxCommon_->ClearDepthBuffer();
 #pragma endregion
 
-#pragma region 3DƒIƒuƒWƒFƒNƒg•`‰æ
-	// 3DƒIƒuƒWƒFƒNƒg•`‰æ‘Oˆ—
+#pragma region 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å‰å‡¦ç†
 	Model::PreDraw(commandList);
 
 	/// <summary>
-	/// ‚±‚±‚É3DƒIƒuƒWƒFƒNƒg‚Ì•`‰æˆ—‚ğ’Ç‰Á‚Å‚«‚é
+	/// ã“ã“ã«3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»å‡¦ç†ã‚’è¿½åŠ ã§ãã‚‹
 	/// </summary>
 
 
-	// 3DƒIƒuƒWƒFƒNƒg•`‰æŒãˆ—
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å¾Œå‡¦ç†
 	Model::PostDraw();
 #pragma endregion
 
-#pragma region ‘OŒiƒXƒvƒ‰ƒCƒg•`‰æ
-	// ‘OŒiƒXƒvƒ‰ƒCƒg•`‰æ‘Oˆ—
+#pragma region å‰æ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»
+	// å‰æ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å‰å‡¦ç†
 	Sprite::PreDraw(commandList);
 
 	/// <summary>
-	/// ‚±‚±‚É‘OŒiƒXƒvƒ‰ƒCƒg‚Ì•`‰æˆ—‚ğ’Ç‰Á‚Å‚«‚é
+	/// ã“ã“ã«å‰æ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®æç”»å‡¦ç†ã‚’è¿½åŠ ã§ãã‚‹
 	/// </summary>
+	
+	// ãƒ•ã‚§ãƒ¼ãƒ‰ã®æç”»
+	fade_->Draw();
 
-
-	// ƒXƒvƒ‰ƒCƒg•`‰æŒãˆ—
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å¾Œå‡¦ç†
 	Sprite::PostDraw();
 
 #pragma endregion

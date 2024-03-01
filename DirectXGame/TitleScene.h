@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Audio.h"
 #include "DirectXCommon.h"
 #include "Input.h"
@@ -14,30 +14,31 @@
 class TitleScene {
 public:
 	/// <summary>
-	/// ƒRƒ“ƒXƒgƒNƒ‰ƒ^
+	/// ã‚³ãƒ³ã‚¹ãƒˆã‚¯ãƒ©ã‚¿
 	/// </summary>
 	TitleScene();
 
 	/// <summary>
-	/// ƒfƒXƒgƒ‰ƒNƒ^
+	/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
 	~TitleScene();
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialize();
 
 	/// <summary>
-	/// –ˆƒtƒŒ[ƒ€ˆ—
+	/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw();
 
+public:
 	void sceneReset();
 
 	bool isSceneEnd_ = false;
@@ -45,11 +46,17 @@ public:
 	bool IsSceneEnd() { return isSceneEnd_; }
 	SceneType NextScene() { return SceneType::kGamePlay; }
 
-private: // ƒƒ“ƒo•Ï”
+private: // ãƒ¡ãƒ³ãƒå¤‰æ•°
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
-	// ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“
+	// ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³
 	ViewProjection viewProjection_;
+
+	// ãƒ•ã‚§ãƒ¼ãƒ‰
+	std::unique_ptr<Fade> fade_;
+	bool fadeTimerFlag_;
+	const float kFadeTimer_ = 1.657f * 60.0f;
+	float fadeTimer_ = kFadeTimer_;
 };
