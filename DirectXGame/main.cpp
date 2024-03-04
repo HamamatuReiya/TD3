@@ -76,7 +76,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	selectScene->Initialize();
 
 	//最初のシーン
-	SceneType sceneNo = SceneType::kGamePlay;
+	SceneType sceneNo = SceneType::kTitle;
 
 	// メインループ
 	while (true) {
