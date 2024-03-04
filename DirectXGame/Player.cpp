@@ -209,20 +209,20 @@ void Player::MotionPickUpdate() {
 	//腕
 	if (PickMotionTime_ < 7.5f) {
 		worldTransformR_arm.rotation_.x -= 0.1f;
-		worldTransformR_arm.translation_.y -= 0.05f;
-		worldTransformL_arm.translation_.y -= 0.05f;
+		worldTransformR_arm.translation_.y -= 0.09f;
+		worldTransformL_arm.translation_.y -= 0.08f;
 	} else {
 		worldTransformR_arm.rotation_.x += 0.1f;
-		worldTransformR_arm.translation_.y += 0.05f;
-		worldTransformL_arm.translation_.y += 0.05f;
+		worldTransformR_arm.translation_.y += 0.08f;
+		worldTransformL_arm.translation_.y += 0.08f;
 	}
 	//体と頭
 	if (PickMotionTime_ < 7.5f) {
-		worldTransformBody_.translation_.y -= 0.05f;
-		worldTransformHead_.translation_.y -= 0.05f;
+		worldTransformBody_.translation_.y -= 0.08f;
+		worldTransformHead_.translation_.y -= 0.08f;
 	} else {
-		worldTransformBody_.translation_.y += 0.05f;
-		worldTransformHead_.translation_.y += 0.05f;
+		worldTransformBody_.translation_.y += 0.08f;
+		worldTransformHead_.translation_.y += 0.08f;
 	}
 	
 	// 拾うモーション時間
