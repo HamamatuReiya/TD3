@@ -10,18 +10,19 @@
 #include "Scene.h"
 
 #include "fade/Fade.h"
+#include "Spacedome.h"
 
-class TitleScene {
+class SelectScene {
 public:
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
-	TitleScene();
+	SelectScene();
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~TitleScene();
+	~SelectScene();
 
 	/// <summary>
 	/// 初期化
@@ -38,13 +39,17 @@ public:
 	/// </summary>
 	void Draw();
 
+private:
+	// 画像の初期化
+	void TextureInitialize();
+
 public:
 	void sceneReset();
 
 	bool isSceneEnd_ = false;
 
 	bool IsSceneEnd() { return isSceneEnd_; }
-	SceneType NextScene() { return SceneType::kSelect; }
+	SceneType NextScene() { return SceneType::kGamePlay; }
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -53,6 +58,19 @@ private: // メンバ変数
 
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
+
+	//数字の画像
+	Sprite* textureNumber_[10];
+	//矢印 カーソル
+	Sprite* textureCursor_;
+	Vector2 cursorPos_ = {0, 330};
+	Vector2 cursorSpeed_ = {0, 0};
+	int stageCount = 1;
+
+	//天球
+	std::unique_ptr<Spacedome> spacedome_;
+	//  3Dモデル
+	std::unique_ptr<Model> modelSpacedome_;
 
 	// フェード
 	std::unique_ptr<Fade> fade_;
