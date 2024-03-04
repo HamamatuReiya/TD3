@@ -270,6 +270,8 @@ void Player::MotionDiveUpdate() {
 	}
 	worldTransformR_arm.translation_.y = 0.2f;
 	worldTransformL_arm.translation_.y = 0.2f;
+	worldTransformR_arm.translation_.z = 1.35f;
+	worldTransformL_arm.translation_.z = 1.35f;
 	
 	// 体
 	worldTransformBody_.rotation_.x = -30.0f;
