@@ -88,6 +88,7 @@ void Player::MotionPickInitialize() {
 void Player::MotionDiveInitialize() {
 	// 場所初期化
 	worldTransformBody_.rotation_.x = 0.0f;
+	
 }
 
 
@@ -261,9 +262,9 @@ void Player::MotionDiveUpdate() {
 		}
 	}
 
-	ArmDelayTime_++;
 	// 腕
 	worldTransformR_arm.rotation_.x += 0.3f;
+	ArmDelayTime_++;
 	if (ArmDelayTime_>5) {
 		worldTransformL_arm.rotation_.x += 0.3f;
 	}
@@ -282,21 +283,9 @@ void Player::MotionDiveUpdate() {
 	//足
 	worldTransformL_leg.translation_.z = -1.5f;
 	worldTransformR_leg.translation_.z = -1.5f;
+	worldTransformR_leg.rotation_.x = 1.4f;
+	worldTransformL_leg.rotation_.x = 1.4f;
 
-	
-	//脚のモーション
-	LegWalkMotionTime_++;
-	if (LegWalkMotionTime_ < 30.0f) {
-		worldTransformL_leg.rotation_.x += 0.08f;
-		worldTransformR_leg.rotation_.x += 0.08f;
-	} 
-	if (LegWalkMotionTime_ > 30.0f && LegWalkMotionTime_ < 60.0f) {
-		worldTransformL_leg.rotation_.x -= 0.08f;
-		worldTransformR_leg.rotation_.x -= 0.08f;
-	}
-	if (LegWalkMotionTime_>60) {
-		LegWalkMotionTime_ = 0;
-	}
 
 	// 潜るモーション範囲
 	if (worldTransform_.translation_.x > -12) {
