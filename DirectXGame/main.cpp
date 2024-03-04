@@ -8,6 +8,7 @@
 #include "WinApp.h"
 
 #include "TitleScene.h"
+#include "SelectScene.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -20,6 +21,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	PrimitiveDrawer* primitiveDrawer = nullptr;
 	GameScene* gameScene = nullptr;
 	TitleScene* titleScene = nullptr;
+	SelectScene* selectScene = nullptr;
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
@@ -68,6 +70,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	titleScene = new TitleScene();
 	titleScene->Initialize();
 
+	//セレクトシーンの初期化
+	selectScene = new SelectScene();
+	selectScene->Initialize();
+
 	//最初のシーン
 	SceneType sceneNo = SceneType::kTitle;
 
@@ -93,6 +99,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				// タイトルシーンの初期化、フラグリセット等
 				titleScene->sceneReset();
+			}
+
+			break;
+
+		case SceneType::kSelect:
+			selectScene->Update();
+			if (selectScene->IsSceneEnd()) {
+				// 次のシーンの値を代入してシーン切り替え
+				sceneNo = selectScene->NextScene();
+
+				// セレクトシーンシーンの初期化、フラグリセット等
+				selectScene->sceneReset();
 			}
 
 			break;
@@ -123,6 +141,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		case SceneType::kTitle:
 			// タイトルシーンの描画
 			titleScene->Draw();
+			break;
+		case SceneType::kSelect:
+			//セレクトシーンの描画
+			selectScene->Draw();
 			break;
 		case SceneType::kGamePlay:
 			// ゲームシーンの描画

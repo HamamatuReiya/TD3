@@ -37,6 +37,11 @@ void TitleScene::Update() {
 		}
 
 	}
+
+	if (input_->TriggerKey(DIK_SPACE)) {
+		isSceneEnd_ = true;
+	}
+
 		// フェードの更新
 		fade_->Update();
 }
