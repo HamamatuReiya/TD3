@@ -9,6 +9,8 @@
 
 #include "TitleScene.h"
 #include "SelectScene.h"
+#include "DesertStage.h"
+#include "VolcanoStage.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -22,6 +24,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	GameScene* gameScene = nullptr;
 	TitleScene* titleScene = nullptr;
 	SelectScene* selectScene = nullptr;
+
+	DesertStage* desertStage = nullptr;
+	VolcanoStage* volcanoStage = nullptr;
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
@@ -75,6 +80,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	selectScene = new SelectScene();
 	selectScene->Initialize();
 
+	//砂漠ステージの初期化
+	desertStage = new DesertStage();
+	desertStage->Initialize();
+
+	//火山ステージの初期化
+	volcanoStage = new VolcanoStage();
+	volcanoStage->Initialize();
+
 	//最初のシーン
 	SceneType sceneNo = SceneType::kTitle;
 
@@ -106,9 +119,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		case SceneType::kSelect:
 			selectScene->Update();
-			if (selectScene->IsSceneEnd()) {
+			if (selectScene->IsSceneEndIsland()) {
 				// 次のシーンの値を代入してシーン切り替え
-				sceneNo = selectScene->NextScene();
+				sceneNo = selectScene->NextSceneIsland();
+
+				// セレクトシーンシーンの初期化、フラグリセット等
+				selectScene->sceneReset();
+			}
+
+			if (selectScene->IsSceneEndDesert()) {
+				// 次のシーンの値を代入してシーン切り替え
+				sceneNo = selectScene->NextSceneDesert();
+
+				// セレクトシーンシーンの初期化、フラグリセット等
+				selectScene->sceneReset();
+			}
+
+			if (selectScene->IsSceneEndVolcano()) {
+				// 次のシーンの値を代入してシーン切り替え
+				sceneNo = selectScene->NextSceneVolcano();
 
 				// セレクトシーンシーンの初期化、フラグリセット等
 				selectScene->sceneReset();
@@ -126,6 +155,34 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				// ゲームシーンの初期化、フラグリセット等
 				gameScene->sceneReset();
+			}
+
+			break;
+
+		case SceneType::kDesertStage:
+			// 砂漠ステージの毎フレーム処理
+			desertStage->Update();
+
+			if (desertStage->IsSceneEnd()) {
+				// 次のシーンの値を代入してシーン切り替え
+				sceneNo = desertStage->NextScene();
+
+				// 砂漠ステージの初期化、フラグリセット等
+				desertStage->sceneReset();
+			}
+
+			break;
+
+		case SceneType::kVolcanoStage:
+			// 火山ステージの毎フレーム処理
+			volcanoStage->Update();
+
+			if (volcanoStage->IsSceneEnd()) {
+				// 次のシーンの値を代入してシーン切り替え
+				sceneNo = volcanoStage->NextScene();
+
+				// 火山ステージの初期化、フラグリセット等
+				volcanoStage->sceneReset();
 			}
 
 			break;
@@ -158,6 +215,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		case SceneType::kGamePlay:
 			// ゲームシーンの描画
 			gameScene->Draw();
+		case SceneType::kDesertStage:
+			//砂漠ステージの描画
+			desertStage->Draw();
+		case SceneType::kVolcanoStage:
+			//火山ステージの描画
+			volcanoStage->Draw();
+
 			break;
 		}
 

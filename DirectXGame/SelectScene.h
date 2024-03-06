@@ -46,10 +46,17 @@ private:
 public:
 	void sceneReset();
 
-	bool isSceneEnd_ = false;
+	//島
+	bool IsSceneEndIsland() { return isSceneEndIsland_; }
+	SceneType NextSceneIsland() { return SceneType::kGamePlay; }
 
-	bool IsSceneEnd() { return isSceneEnd_; }
-	SceneType NextScene() { return SceneType::kGamePlay; }
+	//砂漠
+	bool IsSceneEndDesert() { return isSceneEndDesert_; }
+	SceneType NextSceneDesert() { return SceneType::kDesertStage; }
+
+	//火山
+	bool IsSceneEndVolcano() { return isSceneEndVolcano_; }
+	SceneType NextSceneVolcano() { return SceneType::kVolcanoStage; }
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -71,6 +78,13 @@ private: // メンバ変数
 	std::unique_ptr<Spacedome> spacedome_;
 	//  3Dモデル
 	std::unique_ptr<Model> modelSpacedome_;
+
+	//島
+	bool isSceneEndIsland_ = false;
+	//砂漠
+	bool isSceneEndDesert_ = false;
+	//火山
+	bool isSceneEndVolcano_ = false;
 
 	// フェード
 	std::unique_ptr<Fade> fade_;

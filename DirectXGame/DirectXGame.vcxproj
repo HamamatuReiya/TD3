@@ -109,6 +109,7 @@
     <ClCompile Include="2d\ImGuiManager.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
+    <ClCompile Include="DesertStage.cpp" />
     <ClCompile Include="fade\Fade.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="Ground.cpp" />
@@ -120,6 +121,7 @@
     <ClCompile Include="Skydome.cpp" />
     <ClCompile Include="Spacedome.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="VolcanoStage.cpp" />
     <ClCompile Include="WorldTransformEx.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +148,7 @@
     <ClInclude Include="base\StringUtility.h" />
     <ClInclude Include="base\TextureManager.h" />
     <ClInclude Include="base\WinApp.h" />
+    <ClInclude Include="DesertStage.h" />
     <ClInclude Include="fade\Fade.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="Ground.h" />
@@ -163,6 +166,7 @@
     <ClInclude Include="Skydome.h" />
     <ClInclude Include="Spacedome.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="VolcanoStage.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\TerrainPS.hlsl">

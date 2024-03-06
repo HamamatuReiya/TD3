@@ -46,13 +46,31 @@ void SelectScene::Update() {
 			fadeTimer_--;
 		}
 
-		if (fadeTimer_ <= 0) {
-			isSceneEnd_ = true;
+		if (fadeTimer_ <= 0 && stageCount == 1) {
+			isSceneEndIsland_ = true;
+		}
+
+		if (fadeTimer_ <= 0 && stageCount == 2) {
+			isSceneEndDesert_ = true;
+		}
+
+		if (fadeTimer_ <= 0 && stageCount == 3) {
+			isSceneEndVolcano_ = true;
 		}
 	}
 
 	if (input_->TriggerKey(DIK_SPACE)) {
-		isSceneEnd_ = true;
+		if (stageCount == 1) {
+			isSceneEndIsland_ = true;
+		}
+		
+		if (stageCount == 2) {
+			isSceneEndDesert_ = true;
+		}
+
+		if (stageCount == 3) {
+			isSceneEndVolcano_ = true;
+		}
 	}
 
 	if (stageCount >= 1 || stageCount <= 3) {
