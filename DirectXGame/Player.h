@@ -101,6 +101,9 @@ private:
 
 	//モーションタイム
 	float PickMotionTime_;
+	float LegMotionTime_;
+	bool isLeftLeg_;
+	bool isRightLeg_;
 	//腕ディレイ
 	float ArmDelayTime_;
 

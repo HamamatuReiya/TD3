@@ -52,6 +52,7 @@ void Player::Initialize(
 }
 
 void Player::MotionRunInitialize() { 
+	
 	MotionPickInitialize();
 	MotionDiveInitialize();
 }
@@ -136,6 +137,7 @@ void Player::Update() {
 			break;
 		}
 
+	}
 		// 行列の更新
 		worldTransform_.UpdateMatrix();
 		worldTransformBody_.UpdateMatrix();
@@ -144,7 +146,6 @@ void Player::Update() {
 		worldTransformR_arm.UpdateMatrix();
 		worldTransformL_leg.UpdateMatrix();
 		worldTransformR_leg.UpdateMatrix();
-	}
 
 #ifdef _DEBUG
 	// デバック
@@ -198,8 +199,41 @@ void Player::MotionRunUpdate() {
 
 		if (Length(move) != 0) {
 			worldTransform_.rotation_.y = std::atan2(move.x, move.z);
+			// 左足
+			if (isLeftLeg_ == false) {
+				worldTransformL_leg.rotation_.x += 0.1f;
+				if (worldTransformL_leg.rotation_.x >= 1.0f) {
+					isLeftLeg_ = true;
+				}
+			} else if (isLeftLeg_ == true) {
+				worldTransformL_leg.rotation_.x -= 0.1f;
+				if (worldTransformL_leg.rotation_.x <= -1.0f) {
+					isLeftLeg_ = false;
+				}
+			}
+			// 右足
+			if (isRightLeg_ == false) {
+				worldTransformR_leg.rotation_.x -= 0.1f;
+				if (worldTransformR_leg.rotation_.x <= -1.0f) {
+					isRightLeg_ = true;
+				}
+			} else if (isRightLeg_ == true) {
+				worldTransformR_leg.rotation_.x += 0.1f;
+				if (worldTransformR_leg.rotation_.x >= 1.0f) {
+					isRightLeg_ = false;
+				}
+			}
+		} else {
+			worldTransformL_leg.rotation_.x = 0.0f;
+			worldTransformR_leg.rotation_.x = 0.0f;
+			isLeftLeg_ = false;
+			isRightLeg_ = false;
 		}
+		
 	}
+
+	
+
 };
 
 void Player::MotionPickUpdate() { 
