@@ -62,15 +62,25 @@ void GameScene::Initialize() {
 	groundModel_.reset(Model::CreateFromOBJ("ground", true));
 	// 地面の初期化
 	ground_->Initialize(groundModel_.get());
+
+	// 爆弾の生成
+	bomm_ = std::make_unique<Bomm>();
+	// 3Dモデルの生成
+	bommModel_.reset(Model::CreateFromOBJ("bom", true));
+	// 爆弾の初期化
+	bomm_->Initialize(bommModel_.get());
 }
 
 void GameScene::Update() {
 	player_->Update();
 	debugCamera_->Update();
 	ground_->Update();
+	bomm_->Update();
+	skydome_->Update();
+
+	
 	// 追従カメラの更新
 	followCamera_->Update();
-	skydome_->Update();
 
 	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 	viewProjection_.matView = followCamera_->GetViewProjection().matView;
@@ -121,7 +131,7 @@ void GameScene::Draw() {
 	player_->Draw(viewProjection_);
 	ground_->Draw(viewProjection_);
 	skydome_->Draw(viewProjection_);
-
+	bomm_->Draw(viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

@@ -109,6 +109,7 @@
     <ClCompile Include="2d\ImGuiManager.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
+    <ClCompile Include="Bomm.cpp" />
     <ClCompile Include="fade\Fade.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="Ground.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="base\StringUtility.h" />
     <ClInclude Include="base\TextureManager.h" />
     <ClInclude Include="base\WinApp.h" />
+    <ClInclude Include="Bomm.h" />
     <ClInclude Include="fade\Fade.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="Ground.h" />

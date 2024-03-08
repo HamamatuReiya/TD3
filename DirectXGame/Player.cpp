@@ -231,9 +231,6 @@ void Player::MotionRunUpdate() {
 		}
 		
 	}
-
-	
-
 };
 
 void Player::MotionPickUpdate() { 

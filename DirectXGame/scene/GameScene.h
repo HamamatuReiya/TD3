@@ -13,7 +13,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-
+#include "Bomm.h"
 #include <Scene.h>
 
 /// <summary>
@@ -91,6 +91,11 @@ private: // メンバ変数
 	std::unique_ptr<Model> skydomeModel_ = nullptr;
 	// 天球
 	std::unique_ptr<Skydome> skydome_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> bommModel_ = nullptr;
+	// 爆弾
+	std::unique_ptr<Bomm> bomm_;
 
 	// 追従カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
