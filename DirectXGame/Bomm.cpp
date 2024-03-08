@@ -6,7 +6,7 @@ void Bomm::Initialize(Model* modelBomm) {
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = {10.0f, 10.0f, 10.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransform_.translation_ = {0.0f, 3.5f, 0.0f};
+	worldTransform_.translation_ = {0.0f, 3.5f, 12.0f};
 	isAni_ = false;
 }
 
