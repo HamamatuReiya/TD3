@@ -43,11 +43,13 @@ private:
 	// 画像の初期化
 	void TextureInitialize();
 
+	//ステージ選択
+	void StageSelect();
+
 public:
-	void sceneReset();
+	void SceneReset();
 
-	bool isSceneEnd_ = false;
-
+	//島
 	bool IsSceneEnd() { return isSceneEnd_; }
 	SceneType NextScene() { return SceneType::kGamePlay; }
 
@@ -65,12 +67,15 @@ private: // メンバ変数
 	Sprite* textureCursor_;
 	Vector2 cursorPos_ = {0, 330};
 	Vector2 cursorSpeed_ = {0, 0};
-	int stageCount = 1;
+	int stageCount_ = 1;
 
 	//天球
 	std::unique_ptr<Spacedome> spacedome_;
 	//  3Dモデル
 	std::unique_ptr<Model> modelSpacedome_;
+
+	//シーンを終わらせる変数
+	bool isSceneEnd_ = false;
 
 	// フェード
 	std::unique_ptr<Fade> fade_;

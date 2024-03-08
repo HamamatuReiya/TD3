@@ -9,6 +9,8 @@
 
 #include "TitleScene.h"
 #include "SelectScene.h"
+#include "DesertStage.h"
+#include "VolcanoStage.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -22,6 +24,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	GameScene* gameScene = nullptr;
 	TitleScene* titleScene = nullptr;
 	SelectScene* selectScene = nullptr;
+
+	DesertStage* desertStage = nullptr;
+	VolcanoStage* volcanoStage = nullptr;
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
@@ -75,6 +80,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	selectScene = new SelectScene();
 	selectScene->Initialize();
 
+	//砂漠ステージの初期化
+	desertStage = new DesertStage();
+	desertStage->Initialize();
+
+	//火山ステージの初期化
+	volcanoStage = new VolcanoStage();
+	volcanoStage->Initialize();
+
 	//最初のシーン
 	SceneType sceneNo = SceneType::kTitle;
 
@@ -99,7 +112,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				sceneNo = titleScene->NextScene();
 
 				// タイトルシーンの初期化、フラグリセット等
-				titleScene->sceneReset();
+				titleScene->SceneReset();
 			}
 
 			break;
@@ -111,7 +124,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				sceneNo = selectScene->NextScene();
 
 				// セレクトシーンシーンの初期化、フラグリセット等
-				selectScene->sceneReset();
+				selectScene->SceneReset();
 			}
 
 			break;
@@ -125,7 +138,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				sceneNo = gameScene->NextScene();
 
 				// ゲームシーンの初期化、フラグリセット等
-				gameScene->sceneReset();
+				gameScene->SceneReset();
 			}
 
 			break;
@@ -151,10 +164,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			// タイトルシーンの描画
 			titleScene->Draw();
 			break;
+
 		case SceneType::kSelect:
 			//セレクトシーンの描画
 			selectScene->Draw();
 			break;
+
 		case SceneType::kGamePlay:
 			// ゲームシーンの描画
 			gameScene->Draw();

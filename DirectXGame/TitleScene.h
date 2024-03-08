@@ -39,7 +39,7 @@ public:
 	void Draw();
 
 public:
-	void sceneReset();
+	void SceneReset();
 
 	bool isSceneEnd_ = false;
 

@@ -55,29 +55,8 @@ void SelectScene::Update() {
 		isSceneEnd_ = true;
 	}
 
-	if (stageCount >= 1 || stageCount <= 3) {
-		if (input_->TriggerKey(DIK_LEFT)) {
-			stageCount -= 1;
-		} else if (input_->TriggerKey(DIK_RIGHT)) {
-			stageCount += 1;
-		}
-	}
-	if (stageCount <= 0) {
-		stageCount += 1;
-	}
-	if (stageCount >= 4) {
-		stageCount -= 1;
-	}
-
-	if (stageCount == 1) {
-		cursorPos_.x = 313.0f - 30;
-	}
-	if (stageCount == 2) {
-		cursorPos_.x = 600.0f - 30;
-	}
-	if (stageCount == 3) {
-		cursorPos_.x = 853.0f - 30;
-	}
+	//ステージ選択
+	StageSelect();
 
 	textureCursor_->SetPosition(cursorPos_);
 
@@ -165,7 +144,33 @@ void SelectScene::TextureInitialize() {
 	textureCursor_ = Sprite::Create(cursorHandle, {50.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 }
 
-void SelectScene::sceneReset() {
+void SelectScene::StageSelect() {
+	if (stageCount_ >= 1 || stageCount_ <= 3) {
+		if (input_->TriggerKey(DIK_LEFT)) {
+			stageCount_ -= 1;
+		} else if (input_->TriggerKey(DIK_RIGHT)) {
+			stageCount_ += 1;
+		}
+	}
+	if (stageCount_ <= 0) {
+		stageCount_ += 1;
+	}
+	if (stageCount_ >= 4) {
+		stageCount_ -= 1;
+	}
+
+	if (stageCount_ == 1) {
+		cursorPos_.x = 313.0f - 30;
+	}
+	if (stageCount_ == 2) {
+		cursorPos_.x = 600.0f - 30;
+	}
+	if (stageCount_ == 3) {
+		cursorPos_.x = 853.0f - 30;
+	}
+}
+
+void SelectScene::SceneReset() {
 	// フェードインの開始
 	fade_->FadeInStart();
 }

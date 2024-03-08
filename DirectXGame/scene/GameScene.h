@@ -48,7 +48,7 @@ public: // メンバ関数
 	void Draw();
 
 public:
-	void sceneReset();
+	void SceneReset();
 
 	bool isSceneEnd_ = false;
 
