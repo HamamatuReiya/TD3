@@ -43,20 +43,15 @@ private:
 	// 画像の初期化
 	void TextureInitialize();
 
+	//ステージ選択
+	void StageSelect();
+
 public:
-	void sceneReset();
+	void SceneReset();
 
 	//島
-	bool IsSceneEndIsland() { return isSceneEndIsland_; }
-	SceneType NextSceneIsland() { return SceneType::kGamePlay; }
-
-	//砂漠
-	bool IsSceneEndDesert() { return isSceneEndDesert_; }
-	SceneType NextSceneDesert() { return SceneType::kDesertStage; }
-
-	//火山
-	bool IsSceneEndVolcano() { return isSceneEndVolcano_; }
-	SceneType NextSceneVolcano() { return SceneType::kVolcanoStage; }
+	bool IsSceneEnd() { return isSceneEnd_; }
+	SceneType NextScene() { return SceneType::kGamePlay; }
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -72,19 +67,15 @@ private: // メンバ変数
 	Sprite* textureCursor_;
 	Vector2 cursorPos_ = {0, 330};
 	Vector2 cursorSpeed_ = {0, 0};
-	int stageCount = 1;
+	int stageCount_ = 1;
 
 	//天球
 	std::unique_ptr<Spacedome> spacedome_;
 	//  3Dモデル
 	std::unique_ptr<Model> modelSpacedome_;
 
-	//島
-	bool isSceneEndIsland_ = false;
-	//砂漠
-	bool isSceneEndDesert_ = false;
-	//火山
-	bool isSceneEndVolcano_ = false;
+	//シーンを終わらせる変数
+	bool isSceneEnd_ = false;
 
 	// フェード
 	std::unique_ptr<Fade> fade_;
