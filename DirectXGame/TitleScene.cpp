@@ -37,6 +37,11 @@ void TitleScene::Update() {
 		}
 
 	}
+
+	if (input_->TriggerKey(DIK_SPACE)) {
+		isSceneEnd_ = true;
+	}
+
 		// フェードの更新
 		fade_->Update();
 }
@@ -89,7 +94,7 @@ void TitleScene::Draw() {
 #pragma endregion
 }
 
-void TitleScene::sceneReset() {
+void TitleScene::SceneReset() {
 	// フェードインの開始
 	fade_->FadeInStart();
 }
