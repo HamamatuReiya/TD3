@@ -15,11 +15,12 @@
 #include "WorldTransform.h"
 
 #include <Scene.h>
+#include <Stage.h>
 
 /// <summary>
 /// ゲームシーン
 /// </summary>
-class GameScene {
+class GameScene : public StageSelect {
 
 public: // メンバ関数
 	/// <summary>

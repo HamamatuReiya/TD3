@@ -24,7 +24,7 @@ void DesertStage::Update() {
 }
 
 void DesertStage::Draw() {
-
-	textureNumber_->Draw(); }
+	textureNumber_->Draw();
+}
 
 void DesertStage::StageReset() {}

@@ -65,16 +65,35 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+
+	switch (stageNo) {
+	case Stage::kIsland:
+
+		ground_->Update();
+		skydome_->Update();
+
+		break;
+
+	case Stage::kDesert:
+
+		break;
+
+	case Stage::kVolcano:
+
+		ground_->Update();
+
+		break;
+	}
+
 	player_->Update();
-	debugCamera_->Update();
-	ground_->Update();
+
 	// 追従カメラの更新
 	followCamera_->Update();
-	skydome_->Update();
 
 	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 	viewProjection_.matView = followCamera_->GetViewProjection().matView;
 
+	debugCamera_->Update();
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_C)) {
 		isDebugCameraActive_ = true;
@@ -118,9 +137,27 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+
+	switch (stageNo) {
+	case Stage::kIsland:
+
+		ground_->Draw(viewProjection_);
+		skydome_->Draw(viewProjection_);
+
+		break;
+
+	case Stage::kDesert:
+
+		break;
+
+	case Stage::kVolcano:
+
+		ground_->Draw(viewProjection_);
+
+		break;
+	}
+
 	player_->Draw(viewProjection_);
-	ground_->Draw(viewProjection_);
-	skydome_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

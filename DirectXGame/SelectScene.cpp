@@ -32,6 +32,7 @@ void SelectScene::Initialize() {
 }
 
 void SelectScene::Update() {
+
 	// ゲームパッドの状態を得る変数(XINPUT)
 	XINPUT_STATE joyState;
 
@@ -161,12 +162,15 @@ void SelectScene::StageSelect() {
 
 	if (stageCount_ == 1) {
 		cursorPos_.x = 313.0f - 30;
+		stageNo = Stage::kIsland;
 	}
 	if (stageCount_ == 2) {
 		cursorPos_.x = 600.0f - 30;
+		stageNo = Stage::kDesert;
 	}
 	if (stageCount_ == 3) {
 		cursorPos_.x = 853.0f - 30;
+		stageNo = Stage::kVolcano;
 	}
 }
 

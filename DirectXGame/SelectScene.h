@@ -11,8 +11,9 @@
 
 #include "fade/Fade.h"
 #include "Spacedome.h"
+#include <Stage.h>
 
-class SelectScene {
+class SelectScene : public StageSelect {
 public:
 	/// <summary>
 	/// コンストクラタ
