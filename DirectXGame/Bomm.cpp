@@ -38,3 +38,12 @@ void Bomm::Update() {
 void Bomm::Draw(ViewProjection& viewProjection) { 
 	modelBomm_->Draw(worldTransform_, viewProjection);
 }
+
+Vector3 Bomm::GetCenterPosition() const { 
+	// ローカル座標のオフセット
+	const Vector3 offset = {0.0f, 1.5f, 0.0f};
+	// ワールド座標変換
+	Vector3 worldPos = Transform(offset, worldTransform_.matWorld_);
+
+	return worldPos;
+}

@@ -15,6 +15,7 @@
 #include "WorldTransform.h"
 #include "Bomm.h"
 #include <Scene.h>
+#include"CollisionManager.h"
 
 /// <summary>
 /// ゲームシーン
@@ -46,6 +47,11 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw();
+
+	/// <summary>
+	/// 衝突判定と応答
+	/// </summary>
+	void ChackAllCollisions();
 
 public:
 	void sceneReset();
@@ -99,6 +105,9 @@ private: // メンバ変数
 
 	// 追従カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
+
+	// 衝突マネージャ
+	std::unique_ptr<CollisionManager> collisionManager_;
 
 	/// <summary>
 	/// ゲームシーン用

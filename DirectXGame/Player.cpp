@@ -233,6 +233,17 @@ void Player::MotionRunUpdate() {
 	}
 };
 
+void Player::OnCollision() { isCollider_ = true; }
+
+Vector3 Player::GetCenterPosition() const {
+	// ローカル座標のオフセット
+	const Vector3 offset = {0.0f, 1.5f, 0.0f};
+	// ワールド座標変換
+	Vector3 worldPos = Transform(offset, worldTransform_.matWorld_);
+
+	return worldPos;
+}
+
 void Player::MotionPickUpdate() { 
 	// 拾うモーション時間
 	PickMotionTime_++;
@@ -326,7 +337,6 @@ void Player::MotionDiveUpdate() {
 	}
 	
 }
-
 
 void Player::Draw(ViewProjection& viewProjection) {
 	modelFighterBody_->Draw(worldTransformBody_, viewProjection);

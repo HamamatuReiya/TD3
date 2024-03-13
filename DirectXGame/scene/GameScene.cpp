@@ -69,6 +69,10 @@ void GameScene::Initialize() {
 	bommModel_.reset(Model::CreateFromOBJ("bom", true));
 	// 爆弾の初期化
 	bomm_->Initialize(bommModel_.get());
+	// 衝突マネージャの生成
+	collisionManager_ = std::make_unique<CollisionManager>();
+	//コライダー可視化
+	collisionManager_->Initialize();
 }
 
 void GameScene::Update() {
@@ -100,6 +104,17 @@ void GameScene::Update() {
 	} else {
 		viewProjection_.TransferMatrix();
 	}
+}
+void GameScene::ChackAllCollisions() {
+	// 衝突マネージャのリセット
+	collisionManager_->Reset();
+	// コライダーをリストに登録
+	collisionManager_->AddCollider(player_.get());
+
+	collisionManager_->AddCollider(bomm_.get());
+
+	// 衝突判定と応答
+	collisionManager_->ChackAllCollisions();
 }
 
 void GameScene::Draw() {

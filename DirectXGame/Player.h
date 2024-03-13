@@ -4,7 +4,9 @@
 #include <Input.h>
 #include <math.h>
 #include <optional>
-class Player {
+#include "BaseCharacter.h"
+
+class Player : public BaseCharacter {
 public:
 	/// <summary>
 	/// 初期化
@@ -72,6 +74,10 @@ public:
 		viewProjection_ = viewProjection;
 	}
 
+	void OnCollision() override;
+	// 中心座標を取得
+	Vector3 GetCenterPosition() const override;
+
 private:
 	//ワールド変換
 	WorldTransform worldTransform_;
@@ -106,5 +112,8 @@ private:
 	bool isRightLeg_;
 	//腕ディレイ
 	float ArmDelayTime_;
+
+	//衝突してるか
+	bool isCollider_;
 
 };

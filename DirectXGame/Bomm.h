@@ -3,10 +3,11 @@
 #include "WorldTransform.h"
 #define _USE_MATH_DEFINES
 #include <Input.h>
-#include <math.h>
+#include "MT.h"
 #include <optional>
+#include "BaseCharacter.h"
 
-class Bomm {
+class Bomm : public BaseCharacter {
 public:
 	/// <summary>
 	/// 初期化
@@ -23,6 +24,9 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
+	// 中心座標を取得
+	Vector3 GetCenterPosition() const override;
+
 private:
 	//ビュープロジェクション
 	ViewProjection* viewProjection_ = nullptr;
@@ -33,6 +37,5 @@ private:
 	Model* modelBomm_;
 	//上下アニメーション
 	bool isAni_;
-	
 
 };
