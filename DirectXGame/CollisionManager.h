@@ -18,6 +18,9 @@ public:
 	//ワールドトランスフォームの更新
 	void UpdateWorldtransform();
 
+	//描画
+	void Draw(ViewProjection& viewProjection);
+
 private:
 	/// コライダー二つの当たり判定
 	void CheckCollisionPair(Collider* colliderA, Collider* colliderB);

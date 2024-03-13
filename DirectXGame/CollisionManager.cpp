@@ -12,6 +12,13 @@ void CollisionManager::UpdateWorldtransform() {
 	}
 }
 
+void CollisionManager::Draw(ViewProjection& viewProjection) {
+	for (Collider* collider : colliders_) {
+		//描画
+		colliderModel_->Draw(colliderModel_, viewProjection);
+	}
+}
+
 void CollisionManager::Reset() {
 	// リストを空っぽにする
 	colliders_.clear();
