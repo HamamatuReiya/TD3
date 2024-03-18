@@ -80,6 +80,8 @@ public:
 		worldTransform_ = worldTransform;
 	}*/
 
+
+
 private:
 	//ワールド変換
 	WorldTransform worldTransform_;

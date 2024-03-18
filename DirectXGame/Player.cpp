@@ -137,12 +137,12 @@ void Player::Update() {
 		}
 
 	}
-	worldTransformBody_.parent_ = &worldTransform_;
+	/*worldTransformBody_.parent_ = &worldTransform_;
 	worldTransformHead_.parent_ = &worldTransformBody_;
 	worldTransformR_arm.parent_ = &worldTransformBody_;
 	worldTransformL_arm.parent_ = &worldTransformBody_;
 	worldTransformL_leg.parent_ = &worldTransformBody_;
-	worldTransformR_leg.parent_ = &worldTransformBody_;
+	worldTransformR_leg.parent_ = &worldTransformBody_;*/
 
 	BaseCharacter::Update();
 
@@ -242,7 +242,8 @@ void Player::MotionRunUpdate() {
 };
 
 void Player::OnCollision() { 
-	worldTransformL_leg.rotation_.x += 1.0f; }
+	
+}
 
 Vector3 Player::GetCenterPosition() const {
 	// ローカル座標のオフセット
