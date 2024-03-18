@@ -21,14 +21,16 @@ public:
 	//ワールドトランスフォームの更新
 	void UpdateWorldTransform();
 	
-	/// <summary>
+
+
+	/*/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(Model* model,const ViewProjection& viewProjection);
+	void Draw(Model* model,const ViewProjection& viewProjection);*/
 
 private:
 	// 衝突半径
-	float radius_ = 1.5f;
+	float radius_ = 3.0f;
 	//ワールド変換
 	WorldTransform worldTransform_;
 };

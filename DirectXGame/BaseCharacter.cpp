@@ -1,9 +1,9 @@
 ﻿#include "BaseCharacter.h"
 
 void BaseCharacter::Initialize(const std::vector<Model*>& models) {
-	Collider::Initialize();
 	models_ = models;
 	worldTransform_.Initialize();
+	Collider::Initialize();
 }
 
 void BaseCharacter::Update() { 
@@ -15,7 +15,6 @@ void BaseCharacter::Draw(const ViewProjection& viewProjection) {
 	for (Model* model : models_) {
 		model->Draw(worldTransform_, viewProjection);
 	}
-	/*Collider::Draw(,viewProjection);*/
 }
 
 Vector3 BaseCharacter::GetCenterPosition() const {

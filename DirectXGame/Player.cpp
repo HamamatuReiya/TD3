@@ -2,16 +2,16 @@
 #include "MT.h"
 #include <ImGuiManager.h>
 
-void Player::Initialize(
-    Model* modelBody, Model* modelHead, Model* modelL_arm, Model* modelR_arm, Model* modelL_leg,
-    Model* modelR_leg) {
+void Player::Initialize(const std::vector<Model*>& models)
+{
+	BaseCharacter::Initialize(models);
 
-	modelFighterBody_ = modelBody;
+	/*modelFighterBody_ = modelBody;
 	modelFighterHead_ = modelHead;
 	modelFighterL_arm = modelL_arm;
 	modelFighterR_arm = modelR_arm;
 	modelFighterL_leg = modelL_leg;
-	modelFighterR_leg = modelR_leg;
+	modelFighterR_leg = modelR_leg;*/
 
 	// 初期化
 	worldTransform_.Initialize();
@@ -92,7 +92,6 @@ void Player::MotionDiveInitialize() {
 	
 }
 
-
 void Player::Update() {
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
@@ -138,14 +137,23 @@ void Player::Update() {
 		}
 
 	}
-		// 行列の更新
-		worldTransform_.UpdateMatrix();
-		worldTransformBody_.UpdateMatrix();
-		worldTransformHead_.UpdateMatrix();
-		worldTransformL_arm.UpdateMatrix();
-		worldTransformR_arm.UpdateMatrix();
-		worldTransformL_leg.UpdateMatrix();
-		worldTransformR_leg.UpdateMatrix();
+	worldTransformBody_.parent_ = &worldTransform_;
+	worldTransformHead_.parent_ = &worldTransformBody_;
+	worldTransformR_arm.parent_ = &worldTransformBody_;
+	worldTransformL_arm.parent_ = &worldTransformBody_;
+	worldTransformL_leg.parent_ = &worldTransformBody_;
+	worldTransformR_leg.parent_ = &worldTransformBody_;
+
+	BaseCharacter::Update();
+
+	// 行列の更新
+	worldTransform_.UpdateMatrix();
+	worldTransformBody_.UpdateMatrix();
+	worldTransformHead_.UpdateMatrix();
+	worldTransformL_arm.UpdateMatrix();
+	worldTransformR_arm.UpdateMatrix();
+	worldTransformL_leg.UpdateMatrix();
+	worldTransformR_leg.UpdateMatrix();
 
 #ifdef _DEBUG
 	// デバック
@@ -233,7 +241,8 @@ void Player::MotionRunUpdate() {
 	}
 };
 
-void Player::OnCollision() { isCollider_ = true; }
+void Player::OnCollision() { 
+	worldTransformL_leg.rotation_.x += 1.0f; }
 
 Vector3 Player::GetCenterPosition() const {
 	// ローカル座標のオフセット
@@ -339,12 +348,19 @@ void Player::MotionDiveUpdate() {
 }
 
 void Player::Draw(ViewProjection& viewProjection) {
-	modelFighterBody_->Draw(worldTransformBody_, viewProjection);
+	/*modelFighterBody_->Draw(worldTransformBody_, viewProjection);
 	modelFighterHead_->Draw(worldTransformHead_, viewProjection);
 	modelFighterL_arm->Draw(worldTransformL_arm, viewProjection);
 	modelFighterR_arm->Draw(worldTransformR_arm, viewProjection);
 	modelFighterL_leg->Draw(worldTransformL_leg, viewProjection);
-	modelFighterR_leg->Draw(worldTransformR_leg, viewProjection);
+	modelFighterR_leg->Draw(worldTransformR_leg, viewProjection);*/
+	// 3Dモデルを描画
+	models_[0]->Draw(worldTransformBody_, viewProjection);
+	models_[1]->Draw(worldTransformHead_, viewProjection);
+	models_[2]->Draw(worldTransformL_arm, viewProjection);
+	models_[3]->Draw(worldTransformR_arm, viewProjection);
+	models_[4]->Draw(worldTransformL_leg, viewProjection);
+	models_[5]->Draw(worldTransformR_leg, viewProjection);
 }
 
 

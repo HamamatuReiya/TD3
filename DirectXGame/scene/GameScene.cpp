@@ -44,10 +44,12 @@ void GameScene::Initialize() {
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 	// Player&followCamera
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
+	// 自キャラモデル
+	std::vector<Model*> playerModels = {
+	    modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(), modelFighterR_arm_.get(),
+	                                    modelFighterL_leg_.get(), modelFighterR_leg_.get()};
 	// 自キャラの初期化
-	player_->Initialize(
-	    modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),
-	    modelFighterR_arm_.get(), modelFighterL_leg_.get(), modelFighterR_leg_.get());
+	player_->Initialize(playerModels);
 
 	// 天球の生成
 	skydome_ = std::make_unique<Skydome>();
@@ -67,8 +69,11 @@ void GameScene::Initialize() {
 	bomm_ = std::make_unique<Bomm>();
 	// 3Dモデルの生成
 	bommModel_.reset(Model::CreateFromOBJ("bom", true));
+	
+	// 爆弾モデル
+	std::vector<Model*> bommModels = {bommModel_.get()};
 	// 爆弾の初期化
-	bomm_->Initialize(bommModel_.get());
+	bomm_->Initialize(bommModels);
 	// 衝突マネージャの生成
 	collisionManager_ = std::make_unique<CollisionManager>();
 	//コライダー可視化
@@ -81,7 +86,7 @@ void GameScene::Update() {
 	ground_->Update();
 	bomm_->Update();
 	skydome_->Update();
-
+	collisionManager_->UpdateWorldtransform();
 	
 	// 追従カメラの更新
 	followCamera_->Update();
@@ -147,6 +152,7 @@ void GameScene::Draw() {
 	ground_->Draw(viewProjection_);
 	skydome_->Draw(viewProjection_);
 	bomm_->Draw(viewProjection_);
+	collisionManager_->Draw(viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

@@ -1,7 +1,9 @@
 ﻿#include "CollisionManager.h"
 #include "MT.h"
 
+
 void CollisionManager::Initialize() {
+	worldTransform_.Initialize();
 	colliderModel_.reset(Model::CreateFromOBJ("Collider", true));
 }
 
@@ -13,10 +15,8 @@ void CollisionManager::UpdateWorldtransform() {
 }
 
 void CollisionManager::Draw(ViewProjection& viewProjection) {
-	for (Collider* collider : colliders_) {
-		//描画
-		colliderModel_->Draw(colliderModel_, viewProjection);
-	}
+	//描画
+	colliderModel_->Draw(worldTransform_, viewProjection);
 }
 
 void CollisionManager::Reset() {

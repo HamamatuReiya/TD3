@@ -15,7 +15,8 @@
 #include "WorldTransform.h"
 #include "Bomm.h"
 #include <Scene.h>
-#include"CollisionManager.h"
+#include "CollisionManager.h"
+#include "Collider.h"
 
 /// <summary>
 /// ゲームシーン

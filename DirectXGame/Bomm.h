@@ -12,7 +12,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model* modelBomm);
+	void Initialize(const std::vector<Model*>&models)override;
 
 	/// <summary>
 	/// 更新
@@ -22,7 +22,7 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(ViewProjection& viewProjection);
+	void Draw(const ViewProjection& viewProjection)override;
 
 	// 中心座標を取得
 	Vector3 GetCenterPosition() const override;

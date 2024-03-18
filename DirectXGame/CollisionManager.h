@@ -28,4 +28,6 @@ private:
 	std::list<Collider*> colliders_;
 	//デバッグ表示用モデル
 	std::unique_ptr<Model> colliderModel_;
+	// ワールド変換
+	WorldTransform worldTransform_;
 };

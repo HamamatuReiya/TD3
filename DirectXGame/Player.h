@@ -11,9 +11,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(
-	    Model* modelBody, Model* modelHead, Model* modelL_arm, Model* modelR_arm, Model* modelL_leg,
-	    Model* modelR_leg);
+	void Initialize(const std::vector<Model*>& models) override;
 
 	/// <summary>
 	/// 自キャラ
@@ -77,6 +75,10 @@ public:
 	void OnCollision() override;
 	// 中心座標を取得
 	Vector3 GetCenterPosition() const override;
+	
+	/*void SetWorldTransform(WorldTransform worldTransform) {
+		worldTransform_ = worldTransform;
+	}*/
 
 private:
 	//ワールド変換
