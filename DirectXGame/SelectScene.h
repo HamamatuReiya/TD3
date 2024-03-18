@@ -78,6 +78,10 @@ private: // メンバ変数
 	//シーンを終わらせる変数
 	bool isSceneEnd_ = false;
 
+	//スティックのフラグ
+	bool padStateFlag_ = false;
+	bool dPadStateFlag_ = false;
+
 	// フェード
 	std::unique_ptr<Fade> fade_;
 	bool fadeTimerFlag_;

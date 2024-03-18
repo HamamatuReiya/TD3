@@ -118,6 +118,7 @@
     <ClCompile Include="MT.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="SelectScene.cpp" />
     <ClCompile Include="Skydome.cpp" />
     <ClCompile Include="Spacedome.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="SelectScene.h" />
     <ClInclude Include="Skydome.h" />
     <ClInclude Include="Spacedome.h" />

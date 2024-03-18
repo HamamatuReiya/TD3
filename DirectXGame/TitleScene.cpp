@@ -9,6 +9,9 @@ void TitleScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
+	score_ = std::make_unique<Score>();
+	score_->Initialize();
+
 	// フェードの生成
 	fade_ = std::make_unique<Fade>();
 	// フェードの初期化
@@ -42,8 +45,10 @@ void TitleScene::Update() {
 		isSceneEnd_ = true;
 	}
 
-		// フェードの更新
-		fade_->Update();
+	score_->Update(5);
+
+	// フェードの更新
+	fade_->Update();
 }
 
 void TitleScene::Draw() {
@@ -85,6 +90,8 @@ void TitleScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	
+	score_->Draw();
+
 	// フェードの描画
 	fade_->Draw();
 

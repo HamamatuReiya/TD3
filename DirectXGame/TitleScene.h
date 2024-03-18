@@ -10,6 +10,7 @@
 #include "Scene.h"
 
 #include "fade/Fade.h"
+#include "Score.h"
 
 class TitleScene {
 public:
@@ -53,6 +54,8 @@ private: // メンバ変数
 
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
+
+	std::unique_ptr<Score> score_;
 
 	// フェード
 	std::unique_ptr<Fade> fade_;
