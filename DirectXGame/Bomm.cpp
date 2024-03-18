@@ -32,6 +32,8 @@ void Bomm::Update() {
 	//	}
 	//}
 	
+	worldTransform_.parent_ = &worldTransform_;
+
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 }

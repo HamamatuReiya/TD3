@@ -1,6 +1,10 @@
 ﻿#include "CollisionManager.h"
 #include "MT.h"
 
+void CollisionManager::Reset() {
+	// リストを空っぽにする
+	colliders_.clear();
+}
 
 void CollisionManager::Initialize() {
 	worldTransform_.Initialize();
@@ -17,11 +21,6 @@ void CollisionManager::UpdateWorldtransform() {
 void CollisionManager::Draw(ViewProjection& viewProjection) {
 	//描画
 	colliderModel_->Draw(worldTransform_, viewProjection);
-}
-
-void CollisionManager::Reset() {
-	// リストを空っぽにする
-	colliders_.clear();
 }
 
 void CollisionManager::AddCollider(Collider* collider) { colliders_.push_back(collider); }

@@ -17,12 +17,12 @@ public:
 	/// 自キャラ
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update() override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(ViewProjection& viewProjection);
+	void Draw(const ViewProjection& viewProjection)override;
 
 	/// <summary>
 	/// 走るモーション初期化

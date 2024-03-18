@@ -30,7 +30,7 @@ public:
 
 private:
 	// 衝突半径
-	float radius_ = 3.0f;
+	float radius_ = 1.5f;
 	//ワールド変換
 	WorldTransform worldTransform_;
 };

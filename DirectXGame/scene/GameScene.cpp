@@ -88,6 +88,8 @@ void GameScene::Update() {
 	skydome_->Update();
 	collisionManager_->UpdateWorldtransform();
 	
+	ChackAllCollisions();
+
 	// 追従カメラの更新
 	followCamera_->Update();
 
@@ -109,6 +111,7 @@ void GameScene::Update() {
 	} else {
 		viewProjection_.TransferMatrix();
 	}
+
 }
 void GameScene::ChackAllCollisions() {
 	// 衝突マネージャのリセット
