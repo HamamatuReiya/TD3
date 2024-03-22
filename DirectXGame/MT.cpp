@@ -1,6 +1,13 @@
 ﻿#include "MT.h"
 #include <math.h>
 
+Vector3 Add(const Vector3& v1, const Vector3& v2) {
+	Vector3 v;
+	v.x = v1.x + v2.x;
+	v.y = v1.y + v2.y;
+	v.z = v1.z + v2.z;
+	return v;
+}
 Vector3 Subtract(const Vector3& v1, const Vector3& v2) {
 	Vector3 result{};
 	result.x = v1.x - v2.x;
@@ -41,6 +48,8 @@ Matrix4x4 MakeRotateXmatrix(float radian) {
 	result.m[3][3] = 1.0f;
 	return result;
 }
+Vector3 Multiply(Vector3 vector, Matrix4x4 matrix) {
+	Vector3 result = {};
 
 // Y軸回転行列
 Matrix4x4 MakeRotateYmatrix(float radian) {
@@ -67,7 +76,7 @@ Matrix4x4 MakeRotateYmatrix(float radian) {
 	return result;
 }
 
-// Z軸回転行列
+// Z����]�s��
 Matrix4x4 MakeRotateZmatrix(float radian) {
 	Matrix4x4 result;
 	result.m[0][0] = std::cos(radian);
@@ -92,7 +101,7 @@ Matrix4x4 MakeRotateZmatrix(float radian) {
 	return result;
 }
 
-// 平行移動
+// ���s�ړ�
 Matrix4x4 MakeTranslateMatrix(Vector3 translate) {
 	Matrix4x4 result;
 	result.m[0][0] = 1.0f;
@@ -118,7 +127,7 @@ Matrix4x4 MakeTranslateMatrix(Vector3 translate) {
 	return result;
 };
 
-// 拡大縮小
+// �g��k��
 Matrix4x4 MakeScaleMatrix(const Vector3& scale) {
 	Matrix4x4 result;
 
@@ -241,36 +250,36 @@ Matrix4x4 Inverse(const Matrix4x4& m) {
 	// float A;
 
 	float deterninant = m.m[0][0] * m.m[1][1] * m.m[2][2] * m.m[3][3] +
-	                    m.m[0][0] * m.m[1][2] * m.m[2][3] * m.m[3][1] +
-	                    m.m[0][0] * m.m[1][3] * m.m[2][1] * m.m[3][2] -
+	    m.m[0][0] * m.m[1][2] * m.m[2][3] * m.m[3][1] +
+	    m.m[0][0] * m.m[1][3] * m.m[2][1] * m.m[3][2] -
 
-	                    m.m[0][0] * m.m[1][3] * m.m[2][2] * m.m[3][1] -
-	                    m.m[0][0] * m.m[1][2] * m.m[2][1] * m.m[3][3] -
-	                    m.m[0][0] * m.m[1][1] * m.m[2][3] * m.m[3][2] -
+	    m.m[0][0] * m.m[1][3] * m.m[2][2] * m.m[3][1] -
+	    m.m[0][0] * m.m[1][2] * m.m[2][1] * m.m[3][3] -
+	    m.m[0][0] * m.m[1][1] * m.m[2][3] * m.m[3][2] -
 
-	                    m.m[0][1] * m.m[1][0] * m.m[2][2] * m.m[3][3] -
-	                    m.m[0][2] * m.m[1][0] * m.m[2][3] * m.m[3][1] -
-	                    m.m[0][3] * m.m[1][0] * m.m[2][1] * m.m[3][2] +
+	    m.m[0][1] * m.m[1][0] * m.m[2][2] * m.m[3][3] -
+	    m.m[0][2] * m.m[1][0] * m.m[2][3] * m.m[3][1] -
+	    m.m[0][3] * m.m[1][0] * m.m[2][1] * m.m[3][2] +
 
-	                    m.m[0][3] * m.m[1][0] * m.m[2][2] * m.m[3][1] +
-	                    m.m[0][2] * m.m[1][0] * m.m[2][1] * m.m[3][3] +
-	                    m.m[0][1] * m.m[1][0] * m.m[2][3] * m.m[3][2] +
+	    m.m[0][3] * m.m[1][0] * m.m[2][2] * m.m[3][1] +
+	    m.m[0][2] * m.m[1][0] * m.m[2][1] * m.m[3][3] +
+	    m.m[0][1] * m.m[1][0] * m.m[2][3] * m.m[3][2] +
 
-	                    m.m[0][1] * m.m[1][2] * m.m[2][0] * m.m[3][3] +
-	                    m.m[0][2] * m.m[1][3] * m.m[2][0] * m.m[3][1] +
-	                    m.m[0][3] * m.m[1][1] * m.m[2][0] * m.m[3][2] -
+	    m.m[0][1] * m.m[1][2] * m.m[2][0] * m.m[3][3] +
+	    m.m[0][2] * m.m[1][3] * m.m[2][0] * m.m[3][1] +
+	    m.m[0][3] * m.m[1][1] * m.m[2][0] * m.m[3][2] -
 
-	                    m.m[0][3] * m.m[1][2] * m.m[2][0] * m.m[3][1] -
-	                    m.m[0][2] * m.m[1][1] * m.m[2][0] * m.m[3][3] -
-	                    m.m[0][1] * m.m[1][3] * m.m[2][0] * m.m[3][2] -
+	    m.m[0][3] * m.m[1][2] * m.m[2][0] * m.m[3][1] -
+	    m.m[0][2] * m.m[1][1] * m.m[2][0] * m.m[3][3] -
+	    m.m[0][1] * m.m[1][3] * m.m[2][0] * m.m[3][2] -
 
-	                    m.m[0][1] * m.m[1][2] * m.m[2][3] * m.m[3][0] -
-	                    m.m[0][2] * m.m[1][3] * m.m[2][1] * m.m[3][0] -
-	                    m.m[0][3] * m.m[1][1] * m.m[2][2] * m.m[3][0] +
+	    m.m[0][1] * m.m[1][2] * m.m[2][3] * m.m[3][0] -
+	    m.m[0][2] * m.m[1][3] * m.m[2][1] * m.m[3][0] -
+	    m.m[0][3] * m.m[1][1] * m.m[2][2] * m.m[3][0] +
 
-	                    m.m[0][3] * m.m[1][2] * m.m[2][1] * m.m[3][0] +
-	                    m.m[0][2] * m.m[1][1] * m.m[2][3] * m.m[3][0] +
-	                    m.m[0][1] * m.m[1][3] * m.m[2][2] * m.m[3][0];
+	    m.m[0][3] * m.m[1][2] * m.m[2][1] * m.m[3][0] +
+	    m.m[0][2] * m.m[1][1] * m.m[2][3] * m.m[3][0] +
+	    m.m[0][1] * m.m[1][3] * m.m[2][2] * m.m[3][0];
 
 	assert(deterninant != 0.0f);
 	float deterninantRect = 1.0f / deterninant;
@@ -346,7 +355,7 @@ Matrix4x4 Inverse(const Matrix4x4& m) {
 	return result;
 }
 
-// ビューポート変換行列
+// �r���[�|�[�g�ϊ��s��
 Matrix4x4 MakeViewPortMatrix(
     float left, float top, float width, float height, float minDepth, float maxDepth) {
 	Matrix4x4 result;
@@ -374,7 +383,7 @@ Matrix4x4 MakeViewPortMatrix(
 	return result;
 }
 
-// 座標返還
+// ���W�Ԋ�
 Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix) {
 	Vector3 result;
 	result.x = vector.x * matrix.m[0][0] + vector.y * matrix.m[1][0] + vector.z * matrix.m[2][0] +
@@ -392,16 +401,16 @@ Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix) {
 	return result;
 }
 
-// 反射ベクトル
+// ���˃x�N�g��
 float getRadian(float X1, float Z1, float X2, float Z2) {
 	float w = X2 - X1;
 	float h = Z2 - Z1;
 
-	// atan2f呼ぶだけでおしまい
+	// atan2f�ĂԂ����ł����܂�
 	return atan2f(h, w);
 }
 
-// 当たり判定
+// �����蔻��
 float CollisionDetection(const Vector3& v1, const Vector3& v2) {
 
 	Vector3 result{};
@@ -412,7 +421,7 @@ float CollisionDetection(const Vector3& v1, const Vector3& v2) {
 	return dist = sqrtf(dist);
 }
 
-// べ字曲線
+// �׎��Ȑ�
 //(1 - t) * (1 - t) * p1 + 2 * (1-t) * t* p2 + t *t * p3
 
 const Vector3 GetBezierCurve(const Vector3 p1, const Vector3 p2, const Vector3 p3, float t) {

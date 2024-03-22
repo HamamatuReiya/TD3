@@ -13,7 +13,7 @@ void Player::Initialize(
 	modelFighterL_leg = modelL_leg;
 	modelFighterR_leg = modelR_leg;
 
-	// 初期化
+	// ������
 	worldTransform_.Initialize();
 	worldTransformBody_.Initialize();
 	worldTransformHead_.Initialize();
@@ -21,31 +21,31 @@ void Player::Initialize(
 	worldTransformR_arm.Initialize();
 	worldTransformL_leg.Initialize();
 	worldTransformR_leg.Initialize();
-	// 初期化
+	// ������
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransform_.translation_ = {0.0f, 0.0f, 0.0f};
-	// 体の初期化
+	// �̂̏�����
 	worldTransformBody_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformBody_.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformBody_.translation_ = {0.0f, 0.0f, 0.0f};
-	// 頭の初期化
+	// ���̏�����
 	worldTransformHead_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformHead_.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformHead_.translation_ = {0.0f, 3.0f, 0.0f};
-	// 左腕の初期化
+	// ���r�̏�����
 	worldTransformL_arm.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformL_arm.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformL_arm.translation_ = {0.0f, 3.0f, 0.0f};
-	// 右腕の初期化
+	// �E�r�̏�����
 	worldTransformR_arm.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_arm.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformR_arm.translation_ = {0.0f, 3.0f, 0.0f};
-	// 左脚の初期化
+	// ���r�̏�����
 	worldTransformL_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformL_leg.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformL_leg.translation_ = {0.0f, 0.0f, 0.0f};
-	// 右脚の初期化
+	// �E�r�̏�����
 	worldTransformR_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_leg.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformR_leg.translation_ = {0.0f, 0.0f, 0.0f};
@@ -58,56 +58,56 @@ void Player::MotionRunInitialize() {
 }
 
 void Player::MotionPickInitialize() { 
-	//モーション時間初期化
+	//���[�V�������ԏ�����
 	PickMotionTime_ = 0;
-	// 体の初期化
+	// �̂̏�����
 	worldTransformBody_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformBody_.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformBody_.translation_ = {0.0f, 0.0f, 0.0f};
-	// 頭の初期化
+	// ���̏�����
 	worldTransformHead_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformHead_.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformHead_.translation_ = {0.0f, 3.0f, 0.0f};
-	// 左腕の初期化
+	// ���r�̏�����
 	worldTransformL_arm.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformL_arm.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformL_arm.translation_ = {0.0f, 3.0f, 0.0f};
-	// 右腕の初期化
+	// �E�r�̏�����
 	worldTransformR_arm.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_arm.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformR_arm.translation_ = {0.0f, 3.0f, 0.0f};
-	// 左脚の初期化
+	// ���r�̏�����
 	worldTransformL_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformL_leg.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformL_leg.translation_ = {0.0f, 0.0f, 0.0f};
-	// 右脚の初期化
+	// �E�r�̏�����
 	worldTransformR_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_leg.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformR_leg.translation_ = {0.0f, 0.0f, 0.0f};
 }
 
 void Player::MotionDiveInitialize() {
-	// 場所初期化
+	// �ꏊ������
 	worldTransformBody_.rotation_.x = 0.0f;
 	
 }
 
 
 void Player::Update() {
-	// ゲームパッドの状態を得る変数
+	// �Q�[���p�b�h�̏�Ԃ𓾂�ϐ�
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		// 拾うモーション
+		// �E�����[�V����
 		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_X) {
 			motionRequest_ = Motion::kPick;
 		}
-		// 潜るモーション
+		// ���郂�[�V����
 		if (worldTransform_.translation_.x<=-12) {
 			motionRequest_ = Motion::kDive;
 		} else {
 			ArmDelayTime_ = 0;
 		}
-		// モーション切り替え
+		// ���[�V�����؂�ւ�
 		if (motionRequest_) {
 			motion_ = motionRequest_.value();
 			switch (motion_) {
@@ -138,7 +138,7 @@ void Player::Update() {
 		}
 
 	}
-		// 行列の更新
+		// �s��̍X�V
 		worldTransform_.UpdateMatrix();
 		worldTransformBody_.UpdateMatrix();
 		worldTransformHead_.UpdateMatrix();
@@ -148,24 +148,24 @@ void Player::Update() {
 		worldTransformR_leg.UpdateMatrix();
 
 #ifdef _DEBUG
-	// デバック
+	// �f�o�b�N
 	float playerPos[3] = {
 	    worldTransform_.translation_.x, worldTransform_.translation_.y,
 	    worldTransform_.translation_.z};
-	// デバック
+	// �f�o�b�N
 	float playerRot[3] = {
 	    worldTransform_.rotation_.x, worldTransform_.rotation_.y,
 		worldTransform_.rotation_.z};
-	// 画面の座標を表示
+	// ��ʂ̍��W��\��
 	ImGui::Begin("Player");
 	ImGui::SliderFloat3("Pos", playerPos, -28.0f, 28.0f);
 	ImGui::SliderFloat3("Rot", playerRot, -28.0f, 28.0f);
 	ImGui::End();
-	//移動
+	//�ړ�
 	worldTransform_.translation_.x = playerPos[0];
 	worldTransform_.translation_.y = playerPos[1];
 	worldTransform_.translation_.z = playerPos[2];
-	//回転
+	//��]
 	worldTransform_.rotation_.x = playerRot[0];
 	worldTransform_.rotation_.y = playerRot[1];
 	worldTransform_.rotation_.z = playerRot[2];
@@ -173,11 +173,11 @@ void Player::Update() {
 }
 
 void Player::MotionRunUpdate() {
-	// ゲームパッドの状態を得る変数
+	// �Q�[���p�b�h�̏�Ԃ𓾂�ϐ�
 	XINPUT_STATE joyState;
 
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		// 速さ
+		// ����
 		const float speed = 0.3f;
 		worldTransformBody_.parent_ = &worldTransform_;
 		worldTransformHead_.parent_ = &worldTransform_;
@@ -185,21 +185,21 @@ void Player::MotionRunUpdate() {
 		worldTransformR_arm.parent_ = &worldTransform_;
 		worldTransformL_leg.parent_ = &worldTransform_;
 		worldTransformR_leg.parent_ = &worldTransform_;
-		// 移動量
+		// �ړ���
 		Vector3 move = {
 		    (float)joyState.Gamepad.sThumbLX / SHRT_MAX * -speed, 0.0f,
 		    (float)joyState.Gamepad.sThumbLY / SHRT_MAX * -speed};
-		// 移動量に速さを反映
+		// �ړ��ʂɑ����𔽉f
 		move = Multiply(speed, Normalize(move));
 
 		move = TransformNormal(move, MakeRotateYmatrix(viewProjection_->rotation_.y));
 
-		// 移動
+		// �ړ�
 		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 
 		if (Length(move) != 0) {
 			worldTransform_.rotation_.y = std::atan2(move.x, move.z);
-			// 左足
+			// ����
 			if (isLeftLeg_ == false) {
 				worldTransformL_leg.rotation_.x += 0.1f;
 				if (worldTransformL_leg.rotation_.x >= 1.0f) {
@@ -211,7 +211,7 @@ void Player::MotionRunUpdate() {
 					isLeftLeg_ = false;
 				}
 			}
-			// 右足
+			// �E��
 			if (isRightLeg_ == false) {
 				worldTransformR_leg.rotation_.x -= 0.1f;
 				if (worldTransformR_leg.rotation_.x <= -1.0f) {
@@ -234,10 +234,10 @@ void Player::MotionRunUpdate() {
 };
 
 void Player::MotionPickUpdate() { 
-	// 拾うモーション時間
+	// �E�����[�V��������
 	PickMotionTime_++;
 
-	//腕
+	//�r
 	if (PickMotionTime_ < 7.5f) {
 		worldTransformR_arm.rotation_.x -= 0.1f;
 		worldTransformR_arm.translation_.y -= 0.09f;
@@ -247,7 +247,7 @@ void Player::MotionPickUpdate() {
 		worldTransformR_arm.translation_.y += 0.08f;
 		worldTransformL_arm.translation_.y += 0.08f;
 	}
-	//体と頭
+	//�̂Ɠ�
 	if (PickMotionTime_ < 7.5f) {
 		worldTransformBody_.translation_.y -= 0.08f;
 		worldTransformHead_.translation_.y -= 0.08f;
@@ -256,7 +256,7 @@ void Player::MotionPickUpdate() {
 		worldTransformHead_.translation_.y += 0.08f;
 	}
 	
-	// 拾うモーション時間
+	// �E�����[�V��������
 	if (PickMotionTime_>15.0f) {
 		motionRequest_ = Motion::kRun;
 	} else {
@@ -265,10 +265,10 @@ void Player::MotionPickUpdate() {
 }
 
 void Player::MotionDiveUpdate() {
-	// ゲームパッドの状態を得る変数
+	// �Q�[���p�b�h�̏�Ԃ𓾂�ϐ�
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		// 速さ
+		// ����
 		const float speed = 0.3f;
 		worldTransformBody_.parent_ = &worldTransform_;
 		worldTransformHead_.parent_ = &worldTransform_;
@@ -276,16 +276,16 @@ void Player::MotionDiveUpdate() {
 		worldTransformR_arm.parent_ = &worldTransform_;
 		worldTransformL_leg.parent_ = &worldTransform_;
 		worldTransformR_leg.parent_ = &worldTransform_;
-		// 移動量
+		// �ړ���
 		Vector3 move = {
 		    (float)joyState.Gamepad.sThumbLX / SHRT_MAX * -speed, 0.0f,
 		    (float)joyState.Gamepad.sThumbLY / SHRT_MAX * -speed};
-		// 移動量に速さを反映
+		// �ړ��ʂɑ����𔽉f
 		move = Multiply(speed, Normalize(move));
 
 		move = TransformNormal(move, MakeRotateYmatrix(viewProjection_->rotation_.y));
 
-		// 移動
+		// �ړ�
 		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 
 		if (Length(move) != 0) {
@@ -293,7 +293,7 @@ void Player::MotionDiveUpdate() {
 		}
 	}
 
-	// 腕
+	// �r
 	worldTransformR_arm.rotation_.x += 0.3f;
 	ArmDelayTime_++;
 	if (ArmDelayTime_>5) {
@@ -304,23 +304,23 @@ void Player::MotionDiveUpdate() {
 	worldTransformR_arm.translation_.z = 1.35f;
 	worldTransformL_arm.translation_.z = 1.35f;
 	
-	// 体
+	// ��
 	worldTransformBody_.rotation_.x = -30.0f;
 	worldTransformBody_.translation_.y = 0.2f;
 	worldTransformBody_.translation_.z = -1.5f;
 
-	// 頭
+	// ��
 	worldTransformHead_.translation_.y = -0.05f;
 	worldTransformHead_.translation_.z = 2.2f;
 
-	//足
+	//��
 	worldTransformL_leg.translation_.z = -1.5f;
 	worldTransformR_leg.translation_.z = -1.5f;
 	worldTransformR_leg.rotation_.x = 1.4f;
 	worldTransformL_leg.rotation_.x = 1.4f;
 
 
-	// 潜るモーション範囲
+	// ���郂�[�V�����͈�
 	if (worldTransform_.translation_.x > -12) {
 		motionRequest_ = Motion::kRun;
 	}
