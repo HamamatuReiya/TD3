@@ -101,13 +101,6 @@ private: // メンバ変数
 	// 追従カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
 
-	ViewProjection viewProjection_;
-	WorldTransform worldTransforn_;
-
-	// デバックカメラ
-	std::unique_ptr<DebugCamera> debugCamera_;
-	bool isDebugCameraActive_;
-
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
