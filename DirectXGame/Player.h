@@ -5,6 +5,7 @@
 #include <math.h>
 #include <optional>
 #include "BaseCharacter.h"
+#include "UI.h"
 
 class Player : public BaseCharacter {
 public:
@@ -80,7 +81,10 @@ public:
 		worldTransform_ = worldTransform;
 	}*/
 
-
+	/// <summary>
+	/// 爆弾との当たり判定
+	/// </summary>
+	int SetBommCollider_() { return isBommCollider_; }
 
 private:
 	//ワールド変換
@@ -118,6 +122,5 @@ private:
 	float ArmDelayTime_;
 
 	//衝突してるか
-	bool isCollider_;
-
+	bool isBommCollider_;
 };

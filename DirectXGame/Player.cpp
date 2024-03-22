@@ -49,6 +49,9 @@ void Player::Initialize(const std::vector<Model*>& models)
 	worldTransformR_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_leg.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformR_leg.translation_ = {0.0f, 0.0f, 0.0f};
+	//爆弾との当たり判定
+	isBommCollider_ = false;
+
 }
 
 void Player::MotionRunInitialize() { 
@@ -242,7 +245,7 @@ void Player::MotionRunUpdate() {
 };
 
 void Player::OnCollision() { 
-	
+	isBommCollider_ = true;
 }
 
 Vector3 Player::GetCenterPosition() const {
