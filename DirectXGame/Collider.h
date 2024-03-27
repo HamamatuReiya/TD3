@@ -9,6 +9,8 @@ public:
 	virtual ~Collider() = default;
 	// 衝突時に呼ばれる関数
 	virtual void OnCollision() {}
+	// 離れた時に呼ばれる関数
+	virtual void OutCollision() {}
 	// 中心座標を取得
 	virtual Vector3 GetCenterPosition() const = 0;
 
@@ -20,8 +22,8 @@ public:
 	void Initialize();
 	//ワールドトランスフォームの更新
 	void UpdateWorldTransform();
+	//
 	
-
 
 	/*/// <summary>
 	/// 描画

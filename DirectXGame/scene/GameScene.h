@@ -17,6 +17,7 @@
 #include <Scene.h>
 #include "CollisionManager.h"
 #include "Collider.h"
+#include "UI.h"
 
 /// <summary>
 /// ゲームシーン
@@ -61,6 +62,8 @@ public:
 
 	bool IsSceneEnd() { return isSceneEnd_; }
 	SceneType NextScene() { return SceneType::kTitle; }
+
+
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -109,6 +112,11 @@ private: // メンバ変数
 
 	// 衝突マネージャ
 	std::unique_ptr<CollisionManager> collisionManager_;
+
+	// スプライト
+	Sprite* spriteBommActionButton_ = nullptr; // 爆弾のアクションボタン
+
+
 
 	/// <summary>
 	/// ゲームシーン用

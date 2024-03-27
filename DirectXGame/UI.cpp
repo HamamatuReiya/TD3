@@ -1,12 +1,9 @@
-#include "UI.h"
+ï»¿#include "UI.h"
 
 void UI::Initialize() {
-	//ƒeƒNƒXƒ`ƒƒ
-	uint32_t textureBommActionButton = TextureManager::Load("Clear.png");
+	
 }
 
 void UI::Draw() {
-	if (player_->SetBommCollider_() == true) {
-
-	}
+	
 }

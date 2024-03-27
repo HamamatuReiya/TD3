@@ -15,6 +15,7 @@ void BaseCharacter::Draw(const ViewProjection& viewProjection) {
 	for (Model* model : models_) {
 		model->Draw(worldTransform_, viewProjection);
 	}
+
 }
 
 Vector3 BaseCharacter::GetCenterPosition() const {

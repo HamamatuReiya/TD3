@@ -76,8 +76,13 @@ void GameScene::Initialize() {
 	bomm_->Initialize(bommModels);
 	// 衝突マネージャの生成
 	collisionManager_ = std::make_unique<CollisionManager>();
-	//コライダー可視化
-	collisionManager_->Initialize();
+	////コライダー可視化
+	//collisionManager_->Initialize();
+	// テクスチャ
+	uint32_t textureBommActionButton = TextureManager::Load("ActionButton.png");
+	// スプライト生成
+	spriteBommActionButton_ = Sprite::Create(
+	    textureBommActionButton, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 }
 
 void GameScene::Update() {
@@ -86,9 +91,10 @@ void GameScene::Update() {
 	ground_->Update();
 	bomm_->Update();
 	skydome_->Update();
-	collisionManager_->UpdateWorldtransform();
-	
+	/*collisionManager_->UpdateWorldtransform();*/
 	ChackAllCollisions();
+
+	
 
 	// 追従カメラの更新
 	followCamera_->Update();
@@ -155,7 +161,7 @@ void GameScene::Draw() {
 	ground_->Draw(viewProjection_);
 	skydome_->Draw(viewProjection_);
 	bomm_->Draw(viewProjection_);
-	collisionManager_->Draw(viewProjection_);
+	/*collisionManager_->Draw(viewProjection_);*/
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -167,6 +173,10 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	// 爆弾接触時のボタン
+	if (player_->SetBommCollider_() == 1) {
+		spriteBommActionButton_->Draw();
+	}
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

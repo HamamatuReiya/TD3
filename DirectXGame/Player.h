@@ -56,12 +56,28 @@ public:
 	void MotionDiveUpdate();
 
 	/// <summary>
+	/// ジャンプモーション初期化
+	/// </summary>
+	void BehaviorJumpInitialize();
+
+	/// <summary>
+	/// ジャンプモーション更新
+	/// </summary>
+	void BehaviorJumpUpdate();
+
+	/// <summary>
 	/// モーション
 	/// </summary>
 	enum class Motion {
 		kRun,
 		kPick,
-		kDive
+		kDive,
+		kJump,
+	};
+
+	enum class Collision {
+		On,
+		Out
 	};
 
 	/// <summary>
@@ -74,12 +90,18 @@ public:
 	}
 
 	void OnCollision() override;
+
+	
+	void OutCollision();
+
+
 	// 中心座標を取得
 	Vector3 GetCenterPosition() const override;
 	
 	/*void SetWorldTransform(WorldTransform worldTransform) {
 		worldTransform_ = worldTransform;
 	}*/
+
 
 	/// <summary>
 	/// 爆弾との当たり判定
@@ -112,6 +134,8 @@ private:
 	//モーション初期化
 	Motion motion_ = Motion::kRun;
 	std::optional<Motion> motionRequest_ = std::nullopt;
+	// コライダー初期化
+	Collision collider_ = Collision::Out;
 
 	//モーションタイム
 	float PickMotionTime_;
@@ -123,4 +147,6 @@ private:
 
 	//衝突してるか
 	bool isBommCollider_;
+
+
 };

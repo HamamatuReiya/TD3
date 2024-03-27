@@ -1,31 +1,28 @@
-#pragma once
-#include"Player.h"
+ï»¿#pragma once
 #include <Sprite.h>
 class UI {
 public:
-	// ƒfƒXƒgƒ‰ƒNƒ^
+	// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialize();
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw();
 
 	
 
 private:
-	// ©ƒLƒƒƒ‰
-	std::unique_ptr<Player> player_;
-	// ƒXƒvƒ‰ƒCƒg
-	Sprite* spriteBommActionButton_ = nullptr; // ”š’e‚ÌƒAƒNƒVƒ‡ƒ“ƒ{ƒ^ƒ“
+
+	
 	
 };

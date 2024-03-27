@@ -24,7 +24,7 @@ void Player::Initialize(const std::vector<Model*>& models)
 	// 初期化
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransform_.translation_ = {0.0f, 0.0f, 0.0f};
+	worldTransform_.translation_ = {0.0f, 0.0f, -15.0f};
 	// 体の初期化
 	worldTransformBody_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformBody_.rotation_ = {0.0f, 0.0f, 0.0f};
@@ -51,8 +51,8 @@ void Player::Initialize(const std::vector<Model*>& models)
 	worldTransformR_leg.translation_ = {0.0f, 0.0f, 0.0f};
 	//爆弾との当たり判定
 	isBommCollider_ = false;
-
 }
+	
 
 void Player::MotionRunInitialize() { 
 	
@@ -92,7 +92,16 @@ void Player::MotionPickInitialize() {
 void Player::MotionDiveInitialize() {
 	// 場所初期化
 	worldTransformBody_.rotation_.x = 0.0f;
-	
+}
+
+void Player::BehaviorJumpInitialize() {
+	worldTransformBody_.translation_.y = 0;
+	worldTransformL_arm.rotation_.x = 0;
+	worldTransformR_arm.rotation_.x = 0;
+	// ジャンプ初速
+	const float kJumpFirstSpeed = 1.0f;
+	// ジャンプ初速を与える
+	velocity_.y = kJumpFirstSpeed;
 }
 
 void Player::Update() {
@@ -109,6 +118,7 @@ void Player::Update() {
 		} else {
 			ArmDelayTime_ = 0;
 		}
+
 		// モーション切り替え
 		if (motionRequest_) {
 			motion_ = motionRequest_.value();
@@ -122,6 +132,9 @@ void Player::Update() {
 				break;
 			case Motion::kDive:
 				MotionDiveInitialize();
+				break;
+			case Motion::kJump:
+				BehaviorJumpInitialize();
 				break;
 			}
 			motionRequest_ = std::nullopt;
@@ -137,15 +150,22 @@ void Player::Update() {
 		case Motion::kDive:
 			MotionDiveUpdate();
 			break;
+		case Motion::kJump:
+			BehaviorJumpUpdate();
+			break;
 		}
-
 	}
-	/*worldTransformBody_.parent_ = &worldTransform_;
-	worldTransformHead_.parent_ = &worldTransformBody_;
-	worldTransformR_arm.parent_ = &worldTransformBody_;
-	worldTransformL_arm.parent_ = &worldTransformBody_;
-	worldTransformL_leg.parent_ = &worldTransformBody_;
-	worldTransformR_leg.parent_ = &worldTransformBody_;*/
+
+	//当たり判定切り替え
+	switch (collider_) {
+	case Collision::On: 
+	default:
+		OnCollision();
+		break;
+	case Collision::Out:
+		OutCollision();
+	}
+	
 
 	BaseCharacter::Update();
 
@@ -244,8 +264,21 @@ void Player::MotionRunUpdate() {
 	}
 };
 
+
+
 void Player::OnCollision() { 
-	isBommCollider_ = true;
+	if (isBommCollider_ == false) {
+		isBommCollider_ = true; 
+	}
+	motionRequest_ = Motion::kJump;
+	
+}
+
+void Player::OutCollision() { 
+	if (isBommCollider_ == true) {
+		isBommCollider_ = false;
+	}
+	
 }
 
 Vector3 Player::GetCenterPosition() const {
@@ -351,13 +384,30 @@ void Player::MotionDiveUpdate() {
 	
 }
 
+void Player::BehaviorJumpUpdate() {
+	if (worldTransform_.translation_.x<=0) {
+		worldTransform_.translation_.x -= 0.05f;
+	} else {
+		worldTransform_.translation_.x += 0.05f;
+	}
+	
+	// 移動
+	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
+	// 重力加速度
+	const float kGravityAcceleration = 0.10f;
+	// 加速度ベクトル
+	Vector3 accelerationVector = {0, -kGravityAcceleration, 0};
+	// 加速する
+	velocity_ = Add(velocity_, accelerationVector);
+	// 着地
+	if (worldTransform_.translation_.y <= 0.0f) {
+		worldTransform_.translation_.y = 0;
+		// ジャンプ終了
+		motionRequest_ = Motion::kRun;
+	}
+}
+
 void Player::Draw(const ViewProjection& viewProjection) {
-	/*modelFighterBody_->Draw(worldTransformBody_, viewProjection);
-	modelFighterHead_->Draw(worldTransformHead_, viewProjection);
-	modelFighterL_arm->Draw(worldTransformL_arm, viewProjection);
-	modelFighterR_arm->Draw(worldTransformR_arm, viewProjection);
-	modelFighterL_leg->Draw(worldTransformL_leg, viewProjection);
-	modelFighterR_leg->Draw(worldTransformR_leg, viewProjection);*/
 	// 3Dモデルを描画
 	models_[0]->Draw(worldTransformBody_, viewProjection);
 	models_[1]->Draw(worldTransformHead_, viewProjection);

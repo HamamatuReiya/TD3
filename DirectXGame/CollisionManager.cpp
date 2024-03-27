@@ -8,20 +8,20 @@ void CollisionManager::Reset() {
 
 void CollisionManager::Initialize() {
 	worldTransform_.Initialize();
-	colliderModel_.reset(Model::CreateFromOBJ("Collider", true));
+	/*colliderModel_.reset(Model::CreateFromOBJ("Collider", true));*/
 }
 
 void CollisionManager::UpdateWorldtransform() {
 	for (Collider*collider : colliders_) {
 		//更新
-		collider->UpdateWorldTransform();
+		collider->OnCollision();
 	}
 }
 
-void CollisionManager::Draw(ViewProjection& viewProjection) {
-	//描画
-	colliderModel_->Draw(worldTransform_, viewProjection);
-}
+//void CollisionManager::Draw(ViewProjection& viewProjection) {
+//	////描画
+//	//colliderModel_->Draw(worldTransform_, viewProjection);
+//}
 
 void CollisionManager::AddCollider(Collider* collider) { colliders_.push_back(collider); }
 

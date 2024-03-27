@@ -27,6 +27,7 @@ public:
 	// 中心座標を取得
 	Vector3 GetCenterPosition() const override;
 
+
 private:
 	//ビュープロジェクション
 	ViewProjection* viewProjection_ = nullptr;
@@ -35,7 +36,5 @@ private:
 	Model* model_ = nullptr;
 	// 3Dモデル
 	Model* modelBomm_;
-	//上下アニメーション
-	bool isAni_;
-
+ 
 };
