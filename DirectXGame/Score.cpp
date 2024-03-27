@@ -39,11 +39,9 @@ void Score::Update(int score) {
 
 	num[4] = n;
 
-	textureNumber_[0]->SetTextureHandle(numHandle_[num[0]]);
-	textureNumber_[1]->SetTextureHandle(numHandle_[num[1]]);
-	textureNumber_[2]->SetTextureHandle(numHandle_[num[2]]);
-	textureNumber_[3]->SetTextureHandle(numHandle_[num[3]]);
-	textureNumber_[4]->SetTextureHandle(numHandle_[num[4]]);
+	for (int i = 0; i < 5; i++) {
+		textureNumber_[i]->SetTextureHandle(numHandle_[num[i]]);
+	}
 }
 
 void Score::Draw() {

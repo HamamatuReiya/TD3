@@ -12,6 +12,9 @@ void TitleScene::Initialize() {
 	score_ = std::make_unique<Score>();
 	score_->Initialize();
 
+	ranking_ = std::make_unique<Ranking>();
+	ranking_->Initialize();
+
 	// フェードの生成
 	fade_ = std::make_unique<Fade>();
 	// フェードの初期化
@@ -45,10 +48,16 @@ void TitleScene::Update() {
 		isSceneEnd_ = true;
 	}
 
-	score_->Update(5);
+	static int sc = 40000;
+
+	score_->Update(sc);
+
+	ranking_->Update(sc);
 
 	// フェードの更新
 	fade_->Update();
+
+	sc = 0;
 }
 
 void TitleScene::Draw() {
@@ -91,6 +100,8 @@ void TitleScene::Draw() {
 	/// </summary>
 	
 	score_->Draw();
+
+	ranking_->Draw();
 
 	// フェードの描画
 	fade_->Draw();
