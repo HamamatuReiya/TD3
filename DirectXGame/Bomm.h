@@ -3,25 +3,30 @@
 #include "WorldTransform.h"
 #define _USE_MATH_DEFINES
 #include <Input.h>
-#include <math.h>
+#include "MT.h"
 #include <optional>
+#include "BaseCharacter.h"
 
-class Bomm {
+class Bomm : public BaseCharacter {
 public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model* modelBomm);
+	void Initialize(const std::vector<Model*>&models)override;
 
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update()override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(ViewProjection& viewProjection);
+	void Draw(const ViewProjection& viewProjection)override;
+
+	// 中心座標を取得
+	Vector3 GetCenterPosition() const override;
+
 
 private:
 	//ビュープロジェクション
@@ -31,8 +36,5 @@ private:
 	Model* model_ = nullptr;
 	// 3Dモデル
 	Model* modelBomm_;
-	//上下アニメーション
-	bool isAni_;
-	
-
+ 
 };

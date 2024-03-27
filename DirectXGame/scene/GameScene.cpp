@@ -44,10 +44,12 @@ void GameScene::Initialize() {
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 	// Player&followCamera
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
+	// 自キャラモデル
+	std::vector<Model*> playerModels = {
+	    modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(), modelFighterR_arm_.get(),
+	                                    modelFighterL_leg_.get(), modelFighterR_leg_.get()};
 	// 自キャラの初期化
-	player_->Initialize(
-	    modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),
-	    modelFighterR_arm_.get(), modelFighterL_leg_.get(), modelFighterR_leg_.get());
+	player_->Initialize(playerModels);
 
 	// 天球の生成
 	skydome_ = std::make_unique<Skydome>();
@@ -67,8 +69,20 @@ void GameScene::Initialize() {
 	bomm_ = std::make_unique<Bomm>();
 	// 3Dモデルの生成
 	bommModel_.reset(Model::CreateFromOBJ("bom", true));
+	
+	// 爆弾モデル
+	std::vector<Model*> bommModels = {bommModel_.get()};
 	// 爆弾の初期化
-	bomm_->Initialize(bommModel_.get());
+	bomm_->Initialize(bommModels);
+	// 衝突マネージャの生成
+	collisionManager_ = std::make_unique<CollisionManager>();
+	////コライダー可視化
+	//collisionManager_->Initialize();
+	// テクスチャ
+	uint32_t textureBommActionButton = TextureManager::Load("ActionButton.png");
+	// スプライト生成
+	spriteBommActionButton_ = Sprite::Create(
+	    textureBommActionButton, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 }
 
 void GameScene::Update() {
@@ -77,8 +91,11 @@ void GameScene::Update() {
 	ground_->Update();
 	bomm_->Update();
 	skydome_->Update();
+	/*collisionManager_->UpdateWorldtransform();*/
+	ChackAllCollisions();
 
 	
+
 	// 追従カメラの更新
 	followCamera_->Update();
 
@@ -100,6 +117,18 @@ void GameScene::Update() {
 	} else {
 		viewProjection_.TransferMatrix();
 	}
+
+}
+void GameScene::ChackAllCollisions() {
+	// 衝突マネージャのリセット
+	collisionManager_->Reset();
+	// コライダーをリストに登録
+	collisionManager_->AddCollider(player_.get());
+
+	collisionManager_->AddCollider(bomm_.get());
+
+	// 衝突判定と応答
+	collisionManager_->ChackAllCollisions();
 }
 
 void GameScene::Draw() {
@@ -132,6 +161,7 @@ void GameScene::Draw() {
 	ground_->Draw(viewProjection_);
 	skydome_->Draw(viewProjection_);
 	bomm_->Draw(viewProjection_);
+	/*collisionManager_->Draw(viewProjection_);*/
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -143,6 +173,10 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	// 爆弾接触時のボタン
+	if (player_->SetBommCollider_() == 1) {
+		spriteBommActionButton_->Draw();
+	}
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

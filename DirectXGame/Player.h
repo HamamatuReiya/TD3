@@ -4,25 +4,26 @@
 #include <Input.h>
 #include <math.h>
 #include <optional>
-class Player {
+#include "BaseCharacter.h"
+#include "UI.h"
+
+class Player : public BaseCharacter {
 public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(
-	    Model* modelBody, Model* modelHead, Model* modelL_arm, Model* modelR_arm, Model* modelL_leg,
-	    Model* modelR_leg);
+	void Initialize(const std::vector<Model*>& models) override;
 
 	/// <summary>
 	/// 自キャラ
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update() override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(ViewProjection& viewProjection);
+	void Draw(const ViewProjection& viewProjection)override;
 
 	/// <summary>
 	/// 走るモーション初期化
@@ -55,12 +56,28 @@ public:
 	void MotionDiveUpdate();
 
 	/// <summary>
+	/// ジャンプモーション初期化
+	/// </summary>
+	void BehaviorJumpInitialize();
+
+	/// <summary>
+	/// ジャンプモーション更新
+	/// </summary>
+	void BehaviorJumpUpdate();
+
+	/// <summary>
 	/// モーション
 	/// </summary>
 	enum class Motion {
 		kRun,
 		kPick,
-		kDive
+		kDive,
+		kJump,
+	};
+
+	enum class Collision {
+		On,
+		Out
 	};
 
 	/// <summary>
@@ -71,6 +88,25 @@ public:
 	void SetViewProjection(const ViewProjection* viewProjection) {
 		viewProjection_ = viewProjection;
 	}
+
+	void OnCollision() override;
+
+	
+	void OutCollision();
+
+
+	// 中心座標を取得
+	Vector3 GetCenterPosition() const override;
+	
+	/*void SetWorldTransform(WorldTransform worldTransform) {
+		worldTransform_ = worldTransform;
+	}*/
+
+
+	/// <summary>
+	/// 爆弾との当たり判定
+	/// </summary>
+	int SetBommCollider_() { return isBommCollider_; }
 
 private:
 	//ワールド変換
@@ -98,6 +134,8 @@ private:
 	//モーション初期化
 	Motion motion_ = Motion::kRun;
 	std::optional<Motion> motionRequest_ = std::nullopt;
+	// コライダー初期化
+	Collision collider_ = Collision::Out;
 
 	//モーションタイム
 	float PickMotionTime_;
@@ -106,5 +144,9 @@ private:
 	bool isRightLeg_;
 	//腕ディレイ
 	float ArmDelayTime_;
+
+	//衝突してるか
+	bool isBommCollider_;
+
 
 };

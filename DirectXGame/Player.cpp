@@ -2,16 +2,16 @@
 #include "MT.h"
 #include <ImGuiManager.h>
 
-void Player::Initialize(
-    Model* modelBody, Model* modelHead, Model* modelL_arm, Model* modelR_arm, Model* modelL_leg,
-    Model* modelR_leg) {
+void Player::Initialize(const std::vector<Model*>& models)
+{
+	BaseCharacter::Initialize(models);
 
-	modelFighterBody_ = modelBody;
+	/*modelFighterBody_ = modelBody;
 	modelFighterHead_ = modelHead;
 	modelFighterL_arm = modelL_arm;
 	modelFighterR_arm = modelR_arm;
 	modelFighterL_leg = modelL_leg;
-	modelFighterR_leg = modelR_leg;
+	modelFighterR_leg = modelR_leg;*/
 
 	// 初期化
 	worldTransform_.Initialize();
@@ -24,7 +24,7 @@ void Player::Initialize(
 	// 初期化
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransform_.translation_ = {0.0f, 0.0f, 0.0f};
+	worldTransform_.translation_ = {0.0f, 0.0f, -15.0f};
 	// 体の初期化
 	worldTransformBody_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformBody_.rotation_ = {0.0f, 0.0f, 0.0f};
@@ -49,7 +49,10 @@ void Player::Initialize(
 	worldTransformR_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_leg.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformR_leg.translation_ = {0.0f, 0.0f, 0.0f};
+	//爆弾との当たり判定
+	isBommCollider_ = false;
 }
+	
 
 void Player::MotionRunInitialize() { 
 	
@@ -89,9 +92,17 @@ void Player::MotionPickInitialize() {
 void Player::MotionDiveInitialize() {
 	// 場所初期化
 	worldTransformBody_.rotation_.x = 0.0f;
-	
 }
 
+void Player::BehaviorJumpInitialize() {
+	worldTransformBody_.translation_.y = 0;
+	worldTransformL_arm.rotation_.x = 0;
+	worldTransformR_arm.rotation_.x = 0;
+	// ジャンプ初速
+	const float kJumpFirstSpeed = 1.0f;
+	// ジャンプ初速を与える
+	velocity_.y = kJumpFirstSpeed;
+}
 
 void Player::Update() {
 	// ゲームパッドの状態を得る変数
@@ -107,6 +118,7 @@ void Player::Update() {
 		} else {
 			ArmDelayTime_ = 0;
 		}
+
 		// モーション切り替え
 		if (motionRequest_) {
 			motion_ = motionRequest_.value();
@@ -120,6 +132,9 @@ void Player::Update() {
 				break;
 			case Motion::kDive:
 				MotionDiveInitialize();
+				break;
+			case Motion::kJump:
+				BehaviorJumpInitialize();
 				break;
 			}
 			motionRequest_ = std::nullopt;
@@ -135,17 +150,33 @@ void Player::Update() {
 		case Motion::kDive:
 			MotionDiveUpdate();
 			break;
+		case Motion::kJump:
+			BehaviorJumpUpdate();
+			break;
 		}
-
 	}
-		// 行列の更新
-		worldTransform_.UpdateMatrix();
-		worldTransformBody_.UpdateMatrix();
-		worldTransformHead_.UpdateMatrix();
-		worldTransformL_arm.UpdateMatrix();
-		worldTransformR_arm.UpdateMatrix();
-		worldTransformL_leg.UpdateMatrix();
-		worldTransformR_leg.UpdateMatrix();
+
+	//当たり判定切り替え
+	switch (collider_) {
+	case Collision::On: 
+	default:
+		OnCollision();
+		break;
+	case Collision::Out:
+		OutCollision();
+	}
+	
+
+	BaseCharacter::Update();
+
+	// 行列の更新
+	worldTransform_.UpdateMatrix();
+	worldTransformBody_.UpdateMatrix();
+	worldTransformHead_.UpdateMatrix();
+	worldTransformL_arm.UpdateMatrix();
+	worldTransformR_arm.UpdateMatrix();
+	worldTransformL_leg.UpdateMatrix();
+	worldTransformR_leg.UpdateMatrix();
 
 #ifdef _DEBUG
 	// デバック
@@ -232,6 +263,32 @@ void Player::MotionRunUpdate() {
 		
 	}
 };
+
+
+
+void Player::OnCollision() { 
+	if (isBommCollider_ == false) {
+		isBommCollider_ = true; 
+	}
+	motionRequest_ = Motion::kJump;
+	
+}
+
+void Player::OutCollision() { 
+	if (isBommCollider_ == true) {
+		isBommCollider_ = false;
+	}
+	
+}
+
+Vector3 Player::GetCenterPosition() const {
+	// ローカル座標のオフセット
+	const Vector3 offset = {0.0f, 1.5f, 0.0f};
+	// ワールド座標変換
+	Vector3 worldPos = Transform(offset, worldTransform_.matWorld_);
+
+	return worldPos;
+}
 
 void Player::MotionPickUpdate() { 
 	// 拾うモーション時間
@@ -327,14 +384,37 @@ void Player::MotionDiveUpdate() {
 	
 }
 
+void Player::BehaviorJumpUpdate() {
+	if (worldTransform_.translation_.x<=0) {
+		worldTransform_.translation_.x -= 0.05f;
+	} else {
+		worldTransform_.translation_.x += 0.05f;
+	}
+	
+	// 移動
+	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
+	// 重力加速度
+	const float kGravityAcceleration = 0.10f;
+	// 加速度ベクトル
+	Vector3 accelerationVector = {0, -kGravityAcceleration, 0};
+	// 加速する
+	velocity_ = Add(velocity_, accelerationVector);
+	// 着地
+	if (worldTransform_.translation_.y <= 0.0f) {
+		worldTransform_.translation_.y = 0;
+		// ジャンプ終了
+		motionRequest_ = Motion::kRun;
+	}
+}
 
-void Player::Draw(ViewProjection& viewProjection) {
-	modelFighterBody_->Draw(worldTransformBody_, viewProjection);
-	modelFighterHead_->Draw(worldTransformHead_, viewProjection);
-	modelFighterL_arm->Draw(worldTransformL_arm, viewProjection);
-	modelFighterR_arm->Draw(worldTransformR_arm, viewProjection);
-	modelFighterL_leg->Draw(worldTransformL_leg, viewProjection);
-	modelFighterR_leg->Draw(worldTransformR_leg, viewProjection);
+void Player::Draw(const ViewProjection& viewProjection) {
+	// 3Dモデルを描画
+	models_[0]->Draw(worldTransformBody_, viewProjection);
+	models_[1]->Draw(worldTransformHead_, viewProjection);
+	models_[2]->Draw(worldTransformL_arm, viewProjection);
+	models_[3]->Draw(worldTransformR_arm, viewProjection);
+	models_[4]->Draw(worldTransformL_leg, viewProjection);
+	models_[5]->Draw(worldTransformR_leg, viewProjection);
 }
 
 

@@ -11,7 +11,7 @@ public:
 
 	void SetTarget(const WorldTransform* target) { target_ = target; };
 
-	const ViewProjection& GetViewProjection() { return viewProjection_; };
+	const ViewProjection& GetViewProjection() { return viewProjection_; }
 
 private:
 	// ビュープロジェクション
