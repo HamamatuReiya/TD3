@@ -18,11 +18,12 @@
 #include "CollisionManager.h"
 #include "Collider.h"
 #include "UI.h"
+#include <Stage.h>
 
 /// <summary>
 /// ゲームシーン
 /// </summary>
-class GameScene {
+class GameScene : public StageSelect {
 
 public: // メンバ関数
 	/// <summary>
@@ -56,7 +57,7 @@ public: // メンバ関数
 	void ChackAllCollisions();
 
 public:
-	void sceneReset();
+	void SceneReset();
 
 	bool isSceneEnd_ = false;
 
