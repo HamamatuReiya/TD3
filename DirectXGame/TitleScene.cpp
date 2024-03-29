@@ -1,4 +1,5 @@
 ﻿#include "TitleScene.h"
+#include <ImGuiManager.h>
 
 TitleScene::TitleScene() {}
 
@@ -48,7 +49,10 @@ void TitleScene::Update() {
 		isSceneEnd_ = true;
 	}
 
-	static int sc = 40000;
+	static int sc = 20000;
+	ImGui::Begin("Score");
+	ImGui::SliderInt("Pos", &sc, 0, 20000);
+	ImGui::End();
 
 	score_->Update(sc);
 

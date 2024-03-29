@@ -45,9 +45,9 @@ void Ranking::Update(int score) {
 
 	for (int i = 0; i < 5; i++) {
 		if (ranking[i] < score_) {
-			a = ranking[i];
+			scoreKeep_ = ranking[i];
 			ranking[i] = score_;
-			score_ = a;
+			score_ = scoreKeep_;
 		}
 	}
 

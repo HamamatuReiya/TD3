@@ -27,7 +27,7 @@ private:
 	
 	int score_;	
 
-	int a = 0;
+	int scoreKeep_ = 0;
 				
 	// 数字の画像
 	Sprite* textureRanking1_[5];

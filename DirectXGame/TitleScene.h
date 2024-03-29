@@ -65,4 +65,6 @@ private: // メンバ変数
 	bool fadeTimerFlag_;
 	const float kFadeTimer_ = 1.657f * 60.0f;
 	float fadeTimer_ = kFadeTimer_;
+
+	//int sc;
 };
