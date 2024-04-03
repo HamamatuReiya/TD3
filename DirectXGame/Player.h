@@ -91,8 +91,11 @@ public:
 
 	void OnCollision() override;
 
-	
+	bool GetIsPushX() { return isPushX_; }
+
 	void OutCollision();
+	
+	Vector3 GetWorldPosition();
 
 
 	// 中心座標を取得
@@ -136,6 +139,8 @@ private:
 	std::optional<Motion> motionRequest_ = std::nullopt;
 	// コライダー初期化
 	Collision collider_ = Collision::Out;
+
+	bool isPushX_;
 
 	//モーションタイム
 	float PickMotionTime_;

@@ -124,7 +124,7 @@ private: // メンバ変数
 	std::unique_ptr<Model> houseModel_[99] = {nullptr};
 
 	// ドア
-	std::unique_ptr<DoorOBJ> door_;
+	std::unique_ptr<DoorOBJ> door_[10];
 	std::unique_ptr<Model> doorModel_[2] = {nullptr};
 
 	/// <summary>
