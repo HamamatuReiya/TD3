@@ -133,9 +133,9 @@ void Player::Update() {
 			case Motion::kDive:
 				MotionDiveInitialize();
 				break;
-			/*case Motion::kJump:
+			case Motion::kJump:
 				BehaviorJumpInitialize();
-				break;*/
+				break;
 			}
 			motionRequest_ = std::nullopt;
 		}
@@ -150,9 +150,9 @@ void Player::Update() {
 		case Motion::kDive:
 			MotionDiveUpdate();
 			break;
-		/*case Motion::kJump:
+		case Motion::kJump:
 			BehaviorJumpUpdate();
-			break;*/
+			break;
 
 		}
 	}
@@ -178,6 +178,9 @@ void Player::Update() {
 	worldTransformR_arm.UpdateMatrix();
 	worldTransformL_leg.UpdateMatrix();
 	worldTransformR_leg.UpdateMatrix();
+
+	
+	
 
 #ifdef _DEBUG
 	// デバック
@@ -267,10 +270,9 @@ void Player::MotionRunUpdate() {
 
 
 
-void Player::OnCollision() { 
-	if (worldTransform_.translation_.z < 8.000&&) {
-	}
-	/*motionRequest_ = Motion::kJump;*/
+void Player::OnCollision() {
+	
+	motionRequest_ = Motion::kJump;
 	
 }
 
@@ -384,28 +386,28 @@ void Player::MotionDiveUpdate() {
 	
 }
 
-//void Player::BehaviorJumpUpdate() {
-//	if (worldTransform_.translation_.x<=0) {
-//		worldTransform_.translation_.x -= 0.05f;
-//	} else {
-//		worldTransform_.translation_.x += 0.05f;
-//	}
-//	
-//	// 移動
-//	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
-//	// 重力加速度
-//	const float kGravityAcceleration = 0.06f;
-//	// 加速度ベクトル
-//	Vector3 accelerationVector = {0, -kGravityAcceleration, 0};
-//	// 加速する
-//	velocity_ = Add(velocity_, accelerationVector);
-//	// 着地
-//	if (worldTransform_.translation_.y <= 0.0f) {
-//		worldTransform_.translation_.y = 0;
-//		// ジャンプ終了
-//		motionRequest_ = Motion::kRun;
-//	}
-//}
+void Player::BehaviorJumpUpdate() {
+	if (worldTransform_.translation_.x<=0) {
+		worldTransform_.translation_.x -= 0.05f;
+	} else {
+		worldTransform_.translation_.x += 0.05f;
+	}
+	
+	// 移動
+	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
+	// 重力加速度
+	const float kGravityAcceleration = 0.06f;
+	// 加速度ベクトル
+	Vector3 accelerationVector = {0, -kGravityAcceleration, 0};
+	// 加速する
+	velocity_ = Add(velocity_, accelerationVector);
+	// 着地
+	if (worldTransform_.translation_.y <= 0.0f) {
+		worldTransform_.translation_.y = 0;
+		// ジャンプ終了
+		motionRequest_ = Motion::kRun;
+	}
+}
 
 void Player::Draw(const ViewProjection& viewProjection) {
 	// 3Dモデルを描画

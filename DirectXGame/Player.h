@@ -60,10 +60,10 @@ public:
 	/// </summary>
 	void BehaviorJumpInitialize();
 
-	/*/// <summary>
+	/// <summary>
 	/// ジャンプモーション更新
 	/// </summary>
-	void BehaviorJumpUpdate();*/
+	void BehaviorJumpUpdate();
 
 	/// <summary>
 	/// モーション
@@ -72,7 +72,7 @@ public:
 		kRun,
 		kPick,
 		kDive,
-		/*kJump,*/
+		kJump,
 		
 	};
 
