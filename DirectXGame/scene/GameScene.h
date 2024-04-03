@@ -19,6 +19,8 @@
 #include "Collider.h"
 #include "UI.h"
 #include <Stage.h>
+#include "HouseStageOBJ.h"
+#include"DoorOBJ.h"
 
 /// <summary>
 /// ゲームシーン
@@ -117,7 +119,13 @@ private: // メンバ変数
 	// スプライト
 	Sprite* spriteBommActionButton_ = nullptr; // 爆弾のアクションボタン
 
+	std::unique_ptr<HouseStageOBJ> house_;
+	// 家ステージのモデル
+	std::unique_ptr<Model> houseModel_[99] = {nullptr};
 
+	// ドア
+	std::unique_ptr<DoorOBJ> door_;
+	std::unique_ptr<Model> doorModel_[2] = {nullptr};
 
 	/// <summary>
 	/// ゲームシーン用
