@@ -394,7 +394,7 @@ void Player::BehaviorJumpUpdate() {
 	// 移動
 	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 	// 重力加速度
-	const float kGravityAcceleration = 0.08f;
+	const float kGravityAcceleration = 0.06f;
 	// 加速度ベクトル
 	Vector3 accelerationVector = {0, -kGravityAcceleration, 0};
 	// 加速する
