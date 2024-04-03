@@ -10,11 +10,27 @@ void TitleScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	score_ = std::make_unique<Score>();
+	viewProjection_.Initialize();
+
+	titleHandle_ = TextureManager::Load("title.png");
+	textureTitle_ = Sprite::Create(titleHandle_, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+
+	subTitleHandle_ = TextureManager::Load("subTitle.png");
+	textureSubTitle_ = Sprite::Create(subTitleHandle_, {0.0f, 0.0f}, subTitleColor_, {0.0f, 0.0f});
+
+	/*score_ = std::make_unique<Score>();
 	score_->Initialize();
 
 	ranking_ = std::make_unique<Ranking>();
-	ranking_->Initialize();
+	ranking_->Initialize();*/
+
+	// 天球
+	// 3Dモデルの生成
+	modelSpacedome_.reset(Model::CreateFromOBJ("spacedome", true));
+	// 天球の生成
+	spacedome_ = std::make_unique<Spacedome>();
+	// 天球の初期化
+	spacedome_->Initialize(modelSpacedome_.get());
 
 	// フェードの生成
 	fade_ = std::make_unique<Fade>();
@@ -49,19 +65,26 @@ void TitleScene::Update() {
 		isSceneEnd_ = true;
 	}
 
-	static int sc = 20000;
+
+	//仮
+	/*static int sc = 20000;
 	ImGui::Begin("Score");
 	ImGui::SliderInt("Pos", &sc, 0, 20000);
 	ImGui::End();
 
 	score_->Update(sc);
 
-	ranking_->Update(sc);
+	ranking_->Update(sc);*/
+
+	subTitleColor_.w += 0.007f;
+
+	// 天球の更新
+	spacedome_->Update();
 
 	// フェードの更新
 	fade_->Update();
 
-	sc = 0;
+	//sc = 0;
 }
 
 void TitleScene::Draw() {
@@ -90,6 +113,8 @@ void TitleScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
+	// 天球の描画
+	spacedome_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -103,9 +128,11 @@ void TitleScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	
-	score_->Draw();
+	textureTitle_->Draw();
 
-	ranking_->Draw();
+
+	textureSubTitle_->SetColor(subTitleColor_);
+	textureSubTitle_->Draw();
 
 	// フェードの描画
 	fade_->Draw();
