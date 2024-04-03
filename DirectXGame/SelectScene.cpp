@@ -35,9 +35,38 @@ void SelectScene::Update() {
 
 	// ゲームパッドの状態を得る変数(XINPUT)
 	XINPUT_STATE joyState;
+	XINPUT_STATE preJoyState;
 
 	// ゲームパッド状態取得
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		if (stageCount_ >= 1 || stageCount_ <= 3) {
+			if (joyState.Gamepad.sThumbLX < -1 && padStateFlag_ == false) {
+				padStateFlag_ = true;
+				stageCount_ -= 1;
+			} else if (joyState.Gamepad.sThumbLX > 1 && padStateFlag_ == false) {
+				padStateFlag_ = true;
+				stageCount_ += 1;
+			}
+
+			if (joyState.Gamepad.sThumbLX == 0) {
+				padStateFlag_ = false;
+			}
+
+			Input::GetInstance()->Input::GetJoystickStatePrevious(0, preJoyState);
+			
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT &&
+			    !(preJoyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)) {
+				stageCount_ += 1;
+
+			} else if (
+			    joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT &&
+			    !(preJoyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)) {
+				stageCount_ -= 1;
+			}
+
+			                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+		}
+
 		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && fadeTimerFlag_ == false) {
 			fadeTimerFlag_ = true;
 			fade_->FadeOutStart();
@@ -54,6 +83,14 @@ void SelectScene::Update() {
 
 	if (input_->TriggerKey(DIK_SPACE)) {
 		isSceneEnd_ = true;
+	}
+
+	if (stageCount_ >= 1 || stageCount_ <= 3) {
+		if (input_->TriggerKey(DIK_LEFT)) {
+			stageCount_ -= 1;
+		} else if (input_->TriggerKey(DIK_RIGHT)) {
+			stageCount_ += 1;
+		}
 	}
 
 	//ステージ選択
@@ -146,13 +183,7 @@ void SelectScene::TextureInitialize() {
 }
 
 void SelectScene::StageSelect() {
-	if (stageCount_ >= 1 || stageCount_ <= 3) {
-		if (input_->TriggerKey(DIK_LEFT)) {
-			stageCount_ -= 1;
-		} else if (input_->TriggerKey(DIK_RIGHT)) {
-			stageCount_ += 1;
-		}
-	}
+	
 	if (stageCount_ <= 0) {
 		stageCount_ += 1;
 	}
