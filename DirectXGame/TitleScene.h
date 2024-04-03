@@ -10,8 +10,9 @@
 #include "Scene.h"
 
 #include "fade/Fade.h"
-#include "Score.h"
-#include "Ranking.h"
+#include "Spacedome.h"
+//#include "Score.h"
+//#include "Ranking.h"
 
 class TitleScene {
 public:
@@ -56,15 +57,28 @@ private: // メンバ変数
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
 
-	std::unique_ptr<Score> score_;
+	/*std::unique_ptr<Score> score_;
 
-	std::unique_ptr<Ranking> ranking_;
+	std::unique_ptr<Ranking> ranking_;*/
+
+	//タイトル画像
+	Sprite* textureTitle_;
+	uint32_t titleHandle_;
+
+	//タイトル文字画像
+	Sprite* textureSubTitle_;
+	uint32_t subTitleHandle_;
+
+	Vector4 subTitleColor_ = {1.0f, 1.0f, 1.0f, 0.0f};
+
+	// 天球
+	std::unique_ptr<Spacedome> spacedome_;
+	//  3Dモデル
+	std::unique_ptr<Model> modelSpacedome_;
 
 	// フェード
 	std::unique_ptr<Fade> fade_;
 	bool fadeTimerFlag_;
 	const float kFadeTimer_ = 1.657f * 60.0f;
 	float fadeTimer_ = kFadeTimer_;
-
-	//int sc;
 };

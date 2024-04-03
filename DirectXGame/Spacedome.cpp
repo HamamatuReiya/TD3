@@ -20,7 +20,7 @@ void Spacedome::Initialize(Model* model) {
 
 void Spacedome::Update() { 
 	worldTransform_.UpdateMatrix();
-	worldTransform_.rotation_.y += 0.0005f;
+	worldTransform_.rotation_.z += 0.0005f;
 }
 
 void Spacedome::Draw(const ViewProjection& viewProjection) {
