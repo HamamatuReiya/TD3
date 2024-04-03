@@ -5,7 +5,7 @@ void Bomm::Initialize(const std::vector<Model*>& models) {
 	/*modelBomm_ = modelBomm;*/
 	// 初期化
 	worldTransform_.Initialize();
-	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
+	worldTransform_.scale_ = {3.0f, 3.0f, 3.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransform_.translation_ = {0.0f, 0.0f, 0.0f};
 }
