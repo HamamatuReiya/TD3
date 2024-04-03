@@ -28,27 +28,27 @@ void Player::Initialize(const std::vector<Model*>& models)
 	// 体の初期化
 	worldTransformBody_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformBody_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformBody_.translation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformBody_.translation_ = {0.0f, 2.0f, 0.0f};
 	// 頭の初期化
 	worldTransformHead_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformHead_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformHead_.translation_ = {0.0f, 3.0f, 0.0f};
+	worldTransformHead_.translation_ = {0.0f, 5.0f, 0.0f};
 	// 左腕の初期化
 	worldTransformL_arm.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformL_arm.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformL_arm.translation_ = {0.0f, 3.0f, 0.0f};
+	worldTransformL_arm.translation_ = {0.0f, 5.0f, 0.0f};
 	// 右腕の初期化
 	worldTransformR_arm.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_arm.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformR_arm.translation_ = {0.0f, 3.0f, 0.0f};
+	worldTransformR_arm.translation_ = {0.0f, 5.0f, 0.0f};
 	// 左脚の初期化
 	worldTransformL_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformL_leg.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformL_leg.translation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformL_leg.translation_ = {0.0f, 2.0f, 0.0f};
 	// 右脚の初期化
 	worldTransformR_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_leg.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformR_leg.translation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformR_leg.translation_ = {0.0f, 2.0f, 0.0f};
 	//爆弾との当たり判定
 	isBommCollider_ = false;
 	//調べるボタン
@@ -67,27 +67,27 @@ void Player::MotionPickInitialize() {
 	// 体の初期化
 	worldTransformBody_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformBody_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformBody_.translation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformBody_.translation_ = {0.0f, 2.0f, 0.0f};
 	// 頭の初期化
 	worldTransformHead_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformHead_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformHead_.translation_ = {0.0f, 3.0f, 0.0f};
+	worldTransformHead_.translation_ = {0.0f, 5.0f, 0.0f};
 	// 左腕の初期化
 	worldTransformL_arm.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformL_arm.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformL_arm.translation_ = {0.0f, 3.0f, 0.0f};
+	worldTransformL_arm.translation_ = {0.0f, 5.0f, 0.0f};
 	// 右腕の初期化
 	worldTransformR_arm.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_arm.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformR_arm.translation_ = {0.0f, 3.0f, 0.0f};
+	worldTransformR_arm.translation_ = {0.0f, 5.0f, 0.0f};
 	// 左脚の初期化
 	worldTransformL_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformL_leg.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformL_leg.translation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformL_leg.translation_ = {0.0f, 2.0f, 0.0f};
 	// 右脚の初期化
 	worldTransformR_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_leg.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformR_leg.translation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformR_leg.translation_ = {0.0f, 2.0f, 0.0f};
 }
 
 void Player::MotionDiveInitialize() {
