@@ -51,11 +51,12 @@ void Player::Initialize(const std::vector<Model*>& models)
 	worldTransformR_leg.translation_ = {0.0f, 0.0f, 0.0f};
 	//爆弾との当たり判定
 	isBommCollider_ = false;
+	//調べるボタン
+	isInvestigatebutton_ = false;
 }
 	
 
 void Player::MotionRunInitialize() { 
-	
 	MotionPickInitialize();
 	MotionDiveInitialize();
 }
@@ -170,6 +171,8 @@ void Player::Update() {
 
 	BaseCharacter::Update();
 
+	
+
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 	worldTransformBody_.UpdateMatrix();
@@ -272,6 +275,10 @@ void Player::MotionRunUpdate() {
 
 void Player::OnCollision() {
 	
+	if (isInvestigatebutton_==false) {
+		isInvestigatebutton_ = true;
+	}
+
 	motionRequest_ = Motion::kJump;
 	
 }

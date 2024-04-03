@@ -149,5 +149,7 @@ private:
 	//衝突してるか
 	bool isBommCollider_;
 
+	//調べるボタン
+	bool isInvestigatebutton_;
 
 };
