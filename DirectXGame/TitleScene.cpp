@@ -1,4 +1,5 @@
 ﻿#include "TitleScene.h"
+#include <ImGuiManager.h>
 
 TitleScene::TitleScene() {}
 
@@ -8,6 +9,12 @@ void TitleScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+
+	score_ = std::make_unique<Score>();
+	score_->Initialize();
+
+	ranking_ = std::make_unique<Ranking>();
+	ranking_->Initialize();
 
 	// フェードの生成
 	fade_ = std::make_unique<Fade>();
@@ -37,8 +44,24 @@ void TitleScene::Update() {
 		}
 
 	}
-		// フェードの更新
-		fade_->Update();
+
+	if (input_->TriggerKey(DIK_SPACE)) {
+		isSceneEnd_ = true;
+	}
+
+	static int sc = 20000;
+	ImGui::Begin("Score");
+	ImGui::SliderInt("Pos", &sc, 0, 20000);
+	ImGui::End();
+
+	score_->Update(sc);
+
+	ranking_->Update(sc);
+
+	// フェードの更新
+	fade_->Update();
+
+	sc = 0;
 }
 
 void TitleScene::Draw() {
@@ -80,6 +103,10 @@ void TitleScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	
+	score_->Draw();
+
+	ranking_->Draw();
+
 	// フェードの描画
 	fade_->Draw();
 
@@ -89,7 +116,7 @@ void TitleScene::Draw() {
 #pragma endregion
 }
 
-void TitleScene::sceneReset() {
+void TitleScene::SceneReset() {
 	// フェードインの開始
 	fade_->FadeInStart();
 }

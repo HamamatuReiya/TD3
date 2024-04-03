@@ -13,9 +13,10 @@ void FollowCamera::Initialize() {
 
 void FollowCamera::Update() {
 	viewProjection_.rotation_.x = 90.0f;
+	viewProjection_.rotation_.y = -15.0f;
 	if (target_) {
 		// 追従対象からカメラまでのオフセット
-		Vector3 offset = {0.0f, 20.0f, 10.0f};
+		Vector3 offset = {0.0f, 25.0f, 10.0f};
 		offset = TransformNormal(offset, MakeRotateYmatrix(viewProjection_.rotation_.y)); // 途中
 		// 座標をコピーしてオフセット分ずらす
 		viewProjection_.translation_ = Add(target_->translation_, offset);

@@ -13,13 +13,19 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-
+#include "Bomm.h"
 #include <Scene.h>
+#include "CollisionManager.h"
+#include "Collider.h"
+#include "UI.h"
+#include <Stage.h>
+#include "HouseStageOBJ.h"
+#include"DoorOBJ.h"
 
 /// <summary>
 /// ゲームシーン
 /// </summary>
-class GameScene {
+class GameScene : public StageSelect {
 
 public: // メンバ関数
 	/// <summary>
@@ -47,13 +53,20 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 衝突判定と応答
+	/// </summary>
+	void ChackAllCollisions();
+
 public:
-	void sceneReset();
+	void SceneReset();
 
 	bool isSceneEnd_ = false;
 
 	bool IsSceneEnd() { return isSceneEnd_; }
 	SceneType NextScene() { return SceneType::kTitle; }
+
+
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -92,8 +105,27 @@ private: // メンバ変数
 	// 天球
 	std::unique_ptr<Skydome> skydome_;
 
+	// 3Dモデル
+	std::unique_ptr<Model> bommModel_ = nullptr;
+	// 爆弾
+	std::unique_ptr<Bomm> bomm_;
+
 	// 追従カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
+
+	// 衝突マネージャ
+	std::unique_ptr<CollisionManager> collisionManager_;
+
+	// スプライト
+	Sprite* spriteBommActionButton_ = nullptr; // 爆弾のアクションボタン
+
+	std::unique_ptr<HouseStageOBJ> house_;
+	// 家ステージのモデル
+	std::unique_ptr<Model> houseModel_[99] = {nullptr};
+
+	// ドア
+	std::unique_ptr<DoorOBJ> door_;
+	std::unique_ptr<Model> doorModel_[2] = {nullptr};
 
 	/// <summary>
 	/// ゲームシーン用

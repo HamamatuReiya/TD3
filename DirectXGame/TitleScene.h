@@ -10,6 +10,8 @@
 #include "Scene.h"
 
 #include "fade/Fade.h"
+#include "Score.h"
+#include "Ranking.h"
 
 class TitleScene {
 public:
@@ -39,12 +41,12 @@ public:
 	void Draw();
 
 public:
-	void sceneReset();
+	void SceneReset();
 
 	bool isSceneEnd_ = false;
 
 	bool IsSceneEnd() { return isSceneEnd_; }
-	SceneType NextScene() { return SceneType::kGamePlay; }
+	SceneType NextScene() { return SceneType::kSelect; }
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -54,9 +56,15 @@ private: // メンバ変数
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
 
+	std::unique_ptr<Score> score_;
+
+	std::unique_ptr<Ranking> ranking_;
+
 	// フェード
 	std::unique_ptr<Fade> fade_;
 	bool fadeTimerFlag_;
 	const float kFadeTimer_ = 1.657f * 60.0f;
 	float fadeTimer_ = kFadeTimer_;
+
+	//int sc;
 };
