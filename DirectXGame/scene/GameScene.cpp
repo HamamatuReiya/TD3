@@ -71,9 +71,13 @@ void GameScene::Initialize() {
 	bommModel_.reset(Model::CreateFromOBJ("bom", true));
 
 	// ドアモデル
-	door_ = std::make_unique<DoorOBJ>();
+	for (int i = 0; i < 10; i++) {
+		door_[i] = std::make_unique<DoorOBJ>();
+	}
 	doorModel_[0].reset(Model::CreateFromOBJ("doorKnob1", true));
 	doorModel_[1].reset(Model::CreateFromOBJ("doorKnob2", true));
+
+	door_[0]->Initialize(doorModel_[0].get(), doorModel_[1].get(), {49.5f, 0.0f, -89.0f});
 
 	// 家モデル
 	house_ = std::make_unique<HouseStageOBJ>();
@@ -200,6 +204,7 @@ void GameScene::Update() {
 	ground_->Update();
 	bomm_->Update();
 	skydome_->Update();
+	door_[0]->Update();
 	/*collisionManager_->UpdateWorldtransform();*/
 	ChackAllCollisions();
 
@@ -264,6 +269,21 @@ void GameScene::ChackAllCollisions() {
 
 	// 衝突判定と応答
 	collisionManager_->ChackAllCollisions();
+
+	Vector3 posA = player_->GetWorldPosition();
+	;
+	Vector3 posB = door_[0]->GetWorldPosition();
+
+	if (posB.x + 3.5f >= posA.x && posB.x <= posA.x && posB.z <= posA.z - 1.5f &&
+	    posB.z+13.0f >= posA.z ) {
+		if (player_->GetIsPushX() == true) {
+			door_[0]->SetKeyFlag(true);
+		}
+	}
+	if (door_[0]->GetKeyFlag() == true) {
+		door_[0]->Collision();
+	}
+
 }
 
 void GameScene::Draw() {
@@ -299,6 +319,7 @@ void GameScene::Draw() {
 		//ground_->Draw(viewProjection_);
 		//skydome_->Draw(viewProjection_);
 		house_->Draw(viewProjection_);
+		door_[0]->Draw(viewProjection_);
 
 		break;
 

@@ -12,7 +12,7 @@ void Player::Initialize(const std::vector<Model*>& models)
 	modelFighterR_arm = modelR_arm;
 	modelFighterL_leg = modelL_leg;
 	modelFighterR_leg = modelR_leg;*/
-
+	isPushX_ = false;
 	// 初期化
 	worldTransform_.Initialize();
 	worldTransformBody_.Initialize();
@@ -24,7 +24,7 @@ void Player::Initialize(const std::vector<Model*>& models)
 	// 初期化
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransform_.translation_ = {0.0f, 0.0f, -15.0f};
+	worldTransform_.translation_ = {0.0f, 2.0f, -15.0f};
 	// 体の初期化
 	worldTransformBody_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformBody_.rotation_ = {0.0f, 0.0f, 0.0f};
@@ -111,6 +111,9 @@ void Player::Update() {
 		// 拾うモーション
 		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_X) {
 			motionRequest_ = Motion::kPick;
+			isPushX_ = true;
+		} else {
+			isPushX_ = false;
 		}
 		// 潜るモーション
 		if (worldTransform_.translation_.x<=-12) {
@@ -281,6 +284,16 @@ void Player::OutCollision() {
 	
 }
 
+Vector3 Player::GetWorldPosition() {
+	Vector3 worldPos;
+
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
+
+	return worldPos;
+}
+
 Vector3 Player::GetCenterPosition() const {
 	// ローカル座標のオフセット
 	const Vector3 offset = {0.0f, 1.5f, 0.0f};
@@ -317,7 +330,7 @@ void Player::MotionPickUpdate() {
 	if (PickMotionTime_>15.0f) {
 		motionRequest_ = Motion::kRun;
 	} else {
-		worldTransform_.translation_.y =  0.0f;
+		worldTransform_.translation_.y =  2.0f;
 	}
 }
 
