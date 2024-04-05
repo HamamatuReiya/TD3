@@ -36,11 +36,6 @@ public:
 	void MotionPickInitialize();
 
 	/// <summary>
-	/// 潜るモーション初期化
-	/// </summary>
-	void MotionDiveInitialize();
-
-	/// <summary>
 	/// 走るモーション更新
 	/// </summary>
 	void MotionRunUpdate();
@@ -50,20 +45,16 @@ public:
 	/// </summary>
 	void MotionPickUpdate();
 
-	/// <summary>
-	/// 潜るモーション更新
-	/// </summary>
-	void MotionDiveUpdate();
 
 	/// <summary>
 	/// ジャンプモーション初期化
 	/// </summary>
-	void BehaviorJumpInitialize();
+	void MotionJumpInitialize();
 
 	/// <summary>
 	/// ジャンプモーション更新
 	/// </summary>
-	void BehaviorJumpUpdate();
+	void MotionJumpUpdate();
 
 	/// <summary>
 	/// モーション
@@ -71,8 +62,8 @@ public:
 	enum class Motion {
 		kRun,
 		kPick,
-		kDive,
 		kJump,
+		
 	};
 
 	enum class Collision {
@@ -103,10 +94,6 @@ public:
 
 	// 中心座標を取得
 	Vector3 GetCenterPosition() const override;
-	
-	/*void SetWorldTransform(WorldTransform worldTransform) {
-		worldTransform_ = worldTransform;
-	}*/
 
 
 	/// <summary>
@@ -156,5 +143,7 @@ private:
 	//衝突してるか
 	bool isBommCollider_;
 
+	//調べるボタン
+	bool isInvestigatebutton_;
 
 };
