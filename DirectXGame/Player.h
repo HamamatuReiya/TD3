@@ -58,12 +58,12 @@ public:
 	/// <summary>
 	/// ジャンプモーション初期化
 	/// </summary>
-	void BehaviorJumpInitialize();
+	void MotionJumpInitialize();
 
 	/// <summary>
 	/// ジャンプモーション更新
 	/// </summary>
-	void BehaviorJumpUpdate();
+	void MotionJumpUpdate();
 
 	/// <summary>
 	/// モーション

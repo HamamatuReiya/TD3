@@ -95,8 +95,8 @@ void Player::MotionDiveInitialize() {
 	worldTransformBody_.rotation_.x = 0.0f;
 }
 
-void Player::BehaviorJumpInitialize() {
-	worldTransformBody_.translation_.y = 0;
+void Player::MotionJumpInitialize() {
+	worldTransformBody_.translation_.y = 2;
 	worldTransformL_arm.rotation_.x = 0;
 	worldTransformR_arm.rotation_.x = 0;
 	// ジャンプ初速
@@ -138,7 +138,7 @@ void Player::Update() {
 				MotionDiveInitialize();
 				break;
 			case Motion::kJump:
-				BehaviorJumpInitialize();
+				MotionJumpInitialize();
 				break;
 			}
 			motionRequest_ = std::nullopt;
@@ -155,7 +155,7 @@ void Player::Update() {
 			MotionDiveUpdate();
 			break;
 		case Motion::kJump:
-			BehaviorJumpUpdate();
+			MotionJumpUpdate();
 			break;
 
 		}
@@ -406,7 +406,7 @@ void Player::MotionDiveUpdate() {
 	
 }
 
-void Player::BehaviorJumpUpdate() {
+void Player::MotionJumpUpdate() {
 	if (worldTransform_.translation_.x<=0) {
 		worldTransform_.translation_.x -= 0.05f;
 	} else {
