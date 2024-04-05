@@ -49,10 +49,13 @@ void Player::Initialize(const std::vector<Model*>& models)
 	worldTransformR_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_leg.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformR_leg.translation_ = {0.0f, 2.0f, 0.0f};
-	//爆弾との当たり判定
-	isBommCollider_ = false;
 	//調べるボタン
 	isInvestigatebutton_ = false;
+	// テクスチャ
+	uint32_t textureButton = TextureManager::Load("ActionButton.png");
+	// スプライト生成
+	spriteButton_ =
+	    Sprite::Create(textureButton, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 }
 	
 
@@ -155,6 +158,9 @@ void Player::Update() {
 		OutCollision();
 	}
 	
+	//アクションボタン
+	ActionButtonUpdate();
+
 	BaseCharacter::Update();
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
@@ -267,10 +273,7 @@ void Player::OnCollision() {
 }
 
 void Player::OutCollision() { 
-	if (isBommCollider_ == true) {
-		isBommCollider_ = false;
-	}
-	
+
 }
 
 Vector3 Player::GetWorldPosition() {
@@ -290,6 +293,22 @@ Vector3 Player::GetCenterPosition() const {
 	Vector3 worldPos = Transform(offset, worldTransform_.matWorld_);
 
 	return worldPos;
+}
+
+void Player::ActionButtonUpdate() {
+	if (worldTransform_.translation_.z > -4.0f && worldTransform_.translation_.z < 4.0f&&
+	    worldTransform_.translation_.x > -4.5f && worldTransform_.translation_.x<4.5f) {
+		isInvestigatebutton_ = true;
+	} else {
+		isInvestigatebutton_ = false;
+	}
+}
+
+void Player::ActionbuttonDraw() { 
+	if (isInvestigatebutton_==true) {
+		spriteButton_->Draw(); 
+	}
+	
 }
 
 void Player::MotionPickUpdate() { 
@@ -331,7 +350,6 @@ void Player::MotionJumpUpdate() {
 	} else {
 		worldTransform_.translation_.x += 0.05f;
 	}
-	
 	// 移動
 	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 	// 重力加速度

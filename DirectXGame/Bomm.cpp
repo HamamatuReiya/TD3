@@ -2,7 +2,6 @@
 
 void Bomm::Initialize(const std::vector<Model*>& models) {
 	BaseCharacter::Initialize(models);
-	/*modelBomm_ = modelBomm;*/
 	// 初期化
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};

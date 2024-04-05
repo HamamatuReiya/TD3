@@ -70,6 +70,9 @@ void GameScene::Initialize() {
 	// 3Dモデルの生成
 	bommModel_.reset(Model::CreateFromOBJ("bom", true));
 
+	//uiの生成
+	ui_ = std::make_unique<UI>();
+
 	// ドアモデル
 	for (int i = 0; i < 10; i++) {
 		door_[i] = std::make_unique<DoorOBJ>();
@@ -196,6 +199,9 @@ void GameScene::Initialize() {
 	// スプライト生成
 	spriteBommActionButton_ = Sprite::Create(
 	    textureBommActionButton, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	//ui
+	ui_->Initialize();
+	isWindow_ = false;
 }
 
 void GameScene::Update() {
@@ -235,6 +241,7 @@ void GameScene::Update() {
 	bomm_->Update();
 
 	
+	
 	// 追従カメラの更新
 	followCamera_->Update();
 
@@ -257,7 +264,6 @@ void GameScene::Update() {
 	} else {
 		viewProjection_.TransferMatrix();
 	}
-
 }
 void GameScene::ChackAllCollisions() {
 	// 衝突マネージャのリセット
@@ -334,9 +340,12 @@ void GameScene::Draw() {
 		break;
 	}
 
-
+	//////////////////////////
 	player_->Draw(viewProjection_);
 	bomm_->Draw(viewProjection_);
+
+	
+
 	/*collisionManager_->Draw(viewProjection_);*/
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -349,9 +358,18 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	// 爆弾接触時のボタン
-	if (player_->SetBommCollider_() == 1) {
-		spriteBommActionButton_->Draw();
+	player_->ActionbuttonDraw();
+	// ゲームパッドの状態を得る変数
+	XINPUT_STATE joyState;
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		// 拾うモーション
+		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
+			isWindow_ = true;
+		}
+	}
+	// 爆弾の強化ウィンドウ
+	if (player_->SetActionbutton() ==1 && isWindow_ == true) {
+		ui_->Draw();
 	}
 
 	// スプライト描画後処理

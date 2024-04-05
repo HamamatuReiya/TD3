@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <Sprite.h>
+#include <TextureManager.h>
 class UI {
 public:
 	// デストラクタ
@@ -22,7 +23,8 @@ public:
 	
 
 private:
-
 	
+	// スプライト
+	Sprite* spriteWindow_ = nullptr; 
 	
 };

@@ -92,11 +92,15 @@ public:
 	// 中心座標を取得
 	Vector3 GetCenterPosition() const override;
 
+	//アクションボタン
+	void ActionButtonUpdate();
+	//アクションボタン描画
+	void ActionbuttonDraw();
 
 	/// <summary>
-	/// 爆弾との当たり判定
+	/// アクションボタン
 	/// </summary>
-	int SetBommCollider_() { return isBommCollider_; }
+	int SetActionbutton() { return isInvestigatebutton_; }
 
 private:
 	//ワールド変換
@@ -137,10 +141,10 @@ private:
 	//腕ディレイ
 	float ArmDelayTime_;
 
-	//衝突してるか
-	bool isBommCollider_;
-
 	//調べるボタン
 	bool isInvestigatebutton_;
+
+	// スプライト
+	Sprite* spriteButton_ = nullptr; 
 
 };
