@@ -49,6 +49,9 @@ public:
 	bool IsSceneEnd() { return isSceneEnd_; }
 	SceneType NextScene() { return SceneType::kSelect; }
 
+private:
+    void Select();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -70,6 +73,16 @@ private: // メンバ変数
 	uint32_t subTitleHandle_;
 
 	Vector4 subTitleColor_ = {1.0f, 1.0f, 1.0f, 0.0f};
+
+	// 矢印 カーソル
+	Sprite* textureCursor_;
+	Vector2 cursorPos_ = {350.0f, 495.0f};
+	Vector2 cursorSpeed_ = {0, 30};
+	int selectCount_ = 0;
+
+	// スティックのフラグ
+	bool padStateFlag_ = false;
+	bool dPadStateFlag_ = false;
 
 	// 天球
 	std::unique_ptr<Spacedome> spacedome_;
