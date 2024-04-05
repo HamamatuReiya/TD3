@@ -88,6 +88,9 @@ public:
 	
 	Vector3 GetWorldPosition();
 
+	float SetTranslationX(float pos) { return worldTransform_.translation_.x = pos; }
+	float SetTranslationY(float pos) { return worldTransform_.translation_.y = pos; }
+	float SetTranslationZ(float pos) { return worldTransform_.translation_.z = pos; }
 
 	// 中心座標を取得
 	Vector3 GetCenterPosition() const override;
