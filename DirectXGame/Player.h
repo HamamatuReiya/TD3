@@ -36,11 +36,6 @@ public:
 	void MotionPickInitialize();
 
 	/// <summary>
-	/// 潜るモーション初期化
-	/// </summary>
-	void MotionDiveInitialize();
-
-	/// <summary>
 	/// 走るモーション更新
 	/// </summary>
 	void MotionRunUpdate();
@@ -50,10 +45,6 @@ public:
 	/// </summary>
 	void MotionPickUpdate();
 
-	/// <summary>
-	/// 潜るモーション更新
-	/// </summary>
-	void MotionDiveUpdate();
 
 	/// <summary>
 	/// ジャンプモーション初期化
@@ -71,7 +62,6 @@ public:
 	enum class Motion {
 		kRun,
 		kPick,
-		kDive,
 		kJump,
 		
 	};
@@ -101,10 +91,6 @@ public:
 
 	// 中心座標を取得
 	Vector3 GetCenterPosition() const override;
-	
-	/*void SetWorldTransform(WorldTransform worldTransform) {
-		worldTransform_ = worldTransform;
-	}*/
 
 
 	/// <summary>

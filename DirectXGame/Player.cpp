@@ -58,7 +58,6 @@ void Player::Initialize(const std::vector<Model*>& models)
 
 void Player::MotionRunInitialize() { 
 	MotionPickInitialize();
-	MotionDiveInitialize();
 }
 
 void Player::MotionPickInitialize() { 
@@ -90,10 +89,7 @@ void Player::MotionPickInitialize() {
 	worldTransformR_leg.translation_ = {0.0f, 2.0f, 0.0f};
 }
 
-void Player::MotionDiveInitialize() {
-	// 場所初期化
-	worldTransformBody_.rotation_.x = 0.0f;
-}
+
 
 void Player::MotionJumpInitialize() {
 	worldTransformBody_.translation_.y = 2;
@@ -116,12 +112,6 @@ void Player::Update() {
 		} else {
 			isPushX_ = false;
 		}
-		// 潜るモーション
-		if (worldTransform_.translation_.x<=-12) {
-			motionRequest_ = Motion::kDive;
-		} else {
-			ArmDelayTime_ = 0;
-		}
 
 		// モーション切り替え
 		if (motionRequest_) {
@@ -133,9 +123,6 @@ void Player::Update() {
 				break;
 			case Motion::kPick:
 				MotionPickInitialize();
-				break;
-			case Motion::kDive:
-				MotionDiveInitialize();
 				break;
 			case Motion::kJump:
 				MotionJumpInitialize();
@@ -150,9 +137,6 @@ void Player::Update() {
 			break;
 		case Motion::kPick:
 			MotionPickUpdate();
-			break;
-		case Motion::kDive:
-			MotionDiveUpdate();
 			break;
 		case Motion::kJump:
 			MotionJumpUpdate();
@@ -171,11 +155,7 @@ void Player::Update() {
 		OutCollision();
 	}
 	
-
 	BaseCharacter::Update();
-
-	
-
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 	worldTransformBody_.UpdateMatrix();
@@ -219,7 +199,7 @@ void Player::MotionRunUpdate() {
 
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		// 速さ
-		const float speed = 0.1f;
+		const float speed = 0.3f;
 		worldTransformBody_.parent_ = &worldTransform_;
 		worldTransformHead_.parent_ = &worldTransform_;
 		worldTransformL_arm.parent_ = &worldTransform_;
@@ -343,68 +323,7 @@ void Player::MotionPickUpdate() {
 	}
 }
 
-void Player::MotionDiveUpdate() {
-	// ゲームパッドの状態を得る変数
-	XINPUT_STATE joyState;
-	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		// 速さ
-		const float speed = 0.3f;
-		worldTransformBody_.parent_ = &worldTransform_;
-		worldTransformHead_.parent_ = &worldTransform_;
-		worldTransformL_arm.parent_ = &worldTransform_;
-		worldTransformR_arm.parent_ = &worldTransform_;
-		worldTransformL_leg.parent_ = &worldTransform_;
-		worldTransformR_leg.parent_ = &worldTransform_;
-		// 移動量
-		Vector3 move = {
-		    (float)joyState.Gamepad.sThumbLX / SHRT_MAX * -speed, 0.0f,
-		    (float)joyState.Gamepad.sThumbLY / SHRT_MAX * -speed};
-		// 移動量に速さを反映
-		move = Multiply(speed, Normalize(move));
 
-		move = TransformNormal(move, MakeRotateYmatrix(viewProjection_->rotation_.y));
-
-		// 移動
-		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
-
-		if (Length(move) != 0) {
-			worldTransform_.rotation_.y = std::atan2(move.x, move.z);
-		}
-	}
-
-	// 腕
-	worldTransformR_arm.rotation_.x += 0.3f;
-	ArmDelayTime_++;
-	if (ArmDelayTime_>5) {
-		worldTransformL_arm.rotation_.x += 0.3f;
-	}
-	worldTransformR_arm.translation_.y = 0.2f;
-	worldTransformL_arm.translation_.y = 0.2f;
-	worldTransformR_arm.translation_.z = 1.35f;
-	worldTransformL_arm.translation_.z = 1.35f;
-	
-	// 体
-	worldTransformBody_.rotation_.x = -30.0f;
-	worldTransformBody_.translation_.y = 0.2f;
-	worldTransformBody_.translation_.z = -1.5f;
-
-	// 頭
-	worldTransformHead_.translation_.y = -0.05f;
-	worldTransformHead_.translation_.z = 2.2f;
-
-	//足
-	worldTransformL_leg.translation_.z = -1.5f;
-	worldTransformR_leg.translation_.z = -1.5f;
-	worldTransformR_leg.rotation_.x = 1.4f;
-	worldTransformL_leg.rotation_.x = 1.4f;
-
-
-	// 潜るモーション範囲
-	if (worldTransform_.translation_.x > -12) {
-		motionRequest_ = Motion::kRun;
-	}
-	
-}
 
 void Player::MotionJumpUpdate() {
 	if (worldTransform_.translation_.x<=0) {
