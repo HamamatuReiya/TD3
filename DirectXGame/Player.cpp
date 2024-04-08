@@ -345,9 +345,9 @@ void Player::MotionPickUpdate() {
 
 void Player::MotionJumpUpdate() {
 	if (worldTransform_.translation_.x<=0) {
-		worldTransform_.translation_.x -= 0.04f;
+		worldTransform_.translation_.x -= 0.05f;
 	} else {
-		worldTransform_.translation_.x += 0.04f;
+		worldTransform_.translation_.x += 0.05f;
 	}
 	// 移動
 	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
