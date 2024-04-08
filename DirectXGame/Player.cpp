@@ -61,6 +61,7 @@ void Player::Initialize(const std::vector<Model*>& models)
 
 void Player::MotionRunInitialize() { 
 	MotionPickInitialize();
+	worldTransform_.translation_.y = 0;
 }
 
 void Player::MotionPickInitialize() { 
@@ -315,27 +316,24 @@ void Player::MotionPickUpdate() {
 	//腕
 	if (PickMotionTime_ < 7.5f) {
 		worldTransformR_arm.rotation_.x -= 0.1f;
-		worldTransformR_arm.translation_.y -= 0.09f;
-		worldTransformL_arm.translation_.y -= 0.08f;
+		worldTransform_.translation_.y = 0;
 	} else {
 		worldTransformR_arm.rotation_.x += 0.1f;
-		worldTransformR_arm.translation_.y += 0.08f;
-		worldTransformL_arm.translation_.y += 0.08f;
+		worldTransform_.translation_.y = 0;
 	}
 	//体と頭
 	if (PickMotionTime_ < 7.5f) {
-		worldTransformBody_.translation_.y -= 0.08f;
-		worldTransformHead_.translation_.y -= 0.08f;
+		
+		worldTransform_.translation_.y = 0;
 	} else {
-		worldTransformBody_.translation_.y += 0.08f;
-		worldTransformHead_.translation_.y += 0.08f;
+		worldTransform_.translation_.y = 0;
 	}
 	
 	// 拾うモーション時間
 	if (PickMotionTime_>15.0f) {
 		motionRequest_ = Motion::kRun;
 	} else {
-		worldTransform_.translation_.y =  2.0f;
+		worldTransform_.translation_.y =  0.0f;
 	}
 }
 
