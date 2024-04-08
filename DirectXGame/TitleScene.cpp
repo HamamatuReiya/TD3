@@ -18,6 +18,13 @@ void TitleScene::Initialize() {
 	subTitleHandle_ = TextureManager::Load("subTitle.png");
 	textureSubTitle_ = Sprite::Create(subTitleHandle_, {0.0f, 0.0f}, subTitleColor_, {0.0f, 0.0f});
 
+	// カーソルの画像
+	uint32_t cursorHandle;
+	cursorHandle = TextureManager::Load("cursor.png");
+
+	textureCursor_ =
+	    Sprite::Create(cursorHandle, cursorPos_, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+
 	/*score_ = std::make_unique<Score>();
 	score_->Initialize();
 
@@ -43,9 +50,36 @@ void TitleScene::Initialize() {
 void TitleScene::Update() {
 	// ゲームパッドの状態を得る変数(XINPUT)
 	XINPUT_STATE joyState;
+	XINPUT_STATE preJoyState;
 
 	// ゲームパッド状態取得
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+
+		if (selectCount_ >= 0 || selectCount_ <= 1) {
+			if (joyState.Gamepad.sThumbLY < -1 && padStateFlag_ == false) {
+				padStateFlag_ = true;
+				selectCount_ += 1;
+			} else if (joyState.Gamepad.sThumbLY > 1 && padStateFlag_ == false) {
+				padStateFlag_ = true;
+				selectCount_ -= 1;
+			}
+
+			if (joyState.Gamepad.sThumbLY == 0) {
+				padStateFlag_ = false;
+			}
+
+			Input::GetInstance()->Input::GetJoystickStatePrevious(0, preJoyState);
+
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN &&
+			    !(preJoyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)) {
+				selectCount_ += 1;
+
+			} else if (
+			    joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP &&
+			    !(preJoyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)) {
+				selectCount_ -= 1;
+			}
+		}
 		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && fadeTimerFlag_ == false) {
 			fadeTimerFlag_ = true;
 			fade_->FadeOutStart();
@@ -59,6 +93,14 @@ void TitleScene::Update() {
 			isSceneEnd_ = true;
 		}
 
+	}
+
+	if (selectCount_ >= 0 || selectCount_ <= 1) {
+		if (input_->TriggerKey(DIK_UP)) {
+			selectCount_ -= 1;
+		} else if (input_->TriggerKey(DIK_DOWN)) {
+			selectCount_ += 1;
+		}
 	}
 
 	if (input_->TriggerKey(DIK_SPACE)) {
@@ -77,6 +119,11 @@ void TitleScene::Update() {
 	ranking_->Update(sc);*/
 
 	subTitleColor_.w += 0.007f;
+
+	// ステージ選択
+	Select();
+
+	textureCursor_->SetPosition(cursorPos_);
 
 	// 天球の更新
 	spacedome_->Update();
@@ -130,6 +177,7 @@ void TitleScene::Draw() {
 	
 	textureTitle_->Draw();
 
+	textureCursor_->Draw();
 
 	textureSubTitle_->SetColor(subTitleColor_);
 	textureSubTitle_->Draw();
@@ -146,4 +194,20 @@ void TitleScene::Draw() {
 void TitleScene::SceneReset() {
 	// フェードインの開始
 	fade_->FadeInStart();
+}
+
+void TitleScene::Select() {
+	if (selectCount_ <= -1) {
+		selectCount_ += 1;
+	}
+	if (selectCount_ >= 2) {
+		selectCount_ -= 1;
+	}
+
+	if (selectCount_ == 0) {
+		cursorPos_.y = 375.0f;
+	}
+	if (selectCount_ == 1) {
+		cursorPos_.y = 495.0f;
+	}
 }
