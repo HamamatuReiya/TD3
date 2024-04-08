@@ -330,7 +330,6 @@ void GameScene::Draw() {
 
 	switch (stageNo) {
 	case Stage::kIsland:
-
 		//ground_->Draw(viewProjection_);
 		//skydome_->Draw(viewProjection_);
 		house_->Draw(viewProjection_);
@@ -374,6 +373,7 @@ void GameScene::Draw() {
 		// window
 		if (player_->SetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
 			isWindow_ = true;
+			player_->SetMotion();
 		}
 		if (player_->SetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_B) {
 			isWindow_ = false;

@@ -18,11 +18,6 @@ void CollisionManager::UpdateWorldtransform() {
 	}
 }
 
-//void CollisionManager::Draw(ViewProjection& viewProjection) {
-//	////描画
-//	//colliderModel_->Draw(worldTransform_, viewProjection);
-//}
-
 void CollisionManager::AddCollider(Collider* collider) { colliders_.push_back(collider); }
 
 void CollisionManager::ChackAllCollisions() {

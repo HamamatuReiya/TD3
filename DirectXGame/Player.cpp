@@ -144,22 +144,14 @@ void Player::Update() {
 		} else {
 			isPushX_ = false;
 		}
-
-		
 	}
 
-	//当たり判定切り替え
-	switch (collider_) {
-	case Collision::On: 
-	default:
-		OnCollision();
-		break;
-	case Collision::Out:
-		OutCollision();
-	}
 	
 	//アクションボタン
 	ActionButtonUpdate();
+
+	
+
 
 	BaseCharacter::Update();
 	// 行列の更新
@@ -295,8 +287,8 @@ Vector3 Player::GetCenterPosition() const {
 }
 
 void Player::ActionButtonUpdate() {
-	if (worldTransform_.translation_.z > -4.0f && worldTransform_.translation_.z < 4.0f&&
-	    worldTransform_.translation_.x > -4.5f && worldTransform_.translation_.x<4.5f) {
+	if (worldTransform_.translation_.z > -10.0f && worldTransform_.translation_.z < 11.0f&&
+	    worldTransform_.translation_.x > -10.0f && worldTransform_.translation_.x<10.0f) {
 		isInvestigatebutton_ = true;
 	} else {
 		isInvestigatebutton_ = false;
@@ -308,6 +300,12 @@ void Player::ActionbuttonDraw() {
 		spriteButton_->Draw(); 
 	}
 	
+}
+
+void Player::SetMotion() {
+	// モーション初期化
+	motion_ = Motion::kRun;
+	worldTransform_.translation_.y = 0.0f;
 }
 
 void Player::MotionPickUpdate() { 
@@ -345,9 +343,9 @@ void Player::MotionPickUpdate() {
 
 void Player::MotionJumpUpdate() {
 	if (worldTransform_.translation_.x<=0) {
-		worldTransform_.translation_.x -= 0.05f;
+		worldTransform_.translation_.x -= 0.07f;
 	} else {
-		worldTransform_.translation_.x += 0.05f;
+		worldTransform_.translation_.x += 0.07f;
 	}
 	// 移動
 	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
@@ -374,6 +372,8 @@ void Player::Draw(const ViewProjection& viewProjection) {
 	models_[4]->Draw(worldTransformL_leg, viewProjection);
 	models_[5]->Draw(worldTransformR_leg, viewProjection);
 }
+
+
 
 
 

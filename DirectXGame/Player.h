@@ -66,11 +66,6 @@ public:
 		
 	};
 
-	enum class Collision {
-		On,
-		Out
-	};
-
 	/// <summary>
 	/// Getter&Setter
 	/// </summary>
@@ -105,6 +100,8 @@ public:
 	/// </summary>
 	int SetActionbutton() { return isInvestigatebutton_; }
 
+	void SetMotion();
+
 private:
 	//ワールド変換
 	WorldTransform worldTransform_;
@@ -131,8 +128,6 @@ private:
 	//モーション初期化
 	Motion motion_ = Motion::kRun;
 	std::optional<Motion> motionRequest_ = std::nullopt;
-	// コライダー初期化
-	Collision collider_ = Collision::Out;
 
 	bool isPushX_;
 
