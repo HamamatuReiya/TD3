@@ -105,6 +105,35 @@ void Player::MotionJumpInitialize() {
 }
 
 void Player::Update() {
+	// モーション切り替え
+	if (motionRequest_) {
+		motion_ = motionRequest_.value();
+		switch (motion_) {
+		case Motion::kRun:
+		default:
+			MotionRunInitialize();
+			break;
+		case Motion::kPick:
+			MotionPickInitialize();
+			break;
+		case Motion::kJump:
+			MotionJumpInitialize();
+			break;
+		}
+		motionRequest_ = std::nullopt;
+	}
+	switch (motion_) {
+	case Motion::kRun:
+	default:
+		MotionRunUpdate();
+		break;
+	case Motion::kPick:
+		MotionPickUpdate();
+		break;
+	case Motion::kJump:
+		MotionJumpUpdate();
+		break;
+	}
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
@@ -116,36 +145,7 @@ void Player::Update() {
 			isPushX_ = false;
 		}
 
-		// モーション切り替え
-		if (motionRequest_) {
-			motion_ = motionRequest_.value();
-			switch (motion_) {
-			case Motion::kRun:
-			default:
-				MotionRunInitialize();
-				break;
-			case Motion::kPick:
-				MotionPickInitialize();
-				break;
-			case Motion::kJump:
-				MotionJumpInitialize();
-				break;
-			}
-			motionRequest_ = std::nullopt;
-		}
-		switch (motion_) {
-		case Motion::kRun:
-		default:
-			MotionRunUpdate();
-			break;
-		case Motion::kPick:
-			MotionPickUpdate();
-			break;
-		case Motion::kJump:
-			MotionJumpUpdate();
-			break;
-
-		}
+		
 	}
 
 	//当たり判定切り替え
