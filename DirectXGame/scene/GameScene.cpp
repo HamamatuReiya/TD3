@@ -31,6 +31,7 @@ void GameScene::Initialize() {
 	// 追従カメラの生成
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
+
 	// 自キャラの生成
 	player_ = std::make_unique<Player>();
 	// 3Dモデルの生成
@@ -70,8 +71,7 @@ void GameScene::Initialize() {
 	// 3Dモデルの生成
 	bommModel_.reset(Model::CreateFromOBJ("bom", true));
 
-	//uiの生成
-	ui_ = std::make_unique<UI>();
+	
 
 	// ドアモデル
 	for (int i = 0; i < 10; i++) {
@@ -186,7 +186,11 @@ void GameScene::Initialize() {
 	    houseModel_[72].get(), houseModel_[73].get(), houseModel_[74].get(), houseModel_[75].get(),
 	    houseModel_[76].get(), houseModel_[77].get(), houseModel_[78].get());
 	
-	
+	//uiの生成
+	ui_ = std::make_unique<UI>();
+	// ui
+	ui_->Initialize();
+	isWindow_ = false;
 	// 爆弾モデル
 	std::vector<Model*> bommModels = {bommModel_.get()};
 	// 爆弾の初期化
@@ -200,22 +204,10 @@ void GameScene::Initialize() {
 	// スプライト生成
 	spriteBommActionButton_ = Sprite::Create(
 	    textureBommActionButton, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
-	//ui
-	ui_->Initialize();
-	isWindow_ = false;
+	
 }
 
 void GameScene::Update() {
-	debugCamera_->Update();
-	ground_->Update();
-	bomm_->Update();
-	skydome_->Update();
-	door_[0]->Update();
-	/*collisionManager_->UpdateWorldtransform();*/
-	ChackAllCollisions();
-
-	
-
 	switch (stageNo) {
 	case Stage::kIsland:
 
@@ -234,11 +226,16 @@ void GameScene::Update() {
 
 		break;
 	}
-
-	player_->Update();
-
+	
+	///更新
+	if (isWindow_==false) {
+		player_->Update();
+	}
+	debugCamera_->Update();
 	bomm_->Update();
-
+	door_[0]->Update();
+	/*collisionManager_->UpdateWorldtransform();*/
+	ChackAllCollisions();
 	
 	
 	// 追従カメラの更新
@@ -374,9 +371,12 @@ void GameScene::Draw() {
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		// 拾うモーション
-		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
+		// window
+		if (player_->SetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
 			isWindow_ = true;
+		}
+		if (player_->SetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_B) {
+			isWindow_ = false;
 		}
 	}
 	// 爆弾の強化ウィンドウ

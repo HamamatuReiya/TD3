@@ -205,7 +205,7 @@ void Player::MotionRunUpdate() {
 
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		// 速さ
-		const float speed = 0.3f;
+		const float speed = 0.6f;
 		worldTransformBody_.parent_ = &worldTransform_;
 		worldTransformHead_.parent_ = &worldTransform_;
 		worldTransformL_arm.parent_ = &worldTransform_;
@@ -263,7 +263,6 @@ void Player::MotionRunUpdate() {
 
 
 void Player::OnCollision() {
-	
 	if (isInvestigatebutton_==false) {
 		isInvestigatebutton_ = true;
 	}
@@ -346,14 +345,14 @@ void Player::MotionPickUpdate() {
 
 void Player::MotionJumpUpdate() {
 	if (worldTransform_.translation_.x<=0) {
-		worldTransform_.translation_.x -= 0.05f;
+		worldTransform_.translation_.x -= 0.04f;
 	} else {
-		worldTransform_.translation_.x += 0.05f;
+		worldTransform_.translation_.x += 0.04f;
 	}
 	// 移動
 	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 	// 重力加速度
-	const float kGravityAcceleration = 0.06f;
+	const float kGravityAcceleration = 0.10f;
 	// 加速度ベクトル
 	Vector3 accelerationVector = {0, -kGravityAcceleration, 0};
 	// 加速する

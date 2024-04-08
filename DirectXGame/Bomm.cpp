@@ -11,8 +11,6 @@ void Bomm::Initialize(const std::vector<Model*>& models) {
 
 void Bomm::Update() {
 
-	worldTransform_.rotation_.y+=0.1f;
-
 	worldTransform_.parent_ = &worldTransform_;
 
 	// 行列の更新
