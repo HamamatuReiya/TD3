@@ -127,6 +127,10 @@ private: // メンバ変数
 	std::unique_ptr<DoorOBJ> door_[10];
 	std::unique_ptr<Model> doorModel_[2] = {nullptr};
 
+	//UI
+	std::unique_ptr<UI> ui_;
+	bool isWindow_;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

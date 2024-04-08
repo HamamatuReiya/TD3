@@ -66,11 +66,6 @@ public:
 		
 	};
 
-	enum class Collision {
-		On,
-		Out
-	};
-
 	/// <summary>
 	/// Getter&Setter
 	/// </summary>
@@ -95,11 +90,17 @@ public:
 	// 中心座標を取得
 	Vector3 GetCenterPosition() const override;
 
+	//アクションボタン
+	void ActionButtonUpdate();
+	//アクションボタン描画
+	void ActionbuttonDraw();
 
 	/// <summary>
-	/// 爆弾との当たり判定
+	/// アクションボタン
 	/// </summary>
-	int SetBommCollider_() { return isBommCollider_; }
+	int SetActionbutton() { return isInvestigatebutton_; }
+
+	void SetMotion();
 
 private:
 	//ワールド変換
@@ -127,8 +128,6 @@ private:
 	//モーション初期化
 	Motion motion_ = Motion::kRun;
 	std::optional<Motion> motionRequest_ = std::nullopt;
-	// コライダー初期化
-	Collision collider_ = Collision::Out;
 
 	bool isPushX_;
 
@@ -140,10 +139,10 @@ private:
 	//腕ディレイ
 	float ArmDelayTime_;
 
-	//衝突してるか
-	bool isBommCollider_;
-
 	//調べるボタン
 	bool isInvestigatebutton_;
+
+	// スプライト
+	Sprite* spriteButton_ = nullptr; 
 
 };

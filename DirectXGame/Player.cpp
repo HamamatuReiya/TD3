@@ -49,10 +49,13 @@ void Player::Initialize(const std::vector<Model*>& models)
 	worldTransformR_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_leg.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformR_leg.translation_ = {0.0f, 2.0f, 0.0f};
-	//爆弾との当たり判定
-	isBommCollider_ = false;
 	//調べるボタン
 	isInvestigatebutton_ = false;
+	// テクスチャ
+	uint32_t textureButton = TextureManager::Load("ActionButton.png");
+	// スプライト生成
+	spriteButton_ =
+	    Sprite::Create(textureButton, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 }
 	
 
@@ -102,6 +105,35 @@ void Player::MotionJumpInitialize() {
 }
 
 void Player::Update() {
+	// モーション切り替え
+	if (motionRequest_) {
+		motion_ = motionRequest_.value();
+		switch (motion_) {
+		case Motion::kRun:
+		default:
+			MotionRunInitialize();
+			break;
+		case Motion::kPick:
+			MotionPickInitialize();
+			break;
+		case Motion::kJump:
+			MotionJumpInitialize();
+			break;
+		}
+		motionRequest_ = std::nullopt;
+	}
+	switch (motion_) {
+	case Motion::kRun:
+	default:
+		MotionRunUpdate();
+		break;
+	case Motion::kPick:
+		MotionPickUpdate();
+		break;
+	case Motion::kJump:
+		MotionJumpUpdate();
+		break;
+	}
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
@@ -112,49 +144,15 @@ void Player::Update() {
 		} else {
 			isPushX_ = false;
 		}
-
-		// モーション切り替え
-		if (motionRequest_) {
-			motion_ = motionRequest_.value();
-			switch (motion_) {
-			case Motion::kRun:
-			default:
-				MotionRunInitialize();
-				break;
-			case Motion::kPick:
-				MotionPickInitialize();
-				break;
-			case Motion::kJump:
-				MotionJumpInitialize();
-				break;
-			}
-			motionRequest_ = std::nullopt;
-		}
-		switch (motion_) {
-		case Motion::kRun:
-		default:
-			MotionRunUpdate();
-			break;
-		case Motion::kPick:
-			MotionPickUpdate();
-			break;
-		case Motion::kJump:
-			MotionJumpUpdate();
-			break;
-
-		}
 	}
 
-	//当たり判定切り替え
-	switch (collider_) {
-	case Collision::On: 
-	default:
-		OnCollision();
-		break;
-	case Collision::Out:
-		OutCollision();
-	}
 	
+	//アクションボタン
+	ActionButtonUpdate();
+
+	
+
+
 	BaseCharacter::Update();
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
@@ -199,7 +197,7 @@ void Player::MotionRunUpdate() {
 
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		// 速さ
-		const float speed = 0.3f;
+		const float speed = 0.6f;
 		worldTransformBody_.parent_ = &worldTransform_;
 		worldTransformHead_.parent_ = &worldTransform_;
 		worldTransformL_arm.parent_ = &worldTransform_;
@@ -257,7 +255,6 @@ void Player::MotionRunUpdate() {
 
 
 void Player::OnCollision() {
-	
 	if (isInvestigatebutton_==false) {
 		isInvestigatebutton_ = true;
 	}
@@ -267,10 +264,7 @@ void Player::OnCollision() {
 }
 
 void Player::OutCollision() { 
-	if (isBommCollider_ == true) {
-		isBommCollider_ = false;
-	}
-	
+
 }
 
 Vector3 Player::GetWorldPosition() {
@@ -290,6 +284,28 @@ Vector3 Player::GetCenterPosition() const {
 	Vector3 worldPos = Transform(offset, worldTransform_.matWorld_);
 
 	return worldPos;
+}
+
+void Player::ActionButtonUpdate() {
+	if (worldTransform_.translation_.z > -10.0f && worldTransform_.translation_.z < 11.0f&&
+	    worldTransform_.translation_.x > -10.0f && worldTransform_.translation_.x<10.0f) {
+		isInvestigatebutton_ = true;
+	} else {
+		isInvestigatebutton_ = false;
+	}
+}
+
+void Player::ActionbuttonDraw() { 
+	if (isInvestigatebutton_==true) {
+		spriteButton_->Draw(); 
+	}
+	
+}
+
+void Player::SetMotion() {
+	// モーション初期化
+	motion_ = Motion::kRun;
+	worldTransform_.translation_.y = 0.0f;
 }
 
 void Player::MotionPickUpdate() { 
@@ -327,15 +343,14 @@ void Player::MotionPickUpdate() {
 
 void Player::MotionJumpUpdate() {
 	if (worldTransform_.translation_.x<=0) {
-		worldTransform_.translation_.x -= 0.05f;
+		worldTransform_.translation_.x -= 0.07f;
 	} else {
-		worldTransform_.translation_.x += 0.05f;
+		worldTransform_.translation_.x += 0.07f;
 	}
-	
 	// 移動
 	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 	// 重力加速度
-	const float kGravityAcceleration = 0.06f;
+	const float kGravityAcceleration = 0.10f;
 	// 加速度ベクトル
 	Vector3 accelerationVector = {0, -kGravityAcceleration, 0};
 	// 加速する
@@ -357,6 +372,8 @@ void Player::Draw(const ViewProjection& viewProjection) {
 	models_[4]->Draw(worldTransformL_leg, viewProjection);
 	models_[5]->Draw(worldTransformR_leg, viewProjection);
 }
+
+
 
 
 

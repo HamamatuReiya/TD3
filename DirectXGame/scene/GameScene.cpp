@@ -31,6 +31,7 @@ void GameScene::Initialize() {
 	// 追従カメラの生成
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
+
 	// 自キャラの生成
 	player_ = std::make_unique<Player>();
 	// 3Dモデルの生成
@@ -69,6 +70,8 @@ void GameScene::Initialize() {
 	bomm_ = std::make_unique<Bomm>();
 	// 3Dモデルの生成
 	bommModel_.reset(Model::CreateFromOBJ("bom", true));
+
+	
 
 	// ドアモデル
 	for (int i = 0; i < 10; i++) {
@@ -183,7 +186,11 @@ void GameScene::Initialize() {
 	    houseModel_[72].get(), houseModel_[73].get(), houseModel_[74].get(), houseModel_[75].get(),
 	    houseModel_[76].get(), houseModel_[77].get(), houseModel_[78].get());
 	
-	
+	//uiの生成
+	ui_ = std::make_unique<UI>();
+	// ui
+	ui_->Initialize();
+	isWindow_ = false;
 	// 爆弾モデル
 	std::vector<Model*> bommModels = {bommModel_.get()};
 	// 爆弾の初期化
@@ -197,20 +204,10 @@ void GameScene::Initialize() {
 	// スプライト生成
 	spriteBommActionButton_ = Sprite::Create(
 	    textureBommActionButton, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	
 }
 
 void GameScene::Update() {
-	player_->Update();
-	debugCamera_->Update();
-	ground_->Update();
-	bomm_->Update();
-	skydome_->Update();
-	door_[0]->Update();
-	/*collisionManager_->UpdateWorldtransform();*/
-	ChackAllCollisions();
-
-	
-
 	switch (stageNo) {
 	case Stage::kIsland:
 
@@ -229,11 +226,17 @@ void GameScene::Update() {
 
 		break;
 	}
-
-	player_->Update();
-
+	
+	///更新
+	if (isWindow_==false) {
+		player_->Update();
+	}
+	debugCamera_->Update();
 	bomm_->Update();
-
+	door_[0]->Update();
+	/*collisionManager_->UpdateWorldtransform();*/
+	ChackAllCollisions();
+	
 	
 	// 追従カメラの更新
 	followCamera_->Update();
@@ -257,7 +260,6 @@ void GameScene::Update() {
 	} else {
 		viewProjection_.TransferMatrix();
 	}
-
 }
 void GameScene::ChackAllCollisions() {
 	// 衝突マネージャのリセット
@@ -460,7 +462,6 @@ void GameScene::Draw() {
 
 	switch (stageNo) {
 	case Stage::kIsland:
-
 		//ground_->Draw(viewProjection_);
 		//skydome_->Draw(viewProjection_);
 		house_->Draw(viewProjection_);
@@ -479,9 +480,12 @@ void GameScene::Draw() {
 		break;
 	}
 
-
+	//////////////////////////
 	player_->Draw(viewProjection_);
 	bomm_->Draw(viewProjection_);
+
+	
+
 	/*collisionManager_->Draw(viewProjection_);*/
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -494,9 +498,22 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	// 爆弾接触時のボタン
-	if (player_->SetBommCollider_() == 1) {
-		spriteBommActionButton_->Draw();
+	player_->ActionbuttonDraw();
+	// ゲームパッドの状態を得る変数
+	XINPUT_STATE joyState;
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		// window
+		if (player_->SetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
+			isWindow_ = true;
+			player_->SetMotion();
+		}
+		if (player_->SetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_B) {
+			isWindow_ = false;
+		}
+	}
+	// 爆弾の強化ウィンドウ
+	if (player_->SetActionbutton() ==1 && isWindow_ == true) {
+		ui_->Draw();
 	}
 
 	// スプライト描画後処理
