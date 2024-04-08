@@ -275,8 +275,8 @@ void GameScene::ChackAllCollisions() {
 	Vector3 posB = door_[0]->GetWorldPosition();
 
 	//ドアの判定
-	if (posB.x + 3.5f >= posA.x && posB.x <= posA.x && posB.z <= posA.z - 1.5f &&
-	    posB.z+13.0f >= posA.z ) {
+	if (posB.x + 7.0f >= posA.x && posB.x <= posA.x && posB.z <= posA.z-1.5f  &&
+	    posB.z+4.0f >= posA.z ) {
 		if (player_->GetIsPushX() == true) {
 			door_[0]->SetKeyFlag(true);
 		}
@@ -296,6 +296,138 @@ void GameScene::ChackAllCollisions() {
 	}
 	if (posA.x >= 22.0f && posA.x <= 82.0f && posA.z <= -137.5f && posA.z >= -140.5f) {
 		player_->SetTranslationZ(-140.5f);
+	}
+
+	if (posA.x >= 104.5f && posA.x <= 108.0f && posA.z <= -14.5f && posA.z >= -77.0f) {
+		player_->SetTranslationX(104.5f);
+	}
+	if (posA.x >= 164.0f && posA.x <= 165.5f && posA.z <= -14.5f && posA.z >= -77.0f) {
+		player_->SetTranslationX(165.5f);
+	}
+	if (posA.x >= 105.0f && posA.x <= 165.0f && posA.z <= -14.0f && posA.z >= -15.5f) {
+		player_->SetTranslationZ(-14.0f);
+	}
+	if (posA.x >= 105.0f && posA.x <= 165.0f && posA.z <= -77.5f && posA.z >= -79.0f) {
+		player_->SetTranslationZ(-79.0f);
+	}
+
+	if (posA.x >= 104.0f && posA.x <= 106.0f && posA.z <= 87.0f && posA.z >= 29.0f) {
+		player_->SetTranslationX(104.0f);
+	}
+	if (posA.x >= 155.5f && posA.x <= 157.0f && posA.z <= 87.0f && posA.z >= 29.0f) {
+		player_->SetTranslationX(157.0f);
+	}
+	if (posA.x >= 104.5f && posA.x <= 156.0f && posA.z <= 87.5f && posA.z >= 86.0f) {
+		player_->SetTranslationZ(87.5f);
+	}
+	if (posA.x >= 104.5f && posA.x <= 156.5f && posA.z <= 30.0f && posA.z >= 28.5f) {
+		player_->SetTranslationZ(28.5f);
+	}
+
+	if (posA.x >= 83.5f && posA.x <= 85.0f && posA.z <= 249.5f && posA.z >= 145.5f) {
+		player_->SetTranslationX(83.5f);
+	}
+	if (posA.x >= 158.5f && posA.x <= 160.0f && posA.z <= 249.5f && posA.z >= 145.5f) {
+		player_->SetTranslationX(160.0f);
+	}
+	if (posA.x >= 84.0f && posA.x <= 159.5f && posA.z <= 250.0f && posA.z >= 248.5f) {
+		player_->SetTranslationZ(250.0f);
+	}
+	if (posA.x >= 84.0f && posA.x <= 159.5f && posA.z <= 146.5f && posA.z >= 145.0f) {
+		player_->SetTranslationZ(145.0f);
+	}
+
+	if (posA.x >= -58.0f && posA.x <= -56.5f && posA.z <= -42.5f && posA.z >= -62.5f) {
+		player_->SetTranslationX(-58.0f);
+	}
+	if (posA.x >= -37.0f && posA.x <= -35.5f && posA.z <= -42.5f && posA.z >= -62.5f) {
+		player_->SetTranslationX(-35.5f);
+	}
+	if (posA.x >= -57.3f && posA.x <= -36.2f && posA.z <= -42.0f && posA.z >= -43.5f) {
+		player_->SetTranslationZ(-42.0f);
+	}
+	if (posA.x >= -57.3f && posA.x <= -36.2f && posA.z <= -61.5f && posA.z >= -63.0f) {
+		player_->SetTranslationZ(-63.0f);
+	}
+
+	//下壁          //下                //上                 //左                //右
+	if (posA.x >= -94.5f && posA.x <= -93.0f && posA.z <= -133.0f && posA.z >= -190.5f) {
+		player_->SetTranslationX(-94.5f);
+	}
+	//上壁          //下                //上                 //左                //右
+	if (posA.x >= -52.0f && posA.x <= -50.5f && posA.z <= -133.0f && posA.z >= -190.5f) {
+		player_->SetTranslationX(-50.5f);
+	}
+	//左壁          //下                //上                 //左                //右
+	if (posA.x >= -94.0f && posA.x <= -50.0f && posA.z <= -132.5f && posA.z >= -134.0f) {
+		player_->SetTranslationZ(-132.5f);
+	}
+	//右壁          //下                //上                 //左                //右
+	if (posA.x >= -94.0f && posA.x <= -50.0f && posA.z <= -189.5f && posA.z >= -191.0f) {
+		player_->SetTranslationZ(-191.0f);
+	}
+	//上壁          //下                //上                 //左                //右
+	if (posA.x >= -25.5f && posA.x <= -24.0f && posA.z <= -162.5f && posA.z >= -190.5f) {
+		player_->SetTranslationX(-24.0f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >=-55.0f &&posA.x <= -24.5f && posA.z <= -163.5f && posA.z >= -165.0f) {
+		player_->SetTranslationZ(-163.5f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= -55.0f && posA.x <= -24.5f && posA.z <= -189.5f && posA.z >= -191.0f) {
+		player_->SetTranslationZ(-191.0f);
+	}
+
+	// 下壁          //下                //上                 //左                //右
+	if (posA.x >= -161.0f && posA.x <= -159.5f && posA.z <= -47.5f && posA.z >= -107.5f) {
+		player_->SetTranslationX(-161.0f);
+	}
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= -100.0f && posA.x <= -98.5f && posA.z <= -47.5f && posA.z >= -107.5f) {
+		player_->SetTranslationX(-98.5f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >= -160.5f && posA.x <= -99.0f && posA.z <= -47.0f && posA.z >= -49.0f) {
+		player_->SetTranslationZ(-47.0f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= -160.5f && posA.x <= -99.0f && posA.z <= -106.5f && posA.z >= -108.0f) {
+		player_->SetTranslationZ(-108.0f);
+	}
+
+	// 下壁          //下                //上                 //左                //右
+	if (posA.x >= -185.5f && posA.x <= -184.0f && posA.z <= 25.5f && posA.z >= -15.5f) {
+		player_->SetTranslationX(-185.5f);
+	}
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= -121.5f && posA.x <= -120.0f && posA.z <= 25.5f && posA.z >= -15.5f) {
+		player_->SetTranslationX(-120.0f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >= -185.0f && posA.x <= -119.5f && posA.z <= 26.0f && posA.z >= 24.5f) {
+		player_->SetTranslationZ(26.0f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= -185.0f && posA.x <= -119.5f && posA.z <= -14.5f && posA.z >= -16.0f) {
+		player_->SetTranslationZ(-16.0f);
+	}
+
+	// 下壁          //下                //上                 //左                //右
+	if (posA.x >= -92.0f && posA.x <= -90.5f && posA.z <= 114.5f && posA.z >= 63.5f) {
+		player_->SetTranslationX(-92.0f);
+	}
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= -55.5f && posA.x <= -54.0f && posA.z <= 114.5f && posA.z >= 63.5f) {
+		player_->SetTranslationX(-54.0f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >= -91.5f && posA.x <= -54.0f && posA.z <= 115.5f && posA.z >= 114.0f) {
+		player_->SetTranslationZ(115.5f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= -91.5f && posA.x <= -54.0f && posA.z <= 64.5f && posA.z >= 63.0f) {
+		player_->SetTranslationZ(63.0f);
 	}
 }
 
