@@ -183,6 +183,7 @@ void GameScene::Initialize() {
 	    houseModel_[72].get(), houseModel_[73].get(), houseModel_[74].get(), houseModel_[75].get(),
 	    houseModel_[76].get(), houseModel_[77].get(), houseModel_[78].get());
 	
+	
 	// 爆弾モデル
 	std::vector<Model*> bommModels = {bommModel_.get()};
 	// 爆弾の初期化
@@ -209,7 +210,6 @@ void GameScene::Update() {
 	ChackAllCollisions();
 
 	
-
 
 	switch (stageNo) {
 	case Stage::kIsland:
@@ -274,6 +274,7 @@ void GameScene::ChackAllCollisions() {
 	;
 	Vector3 posB = door_[0]->GetWorldPosition();
 
+	//ドアの判定
 	if (posB.x + 3.5f >= posA.x && posB.x <= posA.x && posB.z <= posA.z - 1.5f &&
 	    posB.z+13.0f >= posA.z ) {
 		if (player_->GetIsPushX() == true) {
@@ -283,7 +284,19 @@ void GameScene::ChackAllCollisions() {
 	if (door_[0]->GetKeyFlag() == true) {
 		door_[0]->Collision();
 	}
-
+	//家の当たり判定
+	if (posA.x >= 20.5f && posA.x <= 23.0f && posA.z <= -88.0f && posA.z >= -139.5f) {
+		player_->SetTranslationX(20.5f);
+	}
+	if (posA.x >= 82.0f && posA.x <= 83.5f && posA.z <= -88.0f && posA.z >= -139.5f) {
+		player_->SetTranslationX(83.5f);
+	}
+	if (posA.x >= 22.0f && posA.x <= 82.0f && posA.z <= -86.5f && posA.z >= -88.0f) {
+		player_->SetTranslationZ(-86.5f);
+	}
+	if (posA.x >= 22.0f && posA.x <= 82.0f && posA.z <= -137.5f && posA.z >= -140.5f) {
+		player_->SetTranslationZ(-140.5f);
+	}
 }
 
 void GameScene::Draw() {
