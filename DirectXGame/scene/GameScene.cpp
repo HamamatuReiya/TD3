@@ -41,6 +41,7 @@ void GameScene::Initialize() {
 	modelFighterR_arm_.reset(Model::CreateFromOBJ("float_R_arm", true));
 	modelFighterL_leg_.reset(Model::CreateFromOBJ("float_L_leg", true));
 	modelFighterR_leg_.reset(Model::CreateFromOBJ("float_R_leg", true));
+	modelAxe_.reset(Model::CreateFromOBJ("axe", true));
 	// 自キャラのワールドトランスフォームを追従カメラにセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 	// Player&followCamera
@@ -48,7 +49,8 @@ void GameScene::Initialize() {
 	// 自キャラモデル
 	std::vector<Model*> playerModels = {
 	    modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(), modelFighterR_arm_.get(),
-	                                    modelFighterL_leg_.get(), modelFighterR_leg_.get()};
+	                                    modelFighterL_leg_.get(), modelFighterR_leg_.get(),
+	                                    modelAxe_.get()};
 	// 自キャラの初期化
 	player_->Initialize(playerModels);
 
@@ -462,8 +464,6 @@ void GameScene::Draw() {
 
 	switch (stageNo) {
 	case Stage::kIsland:
-		//ground_->Draw(viewProjection_);
-		//skydome_->Draw(viewProjection_);
 		house_->Draw(viewProjection_);
 		door_[0]->Draw(viewProjection_);
 

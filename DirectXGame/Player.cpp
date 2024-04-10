@@ -21,10 +21,11 @@ void Player::Initialize(const std::vector<Model*>& models)
 	worldTransformR_arm.Initialize();
 	worldTransformL_leg.Initialize();
 	worldTransformR_leg.Initialize();
+	worldTransformAxe_.Initialize();
 	// 初期化
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransform_.translation_ = {0.0f, 2.0f, -15.0f};
+	worldTransform_.translation_ = {0.0f, 0.0f, -15.0f};
 	// 体の初期化
 	worldTransformBody_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformBody_.rotation_ = {0.0f, 0.0f, 0.0f};
@@ -49,6 +50,11 @@ void Player::Initialize(const std::vector<Model*>& models)
 	worldTransformR_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_leg.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformR_leg.translation_ = {0.0f, 2.0f, 0.0f};
+	//斧の初期化
+	worldTransformAxe_.scale_ = {10.0f, 10.0f, 10.0f};
+	worldTransformAxe_.rotation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformAxe_.translation_ = {10.0f, 0.0f, 10.0f};
+	
 	//調べるボタン
 	isInvestigatebutton_ = false;
 	// テクスチャ
@@ -91,9 +97,11 @@ void Player::MotionPickInitialize() {
 	worldTransformR_leg.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformR_leg.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformR_leg.translation_ = {0.0f, 2.0f, 0.0f};
+	// 斧の初期化
+	worldTransformAxe_.scale_ = {1.0f, 1.0f, 1.0f};
+	worldTransformAxe_.rotation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformAxe_.translation_ = {0.0f, 2.0f, 0.0f};
 }
-
-
 
 void Player::MotionJumpInitialize() {
 	worldTransformBody_.translation_.y = 2;
@@ -103,6 +111,10 @@ void Player::MotionJumpInitialize() {
 	const float kJumpFirstSpeed = 1.0f;
 	// ジャンプ初速を与える
 	velocity_.y = kJumpFirstSpeed;
+}
+
+void Player::MotionAxeInitialize() {
+
 }
 
 void Player::Update() {
@@ -120,6 +132,8 @@ void Player::Update() {
 		case Motion::kJump:
 			MotionJumpInitialize();
 			break;
+		case Motion::kAxe:
+			MotionAxeInitialize();
 		}
 		motionRequest_ = std::nullopt;
 	}
@@ -134,6 +148,8 @@ void Player::Update() {
 	case Motion::kJump:
 		MotionJumpUpdate();
 		break;
+	case Motion::kAxe:
+		MotionAxeUpdate();
 	}
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
@@ -146,13 +162,8 @@ void Player::Update() {
 			isPushX_ = false;
 		}
 	}
-
-	
 	//アクションボタン
 	ActionButtonUpdate();
-
-	
-
 
 	BaseCharacter::Update();
 	// 行列の更新
@@ -163,33 +174,11 @@ void Player::Update() {
 	worldTransformR_arm.UpdateMatrix();
 	worldTransformL_leg.UpdateMatrix();
 	worldTransformR_leg.UpdateMatrix();
+	worldTransformAxe_.UpdateMatrix();
 
+	//Imgui
+	Debug();
 	
-	
-
-#ifdef _DEBUG
-	// デバック
-	float playerPos[3] = {
-	    worldTransform_.translation_.x, worldTransform_.translation_.y,
-	    worldTransform_.translation_.z};
-	// デバック
-	float playerRot[3] = {
-	    worldTransform_.rotation_.x, worldTransform_.rotation_.y,
-		worldTransform_.rotation_.z};
-	// 画面の座標を表示
-	ImGui::Begin("Player");
-	ImGui::SliderFloat3("Pos", playerPos, -28.0f, 28.0f);
-	ImGui::SliderFloat3("Rot", playerRot, -28.0f, 28.0f);
-	ImGui::End();
-	//移動
-	worldTransform_.translation_.x = playerPos[0];
-	worldTransform_.translation_.y = playerPos[1];
-	worldTransform_.translation_.z = playerPos[2];
-	//回転
-	worldTransform_.rotation_.x = playerRot[0];
-	worldTransform_.rotation_.y = playerRot[1];
-	worldTransform_.rotation_.z = playerRot[2];
-#endif !_DEBUG
 }
 
 void Player::MotionRunUpdate() {
@@ -205,6 +194,7 @@ void Player::MotionRunUpdate() {
 		worldTransformR_arm.parent_ = &worldTransform_;
 		worldTransformL_leg.parent_ = &worldTransform_;
 		worldTransformR_leg.parent_ = &worldTransform_;
+		worldTransformAxe_.parent_ = &worldTransform_;
 		// 移動量
 		Vector3 move = {
 		    (float)joyState.Gamepad.sThumbLX / SHRT_MAX * -speed, 0.0f,
@@ -253,8 +243,6 @@ void Player::MotionRunUpdate() {
 	}
 };
 
-
-
 void Player::OnCollision() {
 	if (isInvestigatebutton_==false) {
 		isInvestigatebutton_ = true;
@@ -262,10 +250,6 @@ void Player::OnCollision() {
 
 	motionRequest_ = Motion::kJump;
 	
-}
-
-void Player::OutCollision() { 
-
 }
 
 Vector3 Player::GetWorldPosition() {
@@ -296,11 +280,40 @@ void Player::ActionButtonUpdate() {
 	}
 }
 
-void Player::ActionbuttonDraw() { 
-	if (isInvestigatebutton_==true) {
-		spriteButton_->Draw(); 
-	}
-	
+void Player::Debug() {
+
+#ifdef _DEBUG
+	// デバック
+	float playerPos[3] = {
+	    worldTransform_.translation_.x, worldTransform_.translation_.y,
+	    worldTransform_.translation_.z};
+	// デバック
+	float playerRot[3] = {
+	    worldTransform_.rotation_.x, worldTransform_.rotation_.y, worldTransform_.rotation_.z};
+	// デバック
+	float axePos[3] = {
+	    worldTransformAxe_.translation_.x, worldTransformAxe_.translation_.y,
+	    worldTransformAxe_.translation_.z};
+
+	// 画面の座標を表示
+	ImGui::Begin("Player");
+	ImGui::SliderFloat3("Pos", playerPos, -28.0f, 28.0f);
+	ImGui::SliderFloat3("Rot", playerRot, -28.0f, 28.0f);
+	ImGui::SliderFloat3("Axe", axePos, -28.0f, 28.0f);
+	ImGui::End();
+	// 移動
+	worldTransform_.translation_.x = playerPos[0];
+	worldTransform_.translation_.y = playerPos[1];
+	worldTransform_.translation_.z = playerPos[2];
+	// 斧移動
+	worldTransformAxe_.translation_.x = axePos[0];
+	worldTransformAxe_.translation_.y = axePos[1];
+	worldTransformAxe_.translation_.z = axePos[2];
+	// 回転
+	worldTransform_.rotation_.x = playerRot[0];
+	worldTransform_.rotation_.y = playerRot[1];
+	worldTransform_.rotation_.z = playerRot[2];
+#endif !_DEBUG
 }
 
 void Player::SetMotion() {
@@ -337,8 +350,6 @@ void Player::MotionPickUpdate() {
 	}
 }
 
-
-
 void Player::MotionJumpUpdate() {
 	if (worldTransform_.translation_.x<=0) {
 		worldTransform_.translation_.x -= 0.07f;
@@ -361,6 +372,8 @@ void Player::MotionJumpUpdate() {
 	}
 }
 
+void Player::MotionAxeUpdate() {}
+
 void Player::Draw(const ViewProjection& viewProjection) {
 	// 3Dモデルを描画
 	models_[0]->Draw(worldTransformBody_, viewProjection);
@@ -369,8 +382,14 @@ void Player::Draw(const ViewProjection& viewProjection) {
 	models_[3]->Draw(worldTransformR_arm, viewProjection);
 	models_[4]->Draw(worldTransformL_leg, viewProjection);
 	models_[5]->Draw(worldTransformR_leg, viewProjection);
+	//斧
+	models_[6]->Draw(worldTransformAxe_,viewProjection);
 }
-
+void Player::ActionbuttonDraw() {
+	if (isInvestigatebutton_ == true) {
+		spriteButton_->Draw();
+	}
+}
 
 
 
