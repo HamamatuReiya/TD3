@@ -74,13 +74,18 @@ void GameScene::Initialize() {
 	
 
 	// ドアモデル
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 6; i++) {
 		door_[i] = std::make_unique<DoorOBJ>();
 	}
 	doorModel_[0].reset(Model::CreateFromOBJ("doorKnob1", true));
 	doorModel_[1].reset(Model::CreateFromOBJ("doorKnob2", true));
 
-	door_[0]->Initialize(doorModel_[0].get(), doorModel_[1].get(), {49.5f, 0.0f, -89.0f});
+	door_[0]->Initialize(doorModel_[0].get(), doorModel_[1].get(), {49.5f, 0.0f, -89.0f,},0.0f);
+	door_[1]->Initialize(doorModel_[0].get(), doorModel_[1].get(), {-88.0f, 0.0f, -135.2f},0.0f);
+	door_[2]->Initialize(doorModel_[0].get(), doorModel_[1].get(), {-129.0f, 0.0f, -48.8f},0.0f);
+	door_[3]->Initialize(doorModel_[0].get(), doorModel_[1].get(), {-130.0f, 17.0f, -84.5f},0.0f);
+	door_[4]->Initialize(doorModel_[0].get(), doorModel_[1].get(), {107.0f, 0.0f, -34.3f}, 1.57f*3.0f);
+	door_[5]->Initialize(doorModel_[0].get(), doorModel_[1].get(), {106.6f, 0.0f, 56.3f}, 1.57f * 3.0f);
 
 	// 家モデル
 	house_ = std::make_unique<HouseStageOBJ>();
@@ -213,7 +218,11 @@ void GameScene::Update() {
 
 		ground_->Update();
 		skydome_->Update();
-
+		door_[0]->Update();
+		door_[1]->Update();
+		door_[2]->Update();
+		door_[4]->Update2();
+		door_[5]->Update2();
 		break;
 
 	case Stage::kDesert:
@@ -233,7 +242,7 @@ void GameScene::Update() {
 	}
 	debugCamera_->Update();
 	bomm_->Update();
-	door_[0]->Update();
+	
 	/*collisionManager_->UpdateWorldtransform();*/
 	ChackAllCollisions();
 	
@@ -272,13 +281,118 @@ void GameScene::ChackAllCollisions() {
 	// 衝突判定と応答
 	collisionManager_->ChackAllCollisions();
 
-	Vector3 posA = player_->GetWorldPosition();
-	;
-	Vector3 posB = door_[0]->GetWorldPosition();
+	HouseCollision();
 
-	//ドアの判定
-	if (posB.x + 7.0f >= posA.x && posB.x <= posA.x && posB.z <= posA.z-1.5f  &&
-	    posB.z+4.0f >= posA.z ) {
+}
+
+void GameScene::Draw() {
+
+	// コマンドリストの取得
+	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
+
+#pragma region 背景スプライト描画
+	// 背景スプライト描画前処理
+	Sprite::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに背景スプライトの描画処理を追加できる
+	/// </summary>
+
+	// スプライト描画後処理
+	Sprite::PostDraw();
+	// 深度バッファクリア
+	dxCommon_->ClearDepthBuffer();
+#pragma endregion
+
+#pragma region 3Dオブジェクト描画
+	// 3Dオブジェクト描画前処理
+	Model::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに3Dオブジェクトの描画処理を追加できる
+	/// </summary>
+
+	switch (stageNo) {
+	case Stage::kIsland:
+		//ground_->Draw(viewProjection_);
+		//skydome_->Draw(viewProjection_);
+		house_->Draw(viewProjection_);
+		door_[0]->Draw(viewProjection_);
+		door_[1]->Draw(viewProjection_);
+		door_[2]->Draw(viewProjection_);
+		door_[3]->Draw(viewProjection_);
+		door_[4]->Draw(viewProjection_);
+		door_[5]->Draw(viewProjection_);
+
+		break;
+
+	case Stage::kDesert:
+
+		break;
+
+	case Stage::kVolcano:
+
+		ground_->Draw(viewProjection_);
+
+		break;
+	}
+
+	//////////////////////////
+	player_->Draw(viewProjection_);
+	bomm_->Draw(viewProjection_);
+
+	
+
+	/*collisionManager_->Draw(viewProjection_);*/
+	// 3Dオブジェクト描画後処理
+	Model::PostDraw();
+#pragma endregion
+
+#pragma region 前景スプライト描画
+	// 前景スプライト描画前処理
+	Sprite::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに前景スプライトの描画処理を追加できる
+	/// </summary>
+	player_->ActionbuttonDraw();
+	// ゲームパッドの状態を得る変数
+	XINPUT_STATE joyState;
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		// window
+		if (player_->SetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
+			isWindow_ = true;
+			player_->SetMotion();
+		}
+		if (player_->SetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_B) {
+			isWindow_ = false;
+		}
+	}
+	// 爆弾の強化ウィンドウ
+	if (player_->SetActionbutton() ==1 && isWindow_ == true) {
+		ui_->Draw();
+	}
+
+	// スプライト描画後処理
+	Sprite::PostDraw();
+
+#pragma endregion
+}
+
+void GameScene::SceneReset() {}
+
+void GameScene::HouseCollision() {
+	Vector3 posA = player_->GetWorldPosition();
+	
+	Vector3 posB = door_[0]->GetWorldPosition();
+	Vector3 posC = door_[1]->GetWorldPosition();
+	Vector3 posD = door_[2]->GetWorldPosition();
+	Vector3 posF = door_[4]->GetWorldPosition();
+	Vector3 posG = door_[5]->GetWorldPosition();
+
+	// ドアの判定
+	if (posB.x + 7.0f >= posA.x && posB.x <= posA.x && posB.z <= posA.z - 1.5f &&
+	    posB.z + 4.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
 			door_[0]->SetKeyFlag(true);
 		}
@@ -286,7 +400,52 @@ void GameScene::ChackAllCollisions() {
 	if (door_[0]->GetKeyFlag() == true) {
 		door_[0]->Collision();
 	}
-	//家の当たり判定
+
+	// ドアの判定
+	if (posC.x + 7.0f >= posA.x && posC.x <= posA.x && posC.z <= posA.z - 1.5f &&
+	    posC.z + 4.0f >= posA.z) {
+		if (player_->GetIsPushX() == true) {
+			door_[1]->SetKeyFlag(true);
+		}
+	}
+	if (door_[1]->GetKeyFlag() == true) {
+		door_[1]->Collision();
+	}
+
+	// ドアの判定
+	if (posD.x + 7.0f >= posA.x && posD.x <= posA.x && posD.z <= posA.z - 1.5f &&
+	    posD.z + 4.0f >= posA.z) {
+		if (player_->GetIsPushX() == true) {
+			door_[2]->SetKeyFlag(true);
+		}
+	}
+	if (door_[2]->GetKeyFlag() == true) {
+		door_[2]->Collision();
+	}
+
+	// ドアの判定
+	if (posF.x+3.0f >= posA.x && posF.x-5.0f <= posA.x && posF.z <= posA.z &&
+	    posF.z+8.0f >= posA.z) {
+		if (player_->GetIsPushX() == true) {
+			door_[4]->SetKeyFlag(true);
+		}
+	}
+	if (door_[4]->GetKeyFlag() == true) {
+		door_[4]->Collision();
+	}
+
+	// ドアの判定
+	if (posG.x + 3.0f >= posA.x && posG.x - 5.0f <= posA.x && posG.z <= posA.z &&
+	    posG.z+7.0f  >= posA.z) {
+		if (player_->GetIsPushX() == true) {
+			door_[5]->SetKeyFlag(true);
+		}
+	}
+	if (door_[5]->GetKeyFlag() == true) {
+		door_[5]->Collision();
+	}
+
+	// 家の当たり判定
 	if (posA.x >= 20.5f && posA.x <= 23.0f && posA.z <= -88.0f && posA.z >= -139.5f) {
 		player_->SetTranslationX(20.5f);
 	}
@@ -352,28 +511,28 @@ void GameScene::ChackAllCollisions() {
 		player_->SetTranslationZ(-63.0f);
 	}
 
-	//下壁          //下                //上                 //左                //右
+	// 下壁          //下                //上                 //左                //右
 	if (posA.x >= -94.5f && posA.x <= -93.0f && posA.z <= -133.0f && posA.z >= -190.5f) {
 		player_->SetTranslationX(-94.5f);
 	}
-	//上壁          //下                //上                 //左                //右
+	// 上壁          //下                //上                 //左                //右
 	if (posA.x >= -52.0f && posA.x <= -50.5f && posA.z <= -133.0f && posA.z >= -190.5f) {
 		player_->SetTranslationX(-50.5f);
 	}
-	//左壁          //下                //上                 //左                //右
+	// 左壁          //下                //上                 //左                //右
 	if (posA.x >= -94.0f && posA.x <= -50.0f && posA.z <= -132.5f && posA.z >= -134.0f) {
 		player_->SetTranslationZ(-132.5f);
 	}
-	//右壁          //下                //上                 //左                //右
+	// 右壁          //下                //上                 //左                //右
 	if (posA.x >= -94.0f && posA.x <= -50.0f && posA.z <= -189.5f && posA.z >= -191.0f) {
 		player_->SetTranslationZ(-191.0f);
 	}
-	//上壁          //下                //上                 //左                //右
+	// 上壁          //下                //上                 //左                //右
 	if (posA.x >= -25.5f && posA.x <= -24.0f && posA.z <= -162.5f && posA.z >= -190.5f) {
 		player_->SetTranslationX(-24.0f);
 	}
 	// 左壁          //下                //上                 //左                //右
-	if (posA.x >=-55.0f &&posA.x <= -24.5f && posA.z <= -163.5f && posA.z >= -165.0f) {
+	if (posA.x >= -55.0f && posA.x <= -24.5f && posA.z <= -163.5f && posA.z >= -165.0f) {
 		player_->SetTranslationZ(-163.5f);
 	}
 	// 右壁          //下                //上                 //左                //右
@@ -431,95 +590,71 @@ void GameScene::ChackAllCollisions() {
 	if (posA.x >= -91.5f && posA.x <= -54.0f && posA.z <= 64.5f && posA.z >= 63.0f) {
 		player_->SetTranslationZ(63.0f);
 	}
+
+	// 下壁          //下                //上                 //左                //右
+	if (posA.x >= -63.5f && posA.x <= -62.0f && posA.z <= 180.5f && posA.z >= 136.0f) {
+		player_->SetTranslationX(-63.5f);
+	}
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= -13.0f && posA.x <= -11.5f && posA.z <= 180.5f && posA.z >= 136.0f) {
+		player_->SetTranslationX(-11.5f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >= -63.0f && posA.x <= -12.0f && posA.z <= 181.0f && posA.z >= 179.5f) {
+		player_->SetTranslationZ(181.0f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= -63.0f && posA.x <= -12.0f && posA.z <= 137.0f && posA.z >= 135.5f) {
+		player_->SetTranslationZ(135.5f);
+	}
+
+	// 下壁          //下                //上                 //左                //右
+	if (posA.x >= 229.5f && posA.x <= 231.0f && posA.z <= -238.5f && posA.z >= -272.0f) {
+		player_->SetTranslationX(229.5f);
+	}
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= 262.0f && posA.x <= 263.5f && posA.z <= -238.5f && posA.z >= -272.0f) {
+		player_->SetTranslationX(263.5f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >= 230.0f && posA.x <= 263.0f && posA.z <= -238.0f && posA.z >= -239.5f) {
+		player_->SetTranslationZ(-238.0f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= 230.0f && posA.x <= 263.0f && posA.z <= -271.0f && posA.z >= -272.5f) {
+		player_->SetTranslationZ(-272.5f);
+	}
+
+	// 下壁          //下                //上                 //左                //右
+	if (posA.x >= -262.0f && posA.x <= -260.5f && posA.z <= 256.3f && posA.z >= 180.0f) {
+		player_->SetTranslationX(-262.0f);
+	}
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= -240.0f && posA.x <= -238.5f && posA.z <= 230.0f && posA.z >= 180.0f) {
+		player_->SetTranslationX(-238.5f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >= -261.3f && posA.x <= -161.7f && posA.z <= 257.0f && posA.z >= 255.5f) {
+		player_->SetTranslationZ(257.0f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= -261.3f && posA.x <= -239.0f && posA.z <= 181.0f && posA.z >= 179.3f) {
+		player_->SetTranslationZ(179.3f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= -245.0f && posA.x <= -195.0f && posA.z <= 229.5f && posA.z >= 228.0f) {
+		player_->SetTranslationZ(228.0f);
+	}
+	// 下壁          //下                //上                 //左                //右
+	if (posA.x >= -209.5f && posA.x <= -208.0f && posA.z <= 229.0f && posA.z >= 180.5f) {
+		player_->SetTranslationX(-209.5f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= -208.7f && posA.x <= -161.7f && posA.z <= 180.5f && posA.z >= 179.0f) {
+		player_->SetTranslationZ(179.0f);
+	}
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= -162.5f && posA.x <= -161.0f && posA.z <= 256.3f && posA.z >= 179.7f) {
+		player_->SetTranslationX(-161.0f);
+	}
 }
-
-void GameScene::Draw() {
-
-	// コマンドリストの取得
-	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
-
-#pragma region 背景スプライト描画
-	// 背景スプライト描画前処理
-	Sprite::PreDraw(commandList);
-
-	/// <summary>
-	/// ここに背景スプライトの描画処理を追加できる
-	/// </summary>
-
-	// スプライト描画後処理
-	Sprite::PostDraw();
-	// 深度バッファクリア
-	dxCommon_->ClearDepthBuffer();
-#pragma endregion
-
-#pragma region 3Dオブジェクト描画
-	// 3Dオブジェクト描画前処理
-	Model::PreDraw(commandList);
-
-	/// <summary>
-	/// ここに3Dオブジェクトの描画処理を追加できる
-	/// </summary>
-
-	switch (stageNo) {
-	case Stage::kIsland:
-		//ground_->Draw(viewProjection_);
-		//skydome_->Draw(viewProjection_);
-		house_->Draw(viewProjection_);
-		door_[0]->Draw(viewProjection_);
-
-		break;
-
-	case Stage::kDesert:
-
-		break;
-
-	case Stage::kVolcano:
-
-		ground_->Draw(viewProjection_);
-
-		break;
-	}
-
-	//////////////////////////
-	player_->Draw(viewProjection_);
-	bomm_->Draw(viewProjection_);
-
-	
-
-	/*collisionManager_->Draw(viewProjection_);*/
-	// 3Dオブジェクト描画後処理
-	Model::PostDraw();
-#pragma endregion
-
-#pragma region 前景スプライト描画
-	// 前景スプライト描画前処理
-	Sprite::PreDraw(commandList);
-
-	/// <summary>
-	/// ここに前景スプライトの描画処理を追加できる
-	/// </summary>
-	player_->ActionbuttonDraw();
-	// ゲームパッドの状態を得る変数
-	XINPUT_STATE joyState;
-	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		// window
-		if (player_->SetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
-			isWindow_ = true;
-			player_->SetMotion();
-		}
-		if (player_->SetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_B) {
-			isWindow_ = false;
-		}
-	}
-	// 爆弾の強化ウィンドウ
-	if (player_->SetActionbutton() ==1 && isWindow_ == true) {
-		ui_->Draw();
-	}
-
-	// スプライト描画後処理
-	Sprite::PostDraw();
-
-#pragma endregion
-}
-
-void GameScene::SceneReset() {}

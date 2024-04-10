@@ -66,7 +66,8 @@ public:
 	bool IsSceneEnd() { return isSceneEnd_; }
 	SceneType NextScene() { return SceneType::kTitle; }
 
-
+private:
+	void HouseCollision();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
