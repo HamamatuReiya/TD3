@@ -4,9 +4,11 @@
 
 class DoorOBJ {
 public:
-	void Initialize(Model* model1, Model* model2,Vector3 pos);
+	void Initialize(Model* model1, Model* model2,Vector3 pos,float rotate);
 
 	void Update();
+
+	void Update2();
 
 	void Draw(ViewProjection& viewProjection);
 
