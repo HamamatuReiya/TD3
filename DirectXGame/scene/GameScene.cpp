@@ -221,6 +221,7 @@ void GameScene::Update() {
 		door_[0]->Update();
 		door_[1]->Update();
 		door_[2]->Update();
+		door_[3]->Update();
 		door_[4]->Update2();
 		door_[5]->Update2();
 		break;
