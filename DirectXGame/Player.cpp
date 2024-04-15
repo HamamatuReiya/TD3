@@ -51,7 +51,7 @@ void Player::Initialize(const std::vector<Model*>& models)
 	worldTransformR_leg.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformR_leg.translation_ = {0.0f, 2.0f, 0.0f};
 	//斧の初期化
-	worldTransformAxe_.scale_ = {10.0f, 10.0f, 10.0f};
+	worldTransformAxe_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformAxe_.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformAxe_.translation_ = {10.0f, 0.0f, 10.0f};
 	
