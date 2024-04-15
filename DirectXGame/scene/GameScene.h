@@ -20,7 +20,11 @@
 #include "UI.h"
 #include <Stage.h>
 #include "HouseStageOBJ.h"
-#include"DoorOBJ.h"
+#include "DoorOBJ.h"
+#include "ForestGround.h"
+#include "ForestTreeLeaf.h"
+#include "ForestTreeWood.h"
+#include "ForestWood.h"
 
 /// <summary>
 /// ゲームシーン
@@ -128,6 +132,30 @@ private: // メンバ変数
 	// ドア
 	std::unique_ptr<DoorOBJ> door_[10];
 	std::unique_ptr<Model> doorModel_[2] = {nullptr};
+
+
+	/*森エリア*/
+	// 3Dモデル
+	std::unique_ptr<Model> forestGroundModel_ = nullptr;
+	// 森の地面
+	std::unique_ptr<ForestGround> forestGround_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> forestTreeLeafModel_[4] = {nullptr};
+	// 木の葉
+	std::unique_ptr<ForestTreeLeaf> forestTreeLeaf_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> forestTreeWoodModel_ = nullptr;
+	// 木
+	std::unique_ptr<ForestTreeWood> forestTreeWood_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> forestWoodModel_ = nullptr;
+	// 丸太
+	std::unique_ptr<ForestWood> forestWood_;
+
+	/*森エリア終わり*/
 
 	//UI
 	std::unique_ptr<UI> ui_;
