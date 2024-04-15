@@ -70,6 +70,39 @@ void GameScene::Initialize() {
 	// 3Dモデルの生成
 	bommModel_.reset(Model::CreateFromOBJ("bom", true));
 
+	/*森エリア*/
+
+	// 森の地面生成
+	forestGround_ = std::make_unique<ForestGround>();
+	// 3Dモデルの生成
+	forestGroundModel_.reset(Model::CreateFromOBJ("forestGround", true));
+	// 木の葉の初期化
+	forestGround_->Initialize(forestGroundModel_.get());
+
+	// 木の葉の生成
+	forestTreeLeaf_ = std::make_unique<ForestTreeLeaf>();
+	// 3Dモデルの生成
+	forestTreeLeafModel_[0].reset(Model::CreateFromOBJ("forestTreeLeaf", true));
+	// 木の葉の初期化
+	forestTreeLeaf_->Initialize(
+	    forestTreeLeafModel_[0].get());
+
+	// 木の生成
+	forestTreeWood_ = std::make_unique<ForestTreeWood>();
+	// 3Dモデルの生成
+	forestTreeWoodModel_.reset(Model::CreateFromOBJ("forestTreeWood", true));
+	// 木の初期化
+	forestTreeWood_->Initialize(forestTreeWoodModel_.get());
+
+	// 丸太の生成
+	forestWood_ = std::make_unique<ForestWood>();
+	// 3Dモデルの生成
+	forestWoodModel_.reset(Model::CreateFromOBJ("forestWood", true));
+	// 木の初期化
+	forestWood_->Initialize(forestWoodModel_.get());
+
+	/*森エリア終わり*/
+
 	// ドアモデル
 	door_ = std::make_unique<DoorOBJ>();
 	doorModel_[0].reset(Model::CreateFromOBJ("doorKnob1", true));
@@ -200,6 +233,16 @@ void GameScene::Update() {
 	ground_->Update();
 	bomm_->Update();
 	skydome_->Update();
+	/*森エリア*/
+	// 森の地面
+	forestGround_->Update();
+	// 木の葉
+	forestTreeLeaf_->Update();
+	// 木
+	forestTreeWood_->Update();
+	// 丸太
+	forestWood_->Update();
+	/*森エリア終わり*/
 	/*collisionManager_->UpdateWorldtransform();*/
 	ChackAllCollisions();
 
@@ -303,6 +346,17 @@ void GameScene::Draw() {
 		break;
 
 	case Stage::kDesert:
+
+		/*森エリア*/
+		// 地面
+		forestGround_->Draw(viewProjection_);
+		// 木の葉
+		forestTreeLeaf_->Draw(viewProjection_);
+		// 木
+		forestTreeWood_->Draw(viewProjection_);
+		// 丸太
+		forestWood_->Draw(viewProjection_);
+		/*森エリア終わり*/
 
 		break;
 

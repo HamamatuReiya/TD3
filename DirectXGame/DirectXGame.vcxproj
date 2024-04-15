@@ -117,6 +117,10 @@
     <ClCompile Include="DoorOBJ.cpp" />
     <ClCompile Include="fade\Fade.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
+    <ClCompile Include="ForestGround.cpp" />
+    <ClCompile Include="ForestTreeLeaf.cpp" />
+    <ClCompile Include="ForestTreeWood.cpp" />
+    <ClCompile Include="ForestWood.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="HouseStageOBJ.cpp" />
     <ClCompile Include="main.cpp" />
@@ -166,6 +170,10 @@
     <ClInclude Include="DoorOBJ.h" />
     <ClInclude Include="fade\Fade.h" />
     <ClInclude Include="FollowCamera.h" />
+    <ClInclude Include="ForestGround.h" />
+    <ClInclude Include="ForestTreeLeaf.h" />
+    <ClInclude Include="ForestTreeWood.h" />
+    <ClInclude Include="ForestWood.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="HouseStageOBJ.h" />
     <ClInclude Include="input\Input.h" />
