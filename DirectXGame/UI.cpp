@@ -9,7 +9,7 @@ void UI::Initialize() {
 	spriteWindow_ =
 	    Sprite::Create(textureWindow, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 	// スプライト生成
-	spriteWindow_ = Sprite::Create(
+	spriteExclamationMark_ = Sprite::Create(
 	    textureExclamationMark_, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 
 }

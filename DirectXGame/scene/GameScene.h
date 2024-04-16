@@ -133,6 +133,7 @@ private: // メンバ変数
 	std::unique_ptr<UI> ui_;
 	bool isWindow_;
 	bool isExclamation_;
+	
 
 	/// <summary>
 	/// ゲームシーン用
