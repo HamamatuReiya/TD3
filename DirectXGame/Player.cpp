@@ -51,9 +51,9 @@ void Player::Initialize(const std::vector<Model*>& models)
 	worldTransformR_leg.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformR_leg.translation_ = {0.0f, 2.0f, 0.0f};
 	//斧の初期化
-	worldTransformAxe_.scale_ = {10.0f, 10.0f, 10.0f};
-	worldTransformAxe_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformAxe_.translation_ = {10.0f, 0.0f, 10.0f};
+	worldTransformAxe_.scale_ = {1.0f, 1.0f, 1.0f};
+	worldTransformAxe_.rotation_ = {1.077f, 0.0f, 0.0f};
+	worldTransformAxe_.translation_ = {2.155f, 2.0f, 1.077f};
 	
 	//調べるボタン
 	isInvestigatebutton_ = false;
@@ -62,6 +62,8 @@ void Player::Initialize(const std::vector<Model*>& models)
 	// スプライト生成
 	spriteButton_ =
 	    Sprite::Create(textureButton, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	//斧フラグ
+	useAxe_ = false;
 }
 	
 
@@ -98,9 +100,9 @@ void Player::MotionPickInitialize() {
 	worldTransformR_leg.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformR_leg.translation_ = {0.0f, 2.0f, 0.0f};
 	// 斧の初期化
-	worldTransformAxe_.scale_ = {1.0f, 1.0f, 1.0f};
-	worldTransformAxe_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransformAxe_.translation_ = {0.0f, 2.0f, 0.0f};
+	worldTransformAxe_.scale_ = {1.0f,1.0f,1.0f};
+	worldTransformAxe_.rotation_ = {1.077f, 0.0f, 0.0f};
+	worldTransformAxe_.translation_ = {2.155f, 2.0f, 1.077f};
 }
 
 void Player::MotionJumpInitialize() {
@@ -155,7 +157,7 @@ void Player::Update() {
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		// 拾うモーション
-		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_X) {
+		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_X&&useAxe_==false) {
 			motionRequest_ = Motion::kPick;
 			isPushX_ = true;
 		} else {
@@ -267,7 +269,7 @@ Vector3 Player::GetCenterPosition() const {
 	const Vector3 offset = {0.0f, 1.5f, 0.0f};
 	// ワールド座標変換
 	Vector3 worldPos = Transform(offset, worldTransform_.matWorld_);
-
+	
 	return worldPos;
 }
 
@@ -281,8 +283,22 @@ void Player::ActionButtonUpdate() {
 }
 
 void Player::Debug() {
+	// ゲームパッドの状態を得る変数
+	XINPUT_STATE joyState;
+	//斧
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_DPAD_UP) {
+			useAxe_ = true;
+		}
+		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_DPAD_DOWN) {
+			useAxe_ = false;
+		}
+	}
 
 #ifdef _DEBUG
+
+
+
 	// デバック
 	float playerPos[3] = {
 	    worldTransform_.translation_.x, worldTransform_.translation_.y,
@@ -290,29 +306,38 @@ void Player::Debug() {
 	// デバック
 	float playerRot[3] = {
 	    worldTransform_.rotation_.x, worldTransform_.rotation_.y, worldTransform_.rotation_.z};
-	// デバック
+	//斧デバック
 	float axePos[3] = {
 	    worldTransformAxe_.translation_.x, worldTransformAxe_.translation_.y,
 	    worldTransformAxe_.translation_.z};
+	//斧デバック
+	float axeRot[3] = {
+	    worldTransformAxe_.rotation_.x, worldTransformAxe_.rotation_.y,
+	    worldTransformAxe_.rotation_.z};
 
 	// 画面の座標を表示
 	ImGui::Begin("Player");
 	ImGui::SliderFloat3("Pos", playerPos, -28.0f, 28.0f);
 	ImGui::SliderFloat3("Rot", playerRot, -28.0f, 28.0f);
-	ImGui::SliderFloat3("Axe", axePos, -28.0f, 28.0f);
+	ImGui::SliderFloat3("AxeP", axePos, -28.0f, 28.0f);
+	ImGui::SliderFloat3("AxeR", axeRot, -28.0f, 28.0f);
 	ImGui::End();
 	// 移動
 	worldTransform_.translation_.x = playerPos[0];
 	worldTransform_.translation_.y = playerPos[1];
 	worldTransform_.translation_.z = playerPos[2];
-	// 斧移動
-	worldTransformAxe_.translation_.x = axePos[0];
-	worldTransformAxe_.translation_.y = axePos[1];
-	worldTransformAxe_.translation_.z = axePos[2];
 	// 回転
 	worldTransform_.rotation_.x = playerRot[0];
 	worldTransform_.rotation_.y = playerRot[1];
 	worldTransform_.rotation_.z = playerRot[2];
+	// 斧移動
+	worldTransformAxe_.translation_.x = axePos[0];
+	worldTransformAxe_.translation_.y = axePos[1];
+	worldTransformAxe_.translation_.z = axePos[2];
+	// 斧回転
+	worldTransformAxe_.rotation_.x = axeRot[0];
+	worldTransformAxe_.rotation_.y = axeRot[1];
+	worldTransformAxe_.rotation_.z = axeRot[2];
 #endif !_DEBUG
 }
 
@@ -372,7 +397,18 @@ void Player::MotionJumpUpdate() {
 	}
 }
 
-void Player::MotionAxeUpdate() {}
+void Player::MotionAxeUpdate() {
+	// ゲームパッドの状態を得る変数
+	XINPUT_STATE joyState;
+
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		//モーション
+		if (useAxe_ == true && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_X) {
+			motionRequest_ = Motion::kAxe;
+		}
+	}
+
+}
 
 void Player::Draw(const ViewProjection& viewProjection) {
 	// 3Dモデルを描画
@@ -382,8 +418,10 @@ void Player::Draw(const ViewProjection& viewProjection) {
 	models_[3]->Draw(worldTransformR_arm, viewProjection);
 	models_[4]->Draw(worldTransformL_leg, viewProjection);
 	models_[5]->Draw(worldTransformR_leg, viewProjection);
-	//斧
-	models_[6]->Draw(worldTransformAxe_,viewProjection);
+	if (useAxe_==true) {
+		// 斧
+		models_[6]->Draw(worldTransformAxe_, viewProjection);
+	}
 }
 void Player::ActionbuttonDraw() {
 	if (isInvestigatebutton_ == true) {
