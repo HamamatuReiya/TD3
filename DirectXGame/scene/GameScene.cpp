@@ -246,7 +246,7 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
-	player_->Update();
+	//player_->Update();
 	debugCamera_->Update();
 	ground_->Update();
 	bomm_->Update();
