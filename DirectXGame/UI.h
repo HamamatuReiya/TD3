@@ -20,11 +20,17 @@ public:
 	/// </summary>
 	void ExclamationMarkDraw();
 
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void ButtonHintDraw();
+
 private:
 	// スプライト
 	Sprite* spriteWindow_ = nullptr; 
 	//ビックリマークスプライト
 	Sprite* spriteExclamationMark_ = nullptr;
-
+	// ボタンヒントプライト
+	Sprite* spriteButtonHint_ = nullptr;
 	
 };

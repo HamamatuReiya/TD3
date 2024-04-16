@@ -119,6 +119,7 @@ void GameScene::Initialize() {
 		isExclamation_[i] = false;
 	}
 	
+	
 	// 爆弾モデル
 	std::vector<Model*> bommModels = {bommModel_.get()};
 	// 爆弾の初期化
@@ -322,7 +323,12 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	player_->ActionbuttonDraw();
+	if (player_->SetActionbutton() == 1) {
+		player_->ActionbuttonDraw();
+	}else
+	{
+		ui_->ButtonHintDraw();
+	}
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
