@@ -10,6 +10,14 @@ public:
 
 	void Update2();
 
+	void Update3();
+
+	void Update4();
+
+	void Update5();
+
+	void Update6();
+
 	void Draw(ViewProjection& viewProjection);
 
 	Vector3 GetWorldPosition();

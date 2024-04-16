@@ -69,6 +69,8 @@ public:
 private:
 	void HouseCollision();
 
+	void HouseStage();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	// ワールドトランスフォーム
@@ -125,8 +127,12 @@ private: // メンバ変数
 	std::unique_ptr<Model> houseModel_[99] = {nullptr};
 
 	// ドア
-	std::unique_ptr<DoorOBJ> door_[10];
+	std::unique_ptr<DoorOBJ> door_[11];
 	std::unique_ptr<Model> doorModel_[2] = {nullptr};
+
+	// ドア
+	std::unique_ptr<DoorOBJ> door2_[2];
+	std::unique_ptr<Model> doorModel2_[2] = {nullptr};
 
 	//UI
 	std::unique_ptr<UI> ui_;

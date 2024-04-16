@@ -31,6 +31,46 @@ void DoorOBJ::Update2() {
 	worldTransform_.UpdateMatrix();
 }
 
+void DoorOBJ::Update3() {
+	if (doorOpenFlag == true) {
+		worldTransform_.rotation_.y -= 0.075f;
+	}
+	if (worldTransform_.rotation_.y <= 1.6f) {
+		worldTransform_.rotation_.y = 1.6f;
+	}
+	worldTransform_.UpdateMatrix();
+}
+
+void DoorOBJ::Update4() {
+	if (doorOpenFlag == true) {
+		worldTransform_.rotation_.y -= 0.075f;
+	}
+	if (worldTransform_.rotation_.y <= 0.0f) {
+		worldTransform_.rotation_.y = 0.0f;
+	}
+	worldTransform_.UpdateMatrix();
+}
+
+void DoorOBJ::Update5() {
+	if (doorOpenFlag == true) {
+		worldTransform_.rotation_.y += 0.075f;
+	}
+	if (worldTransform_.rotation_.y >= 6.4f) {
+		worldTransform_.rotation_.y = 6.4f;
+	}
+	worldTransform_.UpdateMatrix();
+}
+
+void DoorOBJ::Update6() {
+	if (doorOpenFlag == true) {
+		worldTransform_.rotation_.y += 0.075f;
+	}
+	if (worldTransform_.rotation_.y >= 3.2f) {
+		worldTransform_.rotation_.y = 3.2f;
+	}
+	worldTransform_.UpdateMatrix();
+}
+
 void DoorOBJ::Draw(ViewProjection& viewProjection) {
 	model_[0]->Draw(worldTransform_, viewProjection);
 	model_[1]->Draw(worldTransform_, viewProjection);
