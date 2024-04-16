@@ -57,13 +57,23 @@ public:
 	void MotionJumpUpdate();
 
 	/// <summary>
+	/// 斧モーション初期化
+	/// </summary>
+	void MotionAxeInitialize();
+
+	/// <summary>
+	/// 斧モーション更新
+	/// </summary>
+	void MotionAxeUpdate();
+
+	/// <summary>
 	/// モーション
 	/// </summary>
 	enum class Motion {
 		kRun,
 		kPick,
 		kJump,
-		
+		kAxe,
 	};
 
 	/// <summary>
@@ -78,8 +88,6 @@ public:
 	void OnCollision() override;
 
 	bool GetIsPushX() { return isPushX_; }
-
-	void OutCollision();
 	
 	Vector3 GetWorldPosition();
 
@@ -94,6 +102,9 @@ public:
 	void ActionButtonUpdate();
 	//アクションボタン描画
 	void ActionbuttonDraw();
+
+	//Imgui
+	void Debug();
 
 	/// <summary>
 	/// アクションボタン
@@ -111,6 +122,7 @@ private:
 	WorldTransform worldTransformR_arm;
 	WorldTransform worldTransformL_leg;
 	WorldTransform worldTransformR_leg;
+	WorldTransform worldTransformAxe_;
 	// ビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
 	Model* model_ = nullptr;
@@ -121,6 +133,8 @@ private:
 	Model* modelFighterR_arm;
 	Model* modelFighterL_leg;
 	Model* modelFighterR_leg;
+	//斧
+	Model* modelAxe_;
 	// 浮遊ギミック媒介変数変数
 	float floatingParamerer_ = 0.0f;
 	Vector3 velocity_ = {};
@@ -144,5 +158,8 @@ private:
 
 	// スプライト
 	Sprite* spriteButton_ = nullptr; 
+
+	//斧フラグ
+	bool useAxe_;
 
 };
