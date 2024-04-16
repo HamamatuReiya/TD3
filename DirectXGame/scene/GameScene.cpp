@@ -42,6 +42,7 @@ void GameScene::Initialize() {
 	modelFighterL_leg_.reset(Model::CreateFromOBJ("float_L_leg", true));
 	modelFighterR_leg_.reset(Model::CreateFromOBJ("float_R_leg", true));
 	modelAxe_.reset(Model::CreateFromOBJ("axe", true));
+
 	// 自キャラのワールドトランスフォームを追従カメラにセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 	// Player&followCamera
@@ -198,6 +199,7 @@ void GameScene::Initialize() {
 	// ui
 	ui_->Initialize();
 	isWindow_ = false;
+	isExclamation_ = false;
 	// 爆弾モデル
 	std::vector<Model*> bommModels = {bommModel_.get()};
 	// 爆弾の初期化
@@ -375,6 +377,10 @@ void GameScene::Draw() {
 	if (player_->SetActionbutton() ==1 && isWindow_ == true) {
 		ui_->Draw();
 	}
+	//!ウィンドウ
+	if (isExclamation_==true) {
+		ui_->ExclamationMarkDraw();
+	}
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -397,7 +403,10 @@ void GameScene::HouseCollision() {
 	if (posB.x + 7.0f >= posA.x && posB.x <= posA.x && posB.z <= posA.z - 1.5f &&
 	    posB.z + 4.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
+			isExclamation_ = true;
 			door_[0]->SetKeyFlag(true);
+		} else {
+			isExclamation_ = false;
 		}
 	}
 	if (door_[0]->GetKeyFlag() == true) {
@@ -408,9 +417,12 @@ void GameScene::HouseCollision() {
 	if (posC.x + 7.0f >= posA.x && posC.x <= posA.x && posC.z <= posA.z - 1.5f &&
 	    posC.z + 4.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
+			isExclamation_ = true;
 			door_[1]->SetKeyFlag(true);
+		} else {
+			isExclamation_ = false;
 		}
-	}
+	} 
 	if (door_[1]->GetKeyFlag() == true) {
 		door_[1]->Collision();
 	}
@@ -419,7 +431,10 @@ void GameScene::HouseCollision() {
 	if (posD.x + 7.0f >= posA.x && posD.x <= posA.x && posD.z <= posA.z - 1.5f &&
 	    posD.z + 4.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
+			isExclamation_ = true;
 			door_[2]->SetKeyFlag(true);
+		} else {
+			isExclamation_ = false;
 		}
 	}
 	if (door_[2]->GetKeyFlag() == true) {
@@ -430,7 +445,10 @@ void GameScene::HouseCollision() {
 	if (posF.x+3.0f >= posA.x && posF.x-5.0f <= posA.x && posF.z <= posA.z &&
 	    posF.z+8.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
+			isExclamation_ = true;
 			door_[4]->SetKeyFlag(true);
+		} else {
+			isExclamation_ = false;
 		}
 	}
 	if (door_[4]->GetKeyFlag() == true) {
@@ -441,7 +459,10 @@ void GameScene::HouseCollision() {
 	if (posG.x + 3.0f >= posA.x && posG.x - 5.0f <= posA.x && posG.z <= posA.z &&
 	    posG.z+7.0f  >= posA.z) {
 		if (player_->GetIsPushX() == true) {
+			isExclamation_ = true;
 			door_[5]->SetKeyFlag(true);
+		} else {
+			isExclamation_ = false;
 		}
 	}
 	if (door_[5]->GetKeyFlag() == true) {
