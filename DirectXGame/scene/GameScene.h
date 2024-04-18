@@ -159,6 +159,8 @@ private: // メンバ変数
 
 	/*森エリア終わり*/
 
+	std::unique_ptr<Model> rockModel_[4] = {nullptr};
+
 	// ドア
 	std::unique_ptr<DoorOBJ> door2_[2];
 	std::unique_ptr<Model> doorModel2_[2] = {nullptr};

@@ -14,7 +14,7 @@ void HouseStageOBJ::Initialize(
     Model* model60, Model* model61, Model* model62, Model* model63, Model* model64, Model* model65,
     Model* model66, Model* model67, Model* model68, Model* model69, Model* model70, Model* model71,
     Model* model72, Model* model73, Model* model74, Model* model75, Model* model76, Model* model77,
-    Model* model78) {
+    Model* model78,Model* model79, Model* model80, Model* model81, Model* model82) {
 	model_[0] = model;
 	model_[1] = model1;
 	model_[2] = model2;
@@ -94,6 +94,10 @@ void HouseStageOBJ::Initialize(
 	model_[76] = model76;
 	model_[77] = model77;
 	model_[78] = model78;
+	model_[79] = model79;
+	model_[80] = model80;
+	model_[81] = model81;
+	model_[82] = model82;
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
@@ -185,4 +189,8 @@ void HouseStageOBJ::Draw(ViewProjection& viewProjection) {
 	model_[76]->Draw(worldTransform_, viewProjection);
 	model_[77]->Draw(worldTransform_, viewProjection);
 	model_[78]->Draw(worldTransform_, viewProjection);
+	model_[79]->Draw(worldTransform_, viewProjection);
+	model_[80]->Draw(worldTransform_, viewProjection);
+	model_[81]->Draw(worldTransform_, viewProjection);
+	model_[82]->Draw(worldTransform_, viewProjection);
 }

@@ -703,6 +703,35 @@ void GameScene::HouseCollision() {
 	if (posA.x >= -162.5f && posA.x <= -161.0f && posA.z <= 256.3f && posA.z >= 179.7f) {
 		player_->SetTranslationX(-161.0f);
 	}
+
+	// 下壁          //下                //上                 //左                //右
+	if (posA.x >= 275.5f && posA.x <= 290.0f && posA.z <= -230.0f && posA.z >= -315.0f) {
+		player_->SetTranslationX(275.5f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= 178.0f && posA.x <= 290.0f && posA.z <= -237.5f && posA.z >= -240.0f) {
+		player_->SetTranslationZ(-240.0f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >= -240.0f && posA.x <= 280.0f && posA.z <= -280.0f && posA.z >= -285.5f) {
+		player_->SetTranslationZ(-280.0f);
+	}
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= -216.5f && posA.x <= -211.0f && posA.z <= 80.0f && posA.z >= -300.0f) {
+		player_->SetTranslationX(-211.0f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >= -300.0f && posA.x <= -211.7f && posA.z <= 81.5f && posA.z >= 77.5f) {
+		player_->SetTranslationZ(81.5f);
+	}
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= -290.0f && posA.x <= -283.0f && posA.z <= 300.0f && posA.z >= 70.0f) {
+		player_->SetTranslationX(-283.0f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= -50.0f && posA.x <= -300.0f && posA.z <= 280.5f && posA.z >= 276.0f) {
+		player_->SetTranslationZ(276.0f);
+	}
 }
 
 void GameScene::HouseStage() {// ドアモデル
@@ -744,6 +773,11 @@ void GameScene::HouseStage() {// ドアモデル
 	door2_[1]->Initialize(
 	    doorModel2_[0].get(), doorModel2_[1].get(), {-163.3f, 0.0f, 234.8f}, 1.57f * 1.0f);
 
+
+	rockModel_[0].reset(Model::CreateFromOBJ("rock1", true));
+	rockModel_[1].reset(Model::CreateFromOBJ("rock2", true));
+	rockModel_[2].reset(Model::CreateFromOBJ("rock3", true));
+	rockModel_[3].reset(Model::CreateFromOBJ("rock4", true));
 
 	// 家モデル
 	house_ = std::make_unique<HouseStageOBJ>();
@@ -847,5 +881,6 @@ void GameScene::HouseStage() {// ドアモデル
 	    houseModel_[64].get(), houseModel_[65].get(), houseModel_[66].get(), houseModel_[67].get(),
 	    houseModel_[68].get(), houseModel_[69].get(), houseModel_[70].get(), houseModel_[71].get(),
 	    houseModel_[72].get(), houseModel_[73].get(), houseModel_[74].get(), houseModel_[75].get(),
-	    houseModel_[76].get(), houseModel_[77].get(), houseModel_[78].get());
+	    houseModel_[76].get(), houseModel_[77].get(), houseModel_[78].get(), rockModel_[0].get(),
+	    rockModel_[1].get(), rockModel_[2].get(), rockModel_[3].get());
 }
