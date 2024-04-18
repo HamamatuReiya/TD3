@@ -238,7 +238,7 @@ private: // メンバ変数
 	//UI
 	std::unique_ptr<UI> ui_;
 	bool isWindow_;
-	bool isExclamation_[12];
+	bool isExclamation_[16];
 	
 	
 
