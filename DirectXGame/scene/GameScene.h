@@ -100,6 +100,8 @@ private:
 private:
 	void HouseCollision();
 
+	//素材の当たり
+
 	/// <summary>
 	/// 素材発生コマンドの更新
 	/// </summary>
