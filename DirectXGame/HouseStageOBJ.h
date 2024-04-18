@@ -20,7 +20,7 @@ public:
 	    Model* model62, Model* model63, Model* model64, Model* model65, Model* model66,
 	    Model* model67, Model* model68, Model* model69, Model* model70, Model* model71,
 	    Model* model72, Model* model73, Model* model74, Model* model75, Model* model76,
-	    Model* model77, Model* model78);
+	    Model* model77, Model* model78,Model*model79,Model*model80,Model*model81,Model*model82);
 
 	void Update();
 
