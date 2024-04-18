@@ -858,7 +858,7 @@ void GameScene::HouseCollision() {
 		player_->SetTranslationX(275.5f);
 	}
 	// 右壁          //下                //上                 //左                //右
-	if (posA.x >= 178.0f && posA.x <= 290.0f && posA.z <= -237.5f && posA.z >= -240.0f) {
+	if (posA.x >= 175.0f && posA.x <= 290.0f && posA.z <= -237.5f && posA.z >= -240.0f) {
 		player_->SetTranslationZ(-240.0f);
 	}
 	// 左壁          //下                //上                 //左                //右
@@ -878,8 +878,28 @@ void GameScene::HouseCollision() {
 		player_->SetTranslationX(-283.0f);
 	}
 	// 右壁          //下                //上                 //左                //右
-	if (posA.x >= -50.0f && posA.x <= -300.0f && posA.z <= 280.5f && posA.z >= 276.0f) {
-		player_->SetTranslationZ(276.0f);
+	if (posA.x >= -300.0f && posA.x <= -50.0f && posA.z <= 280.5f && posA.z >= 277.0f) {
+		player_->SetTranslationZ(277.0f);
+	}
+	// 下壁          //下                //上                 //左                //右
+	if (posA.x >= -79.0f && posA.x <=-77.0f && posA.z <= 290.0f && posA.z >= 207.5f) {
+		player_->SetTranslationX(-79.0f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= -78.0f && posA.x <= 48.0f && posA.z <= 207.5f && posA.z >= 205.5f) {
+		player_->SetTranslationZ(205.5f);
+	}
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= 48.0f && posA.x <= 50.0f && posA.z <= 300.0f && posA.z >= 205.5f) {
+		player_->SetTranslationX(50.0f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= 30.0f && posA.x <= 200.0f && posA.z <= 280.0f && posA.z >= 277.0f) {
+		player_->SetTranslationZ(277.0f);
+	}
+	// 下壁          //下                //上                 //左                //右
+	if (posA.x >= 173.0f && posA.x <= 175.0f && posA.z <= 325.0f && posA.z >= -238.0f) {
+		player_->SetTranslationX(173.0f);
 	}
 }
 
