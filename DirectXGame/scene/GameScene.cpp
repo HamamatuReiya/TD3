@@ -2,10 +2,27 @@
 #include "AxisIndicator.h"
 #include "TextureManager.h"
 #include <cassert>
+#include <fstream>
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() { 
+	for (Stone* stone : stones_) {
+		delete stone;
+	}
+
+	for (Gold* gold : golds_) {
+		delete gold;
+	}
+
+	for (Jushi* jushi : jushis_) {
+		delete jushi;
+	}
+
+	for (Shell* shell : shells_) {
+		delete shell;
+	}
+}
 
 void GameScene::Initialize() {
 	
@@ -119,7 +136,13 @@ void GameScene::Initialize() {
 		isExclamation_[i] = false;
 	}
 	
-	
+	//素材のモデル
+	modelStone_.reset(Model::CreateFromOBJ("stone", true));
+	modelGold_.reset(Model::CreateFromOBJ("gold", true));
+	modelJushi_.reset(Model::CreateFromOBJ("jushi", true));
+	modelShell_.reset(Model::CreateFromOBJ("shell", true));
+
+	LoadMaterialPopData();
 	// 爆弾モデル
 	std::vector<Model*> bommModels = {bommModel_.get()};
 	// 爆弾の初期化
@@ -156,6 +179,10 @@ void GameScene::Update() {
 	ChackAllCollisions();
 
 	switch (stageNo) {
+	case Stage::kTutorial:
+
+		break;
+
 	case Stage::kIsland:
 
 		ground_->Update();
@@ -192,11 +219,28 @@ void GameScene::Update() {
 	}
 	debugCamera_->Update();
 	bomm_->Update();
-	
-	/*collisionManager_->UpdateWorldtransform();*/
-	ChackAllCollisions();
-	
-	
+
+	UpdateStonePopCommands();
+	UpdateGoldPopCommands();
+	UpdateJushiPopCommands();
+	UpdateShellPopCommands();
+
+	for (Stone* stone : stones_) {
+		stone->Update();
+	}
+
+	for (Gold* gold : golds_) {
+		gold->Update();
+	}
+
+	for (Jushi* jushi : jushis_) {
+		jushi->Update();
+	}
+
+	for (Shell* shell : shells_) {
+		shell->Update();
+	}
+
 	// 追従カメラの更新
 	followCamera_->Update();
 
@@ -305,7 +349,22 @@ void GameScene::Draw() {
 		break;
 	}
 
-	//////////////////////////
+	for (Stone* stone : stones_) {
+		stone->Draw(viewProjection_);
+	}
+
+	for (Gold* gold : golds_) {
+		gold->Draw(viewProjection_);
+	}
+
+	for (Jushi* jushi : jushis_) {
+		jushi->Draw(viewProjection_);
+	}
+
+	for (Shell* shell : shells_) {
+		shell->Draw(viewProjection_);
+	}
+
 	player_->Draw(viewProjection_);
 	bomm_->Draw(viewProjection_);
 
@@ -938,4 +997,335 @@ void GameScene::HouseStage() {// ドアモデル
 	    houseModel_[68].get(), houseModel_[69].get(), houseModel_[70].get(), houseModel_[71].get(),
 	    houseModel_[72].get(), houseModel_[73].get(), houseModel_[74].get(), houseModel_[75].get(),
 	    houseModel_[76].get(), houseModel_[77].get(), houseModel_[78].get());
+}
+
+void GameScene::StoneSpawn(Vector3 position) { 
+	// 生成
+	Stone* stone = new Stone;
+	//初期化
+	stone->Initialize(modelStone_.get(), position);
+	//リストに登録
+	stones_.push_back(stone);
+}
+
+void GameScene::GoldSpawn(Vector3 position) {
+	// 生成
+	Gold* gold = new Gold;
+	// 初期化
+	gold->Initialize(modelGold_.get(), position);
+	// リストに登録
+	golds_.push_back(gold);
+}
+
+void GameScene::JushiSpawn(Vector3 position) {
+	// 生成
+	Jushi* jushi = new Jushi;
+	// 初期化
+	jushi->Initialize(modelJushi_.get(), position);
+	// リストに登録
+	jushis_.push_back(jushi);
+}
+
+void GameScene::ShellSpawn(Vector3 position) { 
+	// 生成
+	Shell* shell = new Shell;
+	// 初期化
+	shell->Initialize(modelShell_.get(), position);
+	// リストに登録
+	shells_.push_back(shell);
+}
+
+void GameScene::LoadMaterialPopData() { 
+	stonePopCommands.clear(); 
+	goldPopCommands.clear();
+	jushiPopCommands.clear();
+	shellPopCommands.clear();
+
+	//ファイルを開く
+	std::ifstream stoneFile;
+	stoneFile.open("Resources/stonePop.csv");
+	assert(stoneFile.is_open());
+	// ファイルの内容を文字列ストリームにコピー
+	stonePopCommands << stoneFile.rdbuf();
+	// ファイルを閉じる
+	stoneFile.close();
+
+	// ファイルを開く
+	std::ifstream goldFile;
+	goldFile.open("Resources/goldPop.csv");
+	assert(goldFile.is_open());
+	// ファイルの内容を文字列ストリームにコピー
+	goldPopCommands << goldFile.rdbuf();
+	// ファイルを閉じる
+	goldFile.close();
+
+	// ファイルを開く
+	std::ifstream jushiFile;
+	jushiFile.open("Resources/jushiPop.csv");
+	assert(jushiFile.is_open());
+	// ファイルの内容を文字列ストリームにコピー
+	jushiPopCommands << jushiFile.rdbuf();
+	// ファイルを閉じる
+	jushiFile.close();
+
+	// ファイルを開く
+	std::ifstream shellFile;
+	shellFile.open("Resources/shellPop.csv");
+	assert(shellFile.is_open());
+	// ファイルの内容を文字列ストリームにコピー
+	shellPopCommands << shellFile.rdbuf();
+	// ファイルを閉じる
+	shellFile.close();
+}
+
+void GameScene::UpdateStonePopCommands() {
+	// 待機処理
+	if (stonePopWaitFlag) {
+		stonePopWaitTimer--;
+		if (stonePopWaitTimer <= 0) {
+			// 待機完了
+			stonePopWaitFlag = false;
+		}
+		return;
+	}
+
+	// 1行分の文字列を入れる変数
+	std::string stoneLine;
+
+	// コマンド実行ループ　石
+	while (getline(stonePopCommands, stoneLine)) {
+		// 1行文の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(stoneLine);
+
+		std::string word;
+		//,区切りで行の先頭文字列を取得
+		getline(line_stream, word, ',');
+
+		// "//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			// コメント行を飛ばす
+			continue;
+		}
+
+		// POPコマンド
+		if (word.find("POP") == 0) {
+			// x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			// y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			// z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			// 敵を発生させる
+			StoneSpawn(Vector3(x, y, z));
+		}
+		// WAITコマンド
+		else if (word.find("WAIT") == 0) {
+			getline(line_stream, word, ',');
+
+			// 待ち時間
+			int32_t waitTime = atoi(word.c_str());
+
+			// 待機開始
+			stonePopWaitFlag = true;
+			stonePopWaitTimer = waitTime;
+
+			// コマンドループを抜ける
+			break;
+		}
+	}
+}
+
+void GameScene::UpdateGoldPopCommands() {
+	// 待機処理
+	if (goldPopWaitFlag) {
+		goldPopWaitTimer--;
+		if (goldPopWaitTimer <= 0) {
+			// 待機完了
+			goldPopWaitFlag = false;
+		}
+		return;
+	}
+
+	// 1行分の文字列を入れる変数
+	std::string goldLine;
+
+	// コマンド実行ループ　金
+	while (getline(goldPopCommands, goldLine)) {
+		// 1行文の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(goldLine);
+
+		std::string word;
+		//,区切りで行の先頭文字列を取得
+		getline(line_stream, word, ',');
+
+		// "//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			// コメント行を飛ばす
+			continue;
+		}
+
+		// POPコマンド
+		if (word.find("POP") == 0) {
+			// x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			// y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			// z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			// 敵を発生させる
+			GoldSpawn(Vector3(x, y, z));
+		}
+		// WAITコマンド
+		else if (word.find("WAIT") == 0) {
+			getline(line_stream, word, ',');
+
+			// 待ち時間
+			int32_t waitTime = atoi(word.c_str());
+
+			// 待機開始
+			goldPopWaitFlag = true;
+			goldPopWaitTimer = waitTime;
+
+			// コマンドループを抜ける
+			break;
+		}
+	}
+}
+
+void GameScene::UpdateJushiPopCommands() {
+	// 待機処理
+	if (jushiPopWaitFlag) {
+		jushiPopWaitTimer--;
+		if (jushiPopWaitTimer <= 0) {
+			// 待機完了
+			jushiPopWaitFlag = false;
+		}
+		return;
+	}
+
+	// 1行分の文字列を入れる変数
+	std::string jushiLine;
+
+	// コマンド実行ループ　樹脂
+	while (getline(jushiPopCommands, jushiLine)) {
+		// 1行文の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(jushiLine);
+
+		std::string word;
+		//,区切りで行の先頭文字列を取得
+		getline(line_stream, word, ',');
+
+		// "//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			// コメント行を飛ばす
+			continue;
+		}
+
+		// POPコマンド
+		if (word.find("POP") == 0) {
+			// x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			// y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			// z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			// 敵を発生させる
+			JushiSpawn(Vector3(x, y, z));
+		}
+		// WAITコマンド
+		else if (word.find("WAIT") == 0) {
+			getline(line_stream, word, ',');
+
+			// 待ち時間
+			int32_t waitTime = atoi(word.c_str());
+
+			// 待機開始
+			jushiPopWaitFlag = true;
+			jushiPopWaitTimer = waitTime;
+
+			// コマンドループを抜ける
+			break;
+		}
+	}
+}
+
+void GameScene::UpdateShellPopCommands() {
+	// 待機処理
+	if (shellPopWaitFlag) {
+		shellPopWaitTimer--;
+		if (shellPopWaitTimer <= 0) {
+			// 待機完了
+			shellPopWaitFlag = false;
+		}
+		return;
+	}
+
+	// 1行分の文字列を入れる変数
+	std::string shellLine;
+
+	// コマンド実行ループ　貝
+	while (getline(shellPopCommands, shellLine)) {
+		// 1行文の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(shellLine);
+
+		std::string word;
+		//,区切りで行の先頭文字列を取得
+		getline(line_stream, word, ',');
+
+		// "//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			// コメント行を飛ばす
+			continue;
+		}
+
+		// POPコマンド
+		if (word.find("POP") == 0) {
+			// x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			// y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			// z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			// 敵を発生させる
+			ShellSpawn(Vector3(x, y, z));
+		}
+		// WAITコマンド
+		else if (word.find("WAIT") == 0) {
+			getline(line_stream, word, ',');
+
+			// 待ち時間
+			int32_t waitTime = atoi(word.c_str());
+
+			// 待機開始
+			shellPopWaitFlag = true;
+			shellPopWaitTimer = waitTime;
+
+			// コマンドループを抜ける
+			break;
+		}
+	}
 }

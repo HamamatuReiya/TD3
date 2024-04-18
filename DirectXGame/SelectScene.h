@@ -66,9 +66,10 @@ private: // メンバ変数
 	Sprite* textureNumber_[10];
 	//矢印 カーソル
 	Sprite* textureCursor_;
-	Vector2 cursorPos_ = {0, 330};
+	Vector2 cursorPos_ = {0, 350};
 	Vector2 cursorSpeed_ = {0, 0};
-	int stageCount_ = 1;
+	int stageCount_ = 0;
+	const int kMaxStage_ = 4; 
 
 	//天球
 	std::unique_ptr<Spacedome> spacedome_;
