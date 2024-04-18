@@ -1,7 +1,7 @@
 ﻿#include "Model.h"
 #include "WorldTransform.h"
 #define _USE_MATH_DEFINES
-#include <Input.h>
+#include "Input.h"
 #include <math.h>
 #include <optional>
 #include "BaseCharacter.h"
@@ -125,8 +125,10 @@ private:
 	WorldTransform worldTransformAxe_;
 	// ビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
-	Model* model_ = nullptr;
+	//インプット
+	Input* input_ = nullptr;
 	// 3Dモデル
+	Model* model_ = nullptr;
 	Model* modelFighterBody_;
 	Model* modelFighterHead_;
 	Model* modelFighterL_arm;

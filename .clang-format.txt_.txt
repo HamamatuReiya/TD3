@@ -5,6 +5,7 @@ AlignArrayOfStructures: Left
 AlignConsecutiveMacros: AcrossComments
 AlignTrailingComments: true
 AllowShortFunctionsOnASingleLine: All
+BreakBeforeBraces: Attach
 ColumnLimit: 100
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4

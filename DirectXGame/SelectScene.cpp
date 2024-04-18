@@ -39,7 +39,7 @@ void SelectScene::Update() {
 
 	// ゲームパッド状態取得
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		if (stageCount_ >= 1 || stageCount_ <= 3) {
+		if (stageCount_ >= 0 || stageCount_ <= kMaxStage_) {
 			if (joyState.Gamepad.sThumbLX < -1 && padStateFlag_ == false) {
 				padStateFlag_ = true;
 				stageCount_ -= 1;
@@ -83,7 +83,7 @@ void SelectScene::Update() {
 		isSceneEnd_ = true;
 	}
 
-	if (stageCount_ >= 1 || stageCount_ <= 3) {
+	if (stageCount_ >= 0 || stageCount_ <= kMaxStage_) {
 		if (input_->TriggerKey(DIK_LEFT)) {
 			stageCount_ -= 1;
 		} else if (input_->TriggerKey(DIK_RIGHT)) {
@@ -146,6 +146,7 @@ void SelectScene::Draw() {
 
 	textureCursor_->Draw();
 
+	textureNumber_[0]->Draw();
 	textureNumber_[1]->Draw();
 	textureNumber_[2]->Draw();
 	textureNumber_[3]->Draw();
@@ -182,11 +183,16 @@ void SelectScene::TextureInitialize() {
 
 void SelectScene::StageSelect() {
 	
-	if (stageCount_ <= 0) {
+	if (stageCount_ < 0) {
 		stageCount_ += 1;
 	}
-	if (stageCount_ >= 4) {
+	if (stageCount_ > kMaxStage_) {
 		stageCount_ -= 1;
+	}
+
+	if (stageCount_ == 0) {
+		cursorPos_.x = 50.0f - 30;
+		stageNo = Stage::kTutorial;
 	}
 
 	if (stageCount_ == 1) {

@@ -2,10 +2,27 @@
 #include "AxisIndicator.h"
 #include "TextureManager.h"
 #include <cassert>
+#include <fstream>
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() { 
+	for (Stone* stone : stones_) {
+		delete stone;
+	}
+
+	for (Gold* gold : golds_) {
+		delete gold;
+	}
+
+	for (Jushi* jushi : jushis_) {
+		delete jushi;
+	}
+
+	for (Shell* shell : shells_) {
+		delete shell;
+	}
+}
 
 void GameScene::Initialize() {
 	
@@ -42,6 +59,7 @@ void GameScene::Initialize() {
 	modelFighterL_leg_.reset(Model::CreateFromOBJ("float_L_leg", true));
 	modelFighterR_leg_.reset(Model::CreateFromOBJ("float_R_leg", true));
 	modelAxe_.reset(Model::CreateFromOBJ("axe", true));
+
 	// 自キャラのワールドトランスフォームを追従カメラにセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 	// Player&followCamera
@@ -114,6 +132,17 @@ void GameScene::Initialize() {
 	// ui
 	ui_->Initialize();
 	isWindow_ = false;
+	for (int i = 0; i < 12; i++) {
+		isExclamation_[i] = false;
+	}
+	
+	//素材のモデル
+	modelStone_.reset(Model::CreateFromOBJ("stone", true));
+	modelGold_.reset(Model::CreateFromOBJ("gold", true));
+	modelJushi_.reset(Model::CreateFromOBJ("jushi", true));
+	modelShell_.reset(Model::CreateFromOBJ("shell", true));
+
+	LoadMaterialPopData();
 	// 爆弾モデル
 	std::vector<Model*> bommModels = {bommModel_.get()};
 	// 爆弾の初期化
@@ -150,6 +179,10 @@ void GameScene::Update() {
 	ChackAllCollisions();
 
 	switch (stageNo) {
+	case Stage::kTutorial:
+
+		break;
+
 	case Stage::kIsland:
 
 		ground_->Update();
@@ -186,11 +219,28 @@ void GameScene::Update() {
 	}
 	debugCamera_->Update();
 	bomm_->Update();
-	
-	/*collisionManager_->UpdateWorldtransform();*/
-	ChackAllCollisions();
-	
-	
+
+	UpdateStonePopCommands();
+	UpdateGoldPopCommands();
+	UpdateJushiPopCommands();
+	UpdateShellPopCommands();
+
+	for (Stone* stone : stones_) {
+		stone->Update();
+	}
+
+	for (Gold* gold : golds_) {
+		gold->Update();
+	}
+
+	for (Jushi* jushi : jushis_) {
+		jushi->Update();
+	}
+
+	for (Shell* shell : shells_) {
+		shell->Update();
+	}
+
 	// 追従カメラの更新
 	followCamera_->Update();
 
@@ -299,7 +349,22 @@ void GameScene::Draw() {
 		break;
 	}
 
-	//////////////////////////
+	for (Stone* stone : stones_) {
+		stone->Draw(viewProjection_);
+	}
+
+	for (Gold* gold : golds_) {
+		gold->Draw(viewProjection_);
+	}
+
+	for (Jushi* jushi : jushis_) {
+		jushi->Draw(viewProjection_);
+	}
+
+	for (Shell* shell : shells_) {
+		shell->Draw(viewProjection_);
+	}
+
 	player_->Draw(viewProjection_);
 	bomm_->Draw(viewProjection_);
 
@@ -317,7 +382,12 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	player_->ActionbuttonDraw();
+	if (player_->SetActionbutton() == 1) {
+		player_->ActionbuttonDraw();
+	}else
+	{
+		ui_->ButtonHintDraw();
+	}
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
@@ -334,6 +404,13 @@ void GameScene::Draw() {
 	if (player_->SetActionbutton() ==1 && isWindow_ == true) {
 		ui_->Draw();
 	}
+	///!
+	for (int i = 0; i < 13; i++) {
+		if (isExclamation_[i] == true) {
+			ui_->ExclamationMarkDraw();
+		}
+	}
+	
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -345,7 +422,6 @@ void GameScene::SceneReset() {}
 
 void GameScene::HouseCollision() {
 	Vector3 posA = player_->GetWorldPosition();
-	
 	Vector3 posB = door_[0]->GetWorldPosition();
 	Vector3 posC = door_[1]->GetWorldPosition();
 	Vector3 posD = door_[2]->GetWorldPosition();
@@ -362,24 +438,36 @@ void GameScene::HouseCollision() {
 	// ドアの判定
 	if (posB.x + 7.0f >= posA.x && posB.x <= posA.x && posB.z <= posA.z - 1.5f &&
 	    posB.z + 4.0f >= posA.z) {
-
 		if (player_->GetIsPushX() == true) {
 			door_[0]->SetKeyFlag(true);
 		}
-	}
+	} 
 	if (door_[0]->GetKeyFlag() == true) {
 		door_[0]->Collision();
 	}
+	if (posB.x + 7.0f >= posA.x && posB.x <= posA.x && posB.z <= posA.z - 1.5f &&
+	    posB.z + 4.0f >= posA.z) {
+		isExclamation_[0] = true;
+	} else {
+		isExclamation_[0] = false;
+	}
+
 
 	// ドアの判定
 	if (posC.x + 7.0f >= posA.x && posC.x <= posA.x && posC.z <= posA.z - 1.5f &&
 	    posC.z + 4.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
 			door_[1]->SetKeyFlag(true);
-		}
-	}
+		} 
+	} 
 	if (door_[1]->GetKeyFlag() == true) {
 		door_[1]->Collision();
+	}
+	if (posC.x + 7.0f >= posA.x && posC.x <= posA.x && posC.z <= posA.z - 1.5f &&
+	    posC.z + 4.0f >= posA.z) {
+		isExclamation_[1] = true;
+	} else {
+		isExclamation_[1] = false;
 	}
 
 	// ドアの判定
@@ -388,9 +476,15 @@ void GameScene::HouseCollision() {
 		if (player_->GetIsPushX() == true) {
 			door_[2]->SetKeyFlag(true);
 		}
-	}
+	} 
 	if (door_[2]->GetKeyFlag() == true) {
 		door_[2]->Collision();
+	}
+	if (posD.x + 7.0f >= posA.x && posD.x <= posA.x && posD.z <= posA.z - 1.5f &&
+	    posD.z + 4.0f >= posA.z) {
+		isExclamation_[2] = true;
+	} else {
+		isExclamation_[2] = false;
 	}
 
 	// ドアの判定
@@ -399,20 +493,33 @@ void GameScene::HouseCollision() {
 		if (player_->GetIsPushX() == true) {
 			door_[4]->SetKeyFlag(true);
 		}
-	}
+	} 
 	if (door_[4]->GetKeyFlag() == true) {
 		door_[4]->Collision();
 	}
+	if (posF.x + 3.0f >= posA.x && posF.x - 5.0f <= posA.x && posF.z <= posA.z &&
+	    posF.z + 8.0f >= posA.z) {
+		isExclamation_[3] = true;
+	} else {
+		isExclamation_[3]= false;
+	}
+
 
 	// ドアの判定
 	if (posG.x + 3.0f >= posA.x && posG.x - 5.0f <= posA.x && posG.z <= posA.z &&
 	    posG.z+7.0f  >= posA.z) {
 		if (player_->GetIsPushX() == true) {
 			door_[5]->SetKeyFlag(true);
-		}
+		} 
 	}
 	if (door_[5]->GetKeyFlag() == true) {
 		door_[5]->Collision();
+	}
+	if (posG.x + 3.0f >= posA.x && posG.x - 5.0f <= posA.x && posG.z <= posA.z &&
+	    posG.z + 7.0f >= posA.z) {
+		isExclamation_[4] = true;
+	} else {
+		isExclamation_[4] = false;
 	}
 
 	// ドアの判定
@@ -425,6 +532,12 @@ void GameScene::HouseCollision() {
 	if (door_[6]->GetKeyFlag() == true) {
 		door_[6]->Collision();
 	}
+	if (posH.x >= posA.x && posH.x - 7.0f <= posA.x && posH.z - 3.0f <= posA.z &&
+	    posH.z + 5.0f >= posA.z) {
+		isExclamation_[5] = true;
+	} else {
+		isExclamation_[5] = false;
+	}
 
 	// ドアの判定
 	if (posI.x+3.0f >= posA.x && posI.x - 5.0f <= posA.x && posI.z-7.0f  <= posA.z &&
@@ -435,6 +548,12 @@ void GameScene::HouseCollision() {
 	}
 	if (door_[7]->GetKeyFlag() == true) {
 		door_[7]->Collision();
+	}
+	if (posI.x + 3.0f >= posA.x && posI.x - 5.0f <= posA.x && posI.z - 7.0f <= posA.z &&
+	    posI.z >= posA.z) {
+		isExclamation_[6] = true;
+	} else {
+		isExclamation_[6] = false;
 	}
 
 	// ドアの判定
@@ -447,6 +566,12 @@ void GameScene::HouseCollision() {
 	if (door_[8]->GetKeyFlag() == true) {
 		door_[8]->Collision();
 	}
+	if (posJ.x + 3.0f >= posA.x && posJ.x - 5.0f <= posA.x && posJ.z - 7.0f <= posA.z &&
+	    posJ.z >= posA.z) {
+		isExclamation_[7] = true;
+	} else {
+		isExclamation_[7] = false;
+	}
 
 	// ドアの判定
 	if (posK.x + 3.0f >= posA.x && posK.x - 5.0f <= posA.x && posK.z <= posA.z &&
@@ -458,6 +583,12 @@ void GameScene::HouseCollision() {
 	if (door_[9]->GetKeyFlag() == true) {
 		door_[9]->Collision();
 	}
+	if (posK.x + 3.0f >= posA.x && posK.x - 5.0f <= posA.x && posK.z <= posA.z &&
+	    posK.z + 14.0f >= posA.z) {
+		isExclamation_[8] = true;
+	} else {
+		isExclamation_[8] = false;
+	}
 	// ドアの判定
 	if (posL.x + 3.0f >= posA.x && posL.x - 5.0f <= posA.x && posL.z - 14.0f <= posA.z &&
 	    posL.z  >= posA.z) {
@@ -467,6 +598,12 @@ void GameScene::HouseCollision() {
 	}
 	if (door2_[0]->GetKeyFlag() == true) {
 		door2_[0]->Collision();
+	}
+	if (posL.x + 3.0f >= posA.x && posL.x - 5.0f <= posA.x && posL.z - 14.0f <= posA.z &&
+	    posL.z >= posA.z) {
+		isExclamation_[9] = true;
+	} else {
+		isExclamation_[9] = false;
 	}
 
 	// ドアの判定
@@ -479,6 +616,12 @@ void GameScene::HouseCollision() {
 	if (door_[10]->GetKeyFlag() == true) {
 		door_[10]->Collision();
 	}
+	if (posM.x + 3.0f >= posA.x && posM.x - 5.0f <= posA.x && posM.z - 14.0f <= posA.z &&
+	    posM.z >= posA.z) {
+		isExclamation_[10] = true;
+	} else {
+		isExclamation_[10] = false;
+	}
 
 	// ドアの判定
 	if (posN.x + 3.0f >= posA.x && posN.x - 5.0f <= posA.x && posN.z <= posA.z &&
@@ -489,6 +632,12 @@ void GameScene::HouseCollision() {
 	}
 	if (door2_[1]->GetKeyFlag() == true) {
 		door2_[1]->Collision();
+	}
+	if (posN.x + 3.0f >= posA.x && posN.x - 5.0f <= posA.x && posN.z <= posA.z &&
+	    posN.z + 14.0f >= posA.z) {
+		isExclamation_[11] = true;
+	} else {
+		isExclamation_[11] = false;
 	}
 
 	// 家の当たり判定
@@ -883,4 +1032,335 @@ void GameScene::HouseStage() {// ドアモデル
 	    houseModel_[72].get(), houseModel_[73].get(), houseModel_[74].get(), houseModel_[75].get(),
 	    houseModel_[76].get(), houseModel_[77].get(), houseModel_[78].get(), rockModel_[0].get(),
 	    rockModel_[1].get(), rockModel_[2].get(), rockModel_[3].get());
+}
+
+void GameScene::StoneSpawn(Vector3 position) { 
+	// 生成
+	Stone* stone = new Stone;
+	//初期化
+	stone->Initialize(modelStone_.get(), position);
+	//リストに登録
+	stones_.push_back(stone);
+}
+
+void GameScene::GoldSpawn(Vector3 position) {
+	// 生成
+	Gold* gold = new Gold;
+	// 初期化
+	gold->Initialize(modelGold_.get(), position);
+	// リストに登録
+	golds_.push_back(gold);
+}
+
+void GameScene::JushiSpawn(Vector3 position) {
+	// 生成
+	Jushi* jushi = new Jushi;
+	// 初期化
+	jushi->Initialize(modelJushi_.get(), position);
+	// リストに登録
+	jushis_.push_back(jushi);
+}
+
+void GameScene::ShellSpawn(Vector3 position) { 
+	// 生成
+	Shell* shell = new Shell;
+	// 初期化
+	shell->Initialize(modelShell_.get(), position);
+	// リストに登録
+	shells_.push_back(shell);
+}
+
+void GameScene::LoadMaterialPopData() { 
+	stonePopCommands.clear(); 
+	goldPopCommands.clear();
+	jushiPopCommands.clear();
+	shellPopCommands.clear();
+
+	//ファイルを開く
+	std::ifstream stoneFile;
+	stoneFile.open("Resources/stonePop.csv");
+	assert(stoneFile.is_open());
+	// ファイルの内容を文字列ストリームにコピー
+	stonePopCommands << stoneFile.rdbuf();
+	// ファイルを閉じる
+	stoneFile.close();
+
+	// ファイルを開く
+	std::ifstream goldFile;
+	goldFile.open("Resources/goldPop.csv");
+	assert(goldFile.is_open());
+	// ファイルの内容を文字列ストリームにコピー
+	goldPopCommands << goldFile.rdbuf();
+	// ファイルを閉じる
+	goldFile.close();
+
+	// ファイルを開く
+	std::ifstream jushiFile;
+	jushiFile.open("Resources/jushiPop.csv");
+	assert(jushiFile.is_open());
+	// ファイルの内容を文字列ストリームにコピー
+	jushiPopCommands << jushiFile.rdbuf();
+	// ファイルを閉じる
+	jushiFile.close();
+
+	// ファイルを開く
+	std::ifstream shellFile;
+	shellFile.open("Resources/shellPop.csv");
+	assert(shellFile.is_open());
+	// ファイルの内容を文字列ストリームにコピー
+	shellPopCommands << shellFile.rdbuf();
+	// ファイルを閉じる
+	shellFile.close();
+}
+
+void GameScene::UpdateStonePopCommands() {
+	// 待機処理
+	if (stonePopWaitFlag) {
+		stonePopWaitTimer--;
+		if (stonePopWaitTimer <= 0) {
+			// 待機完了
+			stonePopWaitFlag = false;
+		}
+		return;
+	}
+
+	// 1行分の文字列を入れる変数
+	std::string stoneLine;
+
+	// コマンド実行ループ　石
+	while (getline(stonePopCommands, stoneLine)) {
+		// 1行文の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(stoneLine);
+
+		std::string word;
+		//,区切りで行の先頭文字列を取得
+		getline(line_stream, word, ',');
+
+		// "//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			// コメント行を飛ばす
+			continue;
+		}
+
+		// POPコマンド
+		if (word.find("POP") == 0) {
+			// x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			// y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			// z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			// 敵を発生させる
+			StoneSpawn(Vector3(x, y, z));
+		}
+		// WAITコマンド
+		else if (word.find("WAIT") == 0) {
+			getline(line_stream, word, ',');
+
+			// 待ち時間
+			int32_t waitTime = atoi(word.c_str());
+
+			// 待機開始
+			stonePopWaitFlag = true;
+			stonePopWaitTimer = waitTime;
+
+			// コマンドループを抜ける
+			break;
+		}
+	}
+}
+
+void GameScene::UpdateGoldPopCommands() {
+	// 待機処理
+	if (goldPopWaitFlag) {
+		goldPopWaitTimer--;
+		if (goldPopWaitTimer <= 0) {
+			// 待機完了
+			goldPopWaitFlag = false;
+		}
+		return;
+	}
+
+	// 1行分の文字列を入れる変数
+	std::string goldLine;
+
+	// コマンド実行ループ　金
+	while (getline(goldPopCommands, goldLine)) {
+		// 1行文の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(goldLine);
+
+		std::string word;
+		//,区切りで行の先頭文字列を取得
+		getline(line_stream, word, ',');
+
+		// "//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			// コメント行を飛ばす
+			continue;
+		}
+
+		// POPコマンド
+		if (word.find("POP") == 0) {
+			// x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			// y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			// z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			// 敵を発生させる
+			GoldSpawn(Vector3(x, y, z));
+		}
+		// WAITコマンド
+		else if (word.find("WAIT") == 0) {
+			getline(line_stream, word, ',');
+
+			// 待ち時間
+			int32_t waitTime = atoi(word.c_str());
+
+			// 待機開始
+			goldPopWaitFlag = true;
+			goldPopWaitTimer = waitTime;
+
+			// コマンドループを抜ける
+			break;
+		}
+	}
+}
+
+void GameScene::UpdateJushiPopCommands() {
+	// 待機処理
+	if (jushiPopWaitFlag) {
+		jushiPopWaitTimer--;
+		if (jushiPopWaitTimer <= 0) {
+			// 待機完了
+			jushiPopWaitFlag = false;
+		}
+		return;
+	}
+
+	// 1行分の文字列を入れる変数
+	std::string jushiLine;
+
+	// コマンド実行ループ　樹脂
+	while (getline(jushiPopCommands, jushiLine)) {
+		// 1行文の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(jushiLine);
+
+		std::string word;
+		//,区切りで行の先頭文字列を取得
+		getline(line_stream, word, ',');
+
+		// "//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			// コメント行を飛ばす
+			continue;
+		}
+
+		// POPコマンド
+		if (word.find("POP") == 0) {
+			// x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			// y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			// z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			// 敵を発生させる
+			JushiSpawn(Vector3(x, y, z));
+		}
+		// WAITコマンド
+		else if (word.find("WAIT") == 0) {
+			getline(line_stream, word, ',');
+
+			// 待ち時間
+			int32_t waitTime = atoi(word.c_str());
+
+			// 待機開始
+			jushiPopWaitFlag = true;
+			jushiPopWaitTimer = waitTime;
+
+			// コマンドループを抜ける
+			break;
+		}
+	}
+}
+
+void GameScene::UpdateShellPopCommands() {
+	// 待機処理
+	if (shellPopWaitFlag) {
+		shellPopWaitTimer--;
+		if (shellPopWaitTimer <= 0) {
+			// 待機完了
+			shellPopWaitFlag = false;
+		}
+		return;
+	}
+
+	// 1行分の文字列を入れる変数
+	std::string shellLine;
+
+	// コマンド実行ループ　貝
+	while (getline(shellPopCommands, shellLine)) {
+		// 1行文の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(shellLine);
+
+		std::string word;
+		//,区切りで行の先頭文字列を取得
+		getline(line_stream, word, ',');
+
+		// "//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			// コメント行を飛ばす
+			continue;
+		}
+
+		// POPコマンド
+		if (word.find("POP") == 0) {
+			// x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			// y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			// z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			// 敵を発生させる
+			ShellSpawn(Vector3(x, y, z));
+		}
+		// WAITコマンド
+		else if (word.find("WAIT") == 0) {
+			getline(line_stream, word, ',');
+
+			// 待ち時間
+			int32_t waitTime = atoi(word.c_str());
+
+			// 待機開始
+			shellPopWaitFlag = true;
+			shellPopWaitTimer = waitTime;
+
+			// コマンドループを抜ける
+			break;
+		}
+	}
 }

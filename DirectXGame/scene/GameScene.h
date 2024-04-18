@@ -26,6 +26,11 @@
 #include "ForestTreeWood.h"
 #include "ForestWood.h"
 
+#include "Stone.h"
+#include "Gold.h"
+#include "Jushi.h"
+#include "Shell.h"
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -71,8 +76,37 @@ public:
 	SceneType NextScene() { return SceneType::kTitle; }
 
 private:
+	/// <summary>
+	/// 石の発生
+	/// </summary>
+	void StoneSpawn(Vector3 position);
+	/// <summary>
+	/// 金の発生
+	/// </summary>
+	void GoldSpawn(Vector3 position);
+	/// <summary>
+	/// 樹脂の発生
+	/// </summary>
+	void JushiSpawn(Vector3 position);
+	/// <summary>
+	/// 貝の発生
+	/// </summary>
+	void ShellSpawn(Vector3 position);
+
+    /// <summary>
+    /// 素材発生データの読み込み  
+    /// </summary>
+	void LoadMaterialPopData();
+private:
 	void HouseCollision();
 
+	/// <summary>
+	/// 素材発生コマンドの更新
+	/// </summary>
+	void UpdateStonePopCommands();
+	void UpdateGoldPopCommands();
+	void UpdateJushiPopCommands();
+	void UpdateShellPopCommands();
 	void HouseStage();
 
 private: // メンバ変数
@@ -135,6 +169,39 @@ private: // メンバ変数
 	std::unique_ptr<DoorOBJ> door_[11];
 	std::unique_ptr<Model> doorModel_[2] = {nullptr};
 
+	//素材
+	//std::list<BommParts*> bommParts_;
+	std::list<Stone*> stones_;
+	std::list<Gold*> golds_;
+	std::list<Jushi*> jushis_;
+	std::list<Shell*> shells_;
+
+	//  3Dモデル
+	std::unique_ptr<Model> modelStone_;
+	std::unique_ptr<Model> modelGold_;
+	std::unique_ptr<Model> modelJushi_;
+	std::unique_ptr<Model> modelShell_;
+
+	// 素材発生コマンド
+	std::stringstream stonePopCommands;
+	std::stringstream goldPopCommands;
+	std::stringstream jushiPopCommands;
+	std::stringstream shellPopCommands;
+
+	//素材の待機中のフラグ
+	bool stonePopWaitFlag = true;
+	bool goldPopWaitFlag = true;
+	bool jushiPopWaitFlag = true;
+	bool shellPopWaitFlag = true;
+
+	// 待機タイマー
+	int32_t stonePopWaitTimer = 0;
+	int32_t goldPopWaitTimer = 0;
+	int32_t jushiPopWaitTimer = 0;
+	int32_t shellPopWaitTimer = 0;
+
+
+
 
 	/*森エリア*/
 	// 3Dモデル
@@ -168,6 +235,9 @@ private: // メンバ変数
 	//UI
 	std::unique_ptr<UI> ui_;
 	bool isWindow_;
+	bool isExclamation_[12];
+	
+	
 
 	/// <summary>
 	/// ゲームシーン用
