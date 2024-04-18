@@ -18,13 +18,6 @@ void TitleScene::Initialize() {
 	subTitleHandle_ = TextureManager::Load("subTitle.png");
 	textureSubTitle_ = Sprite::Create(subTitleHandle_, {0.0f, 0.0f}, subTitleColor_, {0.0f, 0.0f});
 
-	// カーソルの画像
-	uint32_t cursorHandle;
-	cursorHandle = TextureManager::Load("cursor.png");
-
-	textureCursor_ =
-	    Sprite::Create(cursorHandle, cursorPos_, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
-
 	/*score_ = std::make_unique<Score>();
 	score_->Initialize();
 
@@ -123,8 +116,6 @@ void TitleScene::Update() {
 	// ステージ選択
 	Select();
 
-	textureCursor_->SetPosition(cursorPos_);
-
 	// 天球の更新
 	spacedome_->Update();
 
@@ -177,8 +168,6 @@ void TitleScene::Draw() {
 	
 	textureTitle_->Draw();
 
-	textureCursor_->Draw();
-
 	textureSubTitle_->SetColor(subTitleColor_);
 	textureSubTitle_->Draw();
 
@@ -202,12 +191,5 @@ void TitleScene::Select() {
 	}
 	if (selectCount_ >= 2) {
 		selectCount_ -= 1;
-	}
-
-	if (selectCount_ == 0) {
-		cursorPos_.y = 375.0f;
-	}
-	if (selectCount_ == 1) {
-		cursorPos_.y = 495.0f;
 	}
 }

@@ -74,10 +74,6 @@ private: // メンバ変数
 
 	Vector4 subTitleColor_ = {1.0f, 1.0f, 1.0f, 0.0f};
 
-	// 矢印 カーソル
-	Sprite* textureCursor_;
-	Vector2 cursorPos_ = {350.0f, 495.0f};
-	Vector2 cursorSpeed_ = {0, 30};
 	int selectCount_ = 0;
 
 	// スティックのフラグ
