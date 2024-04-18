@@ -26,6 +26,7 @@
 #include "ForestTreeWood.h"
 #include "ForestWood.h"
 
+#include "ItemCounter.h"
 #include "Stone.h"
 #include "Gold.h"
 #include "Jushi.h"
@@ -203,8 +204,14 @@ private: // メンバ変数
 	int32_t jushiPopWaitTimer = 0;
 	int32_t shellPopWaitTimer = 0;
 
+	// 素材の所持数表示
+	std::unique_ptr<ItemCounter> itemCounter_;
 
-
+	//素材の所持数
+	int stoneCount_ = 0;
+	int goldCount_ = 0;
+	int jushiCount_ = 0;
+	int shellCount_ = 0;
 
 	/*森エリア*/
 	// 3Dモデル
