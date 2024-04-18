@@ -110,6 +110,7 @@
     <ClCompile Include="BaseCharacter.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
+    <ClCompile Include="BommParts.cpp" />
     <ClCompile Include="Clear.cpp" />
     <ClCompile Include="DesertStage.cpp" />
     <ClCompile Include="Bomm.cpp" />
@@ -118,8 +119,10 @@
     <ClCompile Include="DoorOBJ.cpp" />
     <ClCompile Include="fade\Fade.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
+    <ClCompile Include="Gold.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="HouseStageOBJ.cpp" />
+    <ClCompile Include="Jushi.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MT.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -130,6 +133,7 @@
     <ClCompile Include="Skydome.cpp" />
     <ClCompile Include="Spacedome.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="Stone.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="VolcanoStage.cpp" />
@@ -160,6 +164,7 @@
     <ClInclude Include="base\StringUtility.h" />
     <ClInclude Include="base\TextureManager.h" />
     <ClInclude Include="base\WinApp.h" />
+    <ClInclude Include="BommParts.h" />
     <ClInclude Include="Clear.h" />
     <ClInclude Include="DesertStage.h" />
     <ClInclude Include="Bomm.h" />
@@ -168,9 +173,11 @@
     <ClInclude Include="DoorOBJ.h" />
     <ClInclude Include="fade\Fade.h" />
     <ClInclude Include="FollowCamera.h" />
+    <ClInclude Include="Gold.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="HouseStageOBJ.h" />
     <ClInclude Include="input\Input.h" />
+    <ClInclude Include="Jushi.h" />
     <ClInclude Include="math\Matrix4x4.h" />
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
@@ -183,9 +190,11 @@
     <ClInclude Include="scene\GameScene.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="SelectScene.h" />
+    <ClInclude Include="Shell.h" />
     <ClInclude Include="Skydome.h" />
     <ClInclude Include="Spacedome.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="Stone.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="VolcanoStage.h" />
