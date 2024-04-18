@@ -18,6 +18,10 @@ GameScene::~GameScene() {
 	for (Jushi* jushi : jushis_) {
 		delete jushi;
 	}
+
+	for (Shell* shell : shells_) {
+		delete shell;
+	}
 }
 
 void GameScene::Initialize() {
@@ -195,7 +199,7 @@ void GameScene::Initialize() {
 	    houseModel_[68].get(), houseModel_[69].get(), houseModel_[70].get(), houseModel_[71].get(),
 	    houseModel_[72].get(), houseModel_[73].get(), houseModel_[74].get(), houseModel_[75].get(),
 	    houseModel_[76].get(), houseModel_[77].get(), houseModel_[78].get());
-
+	
 	//素材のモデル
 	modelStone_.reset(Model::CreateFromOBJ("stone", true));
 	modelGold_.reset(Model::CreateFromOBJ("gold", true));
@@ -234,6 +238,7 @@ void GameScene::Update() {
 	switch (stageNo) {
 	case Stage::kTutorial:
 
+		break;
 
 	case Stage::kIsland:
 
@@ -272,6 +277,10 @@ void GameScene::Update() {
 
 	for (Jushi* jushi : jushis_) {
 		jushi->Update();
+	}
+
+	for (Shell* shell : shells_) {
+		shell->Update();
 	}
 
 	// 追従カメラの更新
@@ -398,6 +407,10 @@ void GameScene::Draw() {
 		jushi->Draw(viewProjection_);
 	}
 
+	for (Shell* shell : shells_) {
+		shell->Draw(viewProjection_);
+	}
+
 	player_->Draw(viewProjection_);
 	bomm_->Draw(viewProjection_);
 	/*collisionManager_->Draw(viewProjection_);*/
@@ -454,11 +467,11 @@ void GameScene::JushiSpawn(Vector3 position) {
 
 void GameScene::ShellSpawn(Vector3 position) { 
 	// 生成
-	BommParts* bommParts = new BommParts;
+	Shell* shell = new Shell;
 	// 初期化
-	bommParts->InitializeShell(modelShell_.get(), position);
+	shell->Initialize(modelShell_.get(), position);
 	// リストに登録
-	bommParts_.push_back(bommParts);
+	shells_.push_back(shell);
 }
 
 void GameScene::LoadMaterialPopData() { 

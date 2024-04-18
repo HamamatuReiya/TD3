@@ -22,10 +22,10 @@
 #include "HouseStageOBJ.h"
 #include"DoorOBJ.h"
 
-#include "BommParts.h"
 #include "Stone.h"
 #include "Gold.h"
 #include "Jushi.h"
+#include "Shell.h"
 
 /// <summary>
 /// ゲームシーン
@@ -166,6 +166,7 @@ private: // メンバ変数
 	std::list<Stone*> stones_;
 	std::list<Gold*> golds_;
 	std::list<Jushi*> jushis_;
+	std::list<Shell*> shells_;
 
 	//  3Dモデル
 	std::unique_ptr<Model> modelStone_;
