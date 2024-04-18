@@ -241,6 +241,40 @@ void GameScene::Update() {
 		shell->Update();
 	}
 
+	MaterialCheckCollisions();
+
+	stones_.remove_if([](Stone* stone) {
+		if (stone->IsDead()) {
+			delete stone;
+			return true;
+		}
+		return false;
+	});
+
+	golds_.remove_if([](Gold* gold) {
+		if (gold->IsDead()) {
+			delete gold;
+			return true;
+		}
+		return false;
+	});
+
+	jushis_.remove_if([](Jushi* jushi) {
+		if (jushi->IsDead()) {
+			delete jushi;
+			return true;
+		}
+		return false;
+	});
+
+	shells_.remove_if([](Shell* shell) {
+		if (shell->IsDead()) {
+			delete shell;
+			return true;
+		}
+		return false;
+	});
+
 	// 追従カメラの更新
 	followCamera_->Update();
 
@@ -997,6 +1031,94 @@ void GameScene::HouseStage() {// ドアモデル
 	    houseModel_[68].get(), houseModel_[69].get(), houseModel_[70].get(), houseModel_[71].get(),
 	    houseModel_[72].get(), houseModel_[73].get(), houseModel_[74].get(), houseModel_[75].get(),
 	    houseModel_[76].get(), houseModel_[77].get(), houseModel_[78].get());
+}
+
+void GameScene::MaterialCheckCollisions() {
+	// 判定対象AとBの座標
+	Vector3 posA, posB;
+
+	// 自キャラの座標
+	posA = player_->GetWorldPosition();
+
+	// 自キャラと石の当たり判定
+	for (Stone* stone : stones_) {
+		// 石の座標
+		posB = stone->GetWorldPosition();
+
+		float radius1 = 1.5f;
+		float radius2 = 2.0f;
+
+		float hit = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
+		            (posB.z - posA.z) * (posB.z - posA.z);
+
+		float radius = (radius1 + radius2) * (radius1 + radius2);
+
+		// プレイヤーと石の交差判定
+		if (hit <= radius) {
+			// 石の衝突時コールバックを呼び出す
+			stone->OnCollision();
+		}
+	}
+
+	// 自キャラと金の当たり判定
+	for (Gold* gold : golds_) {
+		// 金の座標
+		posB = gold->GetWorldPosition();
+
+		float radius1 = 1.5f;
+		float radius2 = 2.0f;
+
+		float hit = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
+		            (posB.z - posA.z) * (posB.z - posA.z);
+
+		float radius = (radius1 + radius2) * (radius1 + radius2);
+
+		// プレイヤーと金の交差判定
+		if (hit <= radius) {
+			// 金の衝突時コールバックを呼び出す
+			gold->OnCollision();
+		}
+	}
+
+	// 自キャラと樹脂の当たり判定
+	for (Jushi* jushi : jushis_) {
+		// 樹脂の座標
+		posB = jushi->GetWorldPosition();
+
+		float radius1 = 1.5f;
+		float radius2 = 2.0f;
+
+		float hit = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
+		            (posB.z - posA.z) * (posB.z - posA.z);
+
+		float radius = (radius1 + radius2) * (radius1 + radius2);
+
+		// プレイヤーと樹脂の交差判定
+		if (hit <= radius) {
+			// 樹脂の衝突時コールバックを呼び出す
+			jushi->OnCollision();
+		}
+	}
+
+	// 自キャラと貝の当たり判定
+	for (Shell* shell : shells_) {
+		// 貝の座標
+		posB = shell->GetWorldPosition();
+
+		float radius1 = 1.5f;
+		float radius2 = 2.0f;
+
+		float hit = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
+		            (posB.z - posA.z) * (posB.z - posA.z);
+
+		float radius = (radius1 + radius2) * (radius1 + radius2);
+
+		// プレイヤーと貝の交差判定
+		if (hit <= radius) {
+			// 貝の衝突時コールバックを呼び出す
+			shell->OnCollision();
+		}
+	}
 }
 
 void GameScene::StoneSpawn(Vector3 position) { 
