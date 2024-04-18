@@ -184,7 +184,21 @@ void GameScene::Update() {
 
 	switch (stageNo) {
 	case Stage::kTutorial:
-
+		ground_->Update();
+		skydome_->Update();
+		door_[0]->Update();
+		door_[1]->Update();
+		door_[2]->Update();
+		door_[3]->Update();
+		door_[4]->Update2();
+		door_[5]->Update2();
+		door_[6]->Update3();
+		door_[7]->Update4();
+		door_[8]->Update4();
+		door_[9]->Update2();
+		door2_[0]->Update5();
+		door_[10]->Update4();
+		door2_[1]->Update6();
 		break;
 
 	case Stage::kIsland:
@@ -348,6 +362,23 @@ void GameScene::Draw() {
 	/// </summary>
 
 	switch (stageNo) {
+	case Stage::kTutorial:
+		// ground_->Draw(viewProjection_);
+		// skydome_->Draw(viewProjection_);
+		house_->Draw(viewProjection_);
+		door_[0]->Draw(viewProjection_);
+		door_[1]->Draw(viewProjection_);
+		door_[2]->Draw(viewProjection_);
+		door_[3]->Draw(viewProjection_);
+		door_[4]->Draw(viewProjection_);
+		door_[5]->Draw(viewProjection_);
+		door_[6]->Draw(viewProjection_);
+		door_[7]->Draw(viewProjection_);
+		door_[8]->Draw(viewProjection_);
+		door_[9]->Draw(viewProjection_);
+		door2_[0]->Draw(viewProjection_);
+		door_[10]->Draw(viewProjection_);
+		door2_[1]->Draw(viewProjection_);
 	case Stage::kIsland:
 		//ground_->Draw(viewProjection_);
 		//skydome_->Draw(viewProjection_);
