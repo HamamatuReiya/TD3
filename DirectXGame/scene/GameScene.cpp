@@ -1100,7 +1100,11 @@ void GameScene::HouseStage() {// ドアモデル
 	    houseModel_[68].get(), houseModel_[69].get(), houseModel_[70].get(), houseModel_[71].get(),
 	    houseModel_[72].get(), houseModel_[73].get(), houseModel_[74].get(), houseModel_[75].get(),
 	    houseModel_[76].get(), houseModel_[77].get(), houseModel_[78].get(), rockModel_[0].get(),
-	    rockModel_[1].get(), rockModel_[2].get(), rockModel_[3].get());
+	    rockModel_[1].get(), rockModel_[2].get(), rockModel_[3].get(), rockModel_[4].get(),
+	    rockModel_[5].get(), rockModel_[6].get(), rockModel_[7].get(), rockModel_[8].get(),
+	    rockModel_[9].get(), ladderModel_[0].get(),ladderModel_[1].get(), ladderModel_[2].get(),
+	    ladderModel_[3].get(), ladderModel_[4].get(), ladderModel_[5].get(), ladderModel_[6].get(),
+	    ladderModel_[7].get());
 }
 
 void GameScene::MaterialCheckCollisions() {

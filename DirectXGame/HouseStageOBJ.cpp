@@ -14,7 +14,10 @@ void HouseStageOBJ::Initialize(
     Model* model60, Model* model61, Model* model62, Model* model63, Model* model64, Model* model65,
     Model* model66, Model* model67, Model* model68, Model* model69, Model* model70, Model* model71,
     Model* model72, Model* model73, Model* model74, Model* model75, Model* model76, Model* model77,
-    Model* model78,Model* model79, Model* model80, Model* model81, Model* model82) {
+    Model* model78, Model* model79, Model* model80, Model* model81, Model* model82, Model* model83,
+    Model* model84, Model* model85, Model* model86, Model* model87, Model* model88, Model* model89,
+    Model* model90, Model* model91, Model* model92, Model* model93, Model* model94, Model* model95,
+    Model* model96) {
 	model_[0] = model;
 	model_[1] = model1;
 	model_[2] = model2;
@@ -98,6 +101,20 @@ void HouseStageOBJ::Initialize(
 	model_[80] = model80;
 	model_[81] = model81;
 	model_[82] = model82;
+	model_[83] = model83;
+	model_[84] = model84;
+	model_[85] = model85;
+	model_[86] = model86;
+	model_[87] = model87;
+	model_[88] = model88;
+	model_[89] = model89;
+	model_[90] = model90;
+	model_[91] = model91;
+	model_[92] = model92;
+	model_[93] = model93;
+	model_[94] = model94;
+	model_[95] = model95;
+	model_[96] = model96;
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
@@ -193,4 +210,18 @@ void HouseStageOBJ::Draw(ViewProjection& viewProjection) {
 	model_[80]->Draw(worldTransform_, viewProjection);
 	model_[81]->Draw(worldTransform_, viewProjection);
 	model_[82]->Draw(worldTransform_, viewProjection);
+	model_[83]->Draw(worldTransform_, viewProjection);
+	model_[84]->Draw(worldTransform_, viewProjection);
+	model_[85]->Draw(worldTransform_, viewProjection);
+	model_[86]->Draw(worldTransform_, viewProjection);
+	model_[87]->Draw(worldTransform_, viewProjection);
+	model_[88]->Draw(worldTransform_, viewProjection);
+	model_[89]->Draw(worldTransform_, viewProjection);
+	model_[90]->Draw(worldTransform_, viewProjection);
+	model_[91]->Draw(worldTransform_, viewProjection);
+	model_[92]->Draw(worldTransform_, viewProjection);
+	model_[93]->Draw(worldTransform_, viewProjection);
+	model_[94]->Draw(worldTransform_, viewProjection);
+	model_[95]->Draw(worldTransform_, viewProjection);
+	model_[96]->Draw(worldTransform_, viewProjection);
 }
