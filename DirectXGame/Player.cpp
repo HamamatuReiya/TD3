@@ -20,7 +20,7 @@ void Player::Initialize(const std::vector<Model*>& models)
 	// 初期化
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransform_.translation_ = {0.0f, 0.0f, -29.0f};
+	worldTransform_.translation_ = {-1.292f, 0.0f, -30.178f};
 	// 体の初期化
 	worldTransformBody_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformBody_.rotation_ = {0.0f, 0.0f, 0.0f};
