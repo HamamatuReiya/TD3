@@ -136,6 +136,10 @@ void GameScene::Initialize() {
 		isExclamation_[i] = false;
 	}
 	
+	//所持数UIの生成
+	itemCounter_ = std::make_unique<ItemCounter>();
+	itemCounter_->Initialize();
+
 	//素材のモデル
 	modelStone_.reset(Model::CreateFromOBJ("stone", true));
 	modelGold_.reset(Model::CreateFromOBJ("gold", true));
@@ -180,7 +184,21 @@ void GameScene::Update() {
 
 	switch (stageNo) {
 	case Stage::kTutorial:
-
+		ground_->Update();
+		skydome_->Update();
+		door_[0]->Update();
+		door_[1]->Update();
+		door_[2]->Update();
+		door_[3]->Update();
+		door_[4]->Update2();
+		door_[5]->Update2();
+		door_[6]->Update3();
+		door_[7]->Update4();
+		door_[8]->Update4();
+		door_[9]->Update2();
+		door2_[0]->Update5();
+		door_[10]->Update4();
+		door2_[1]->Update6();
 		break;
 
 	case Stage::kIsland:
@@ -242,6 +260,9 @@ void GameScene::Update() {
 	}
 
 	MaterialCheckCollisions();
+
+	// 所持数UIの更新
+	itemCounter_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
 
 	stones_.remove_if([](Stone* stone) {
 		if (stone->IsDead()) {
@@ -341,6 +362,23 @@ void GameScene::Draw() {
 	/// </summary>
 
 	switch (stageNo) {
+	case Stage::kTutorial:
+		// ground_->Draw(viewProjection_);
+		// skydome_->Draw(viewProjection_);
+		house_->Draw(viewProjection_);
+		door_[0]->Draw(viewProjection_);
+		door_[1]->Draw(viewProjection_);
+		door_[2]->Draw(viewProjection_);
+		door_[3]->Draw(viewProjection_);
+		door_[4]->Draw(viewProjection_);
+		door_[5]->Draw(viewProjection_);
+		door_[6]->Draw(viewProjection_);
+		door_[7]->Draw(viewProjection_);
+		door_[8]->Draw(viewProjection_);
+		door_[9]->Draw(viewProjection_);
+		door2_[0]->Draw(viewProjection_);
+		door_[10]->Draw(viewProjection_);
+		door2_[1]->Draw(viewProjection_);
 	case Stage::kIsland:
 		//ground_->Draw(viewProjection_);
 		//skydome_->Draw(viewProjection_);
@@ -422,6 +460,9 @@ void GameScene::Draw() {
 	{
 		ui_->ButtonHintDraw();
 	}
+
+	itemCounter_->Draw();
+
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
@@ -1133,6 +1174,8 @@ void GameScene::MaterialCheckCollisions() {
 			if (player_->GetIsPushX() == true) {
 				// 石の衝突時コールバックを呼び出す
 				stone->OnCollision();
+				//素材の所持数を足す
+				stoneCount_++;
 				isExclamation_[12] = false;
 			}
 		} else {
@@ -1159,6 +1202,8 @@ void GameScene::MaterialCheckCollisions() {
 			if (player_->GetIsPushX() == true) {
 				// 金の衝突時コールバックを呼び出す
 				gold->OnCollision();
+				// 素材の所持数を足す
+				goldCount_++;
 				isExclamation_[13] = false;
 			}
 		} else {
@@ -1185,6 +1230,8 @@ void GameScene::MaterialCheckCollisions() {
 			if (player_->GetIsPushX() == true) {
 				// 樹脂の衝突時コールバックを呼び出す
 				jushi->OnCollision();
+				// 素材の所持数を足す
+				jushiCount_++;
 				isExclamation_[14] = false;
 			}
 		} else {
@@ -1211,6 +1258,8 @@ void GameScene::MaterialCheckCollisions() {
 			if (player_->GetIsPushX() == true) {
 				// 貝の衝突時コールバックを呼び出す
 				shell->OnCollision();
+				// 素材の所持数を足す
+				shellCount_++;
 				isExclamation_[15] = false;
 			}
 		} else {
