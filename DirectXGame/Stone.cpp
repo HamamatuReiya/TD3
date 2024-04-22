@@ -11,6 +11,7 @@ void Stone::Initialize(Model* model, Vector3 position) {
 
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
+	worldTransform_.scale_ = {3.0f, 3.0f, 3.0f};
 }
 
 void Stone::Update() {

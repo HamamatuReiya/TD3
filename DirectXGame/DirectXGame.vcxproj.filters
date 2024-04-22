@@ -49,6 +49,7 @@
     <ClCompile Include="VolcanoStage.cpp" />
     <ClCompile Include="WorldTransformEx.cpp" />
     <ClCompile Include="ItemCounter.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\ImGuiManager.h" />
@@ -112,6 +113,7 @@
     <ClInclude Include="UI.h" />
     <ClInclude Include="VolcanoStage.h" />
     <ClInclude Include="ItemCounter.h" />
+    <ClInclude Include="Tutorial.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Obj.hlsli" />

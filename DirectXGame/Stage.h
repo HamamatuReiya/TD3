@@ -1,8 +1,8 @@
 ﻿#pragma once
 enum Stage {
 	kTutorial,
-	kIsland,
-	kDesert,
+	kTown,
+	kForest,
 	kVolcano,
 };
 
