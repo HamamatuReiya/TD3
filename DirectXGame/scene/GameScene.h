@@ -168,9 +168,17 @@ private: // メンバ変数
 	// 家ステージのモデル
 	std::unique_ptr<Model> houseModel_[99] = {nullptr};
 
+	std::unique_ptr<Model> rockModel_[10] = {nullptr};
+
+	// ドア
+	std::unique_ptr<DoorOBJ> door2_[2];
+	std::unique_ptr<Model> doorModel2_[2] = {nullptr};
 	// ドア
 	std::unique_ptr<DoorOBJ> door_[11];
 	std::unique_ptr<Model> doorModel_[2] = {nullptr};
+
+	//梯子
+	std::unique_ptr<Model> ladderModel_[8] = {nullptr};
 
 	//素材
 	//std::list<BommParts*> bommParts_;
@@ -229,11 +237,7 @@ private: // メンバ変数
 
 	/*森エリア終わり*/
 
-	std::unique_ptr<Model> rockModel_[4] = {nullptr};
-
-	// ドア
-	std::unique_ptr<DoorOBJ> door2_[2];
-	std::unique_ptr<Model> doorModel2_[2] = {nullptr};
+	
 
 	//UI
 	std::unique_ptr<UI> ui_;

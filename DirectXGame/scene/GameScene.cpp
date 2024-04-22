@@ -981,6 +981,21 @@ void GameScene::HouseStage() {// ドアモデル
 	rockModel_[1].reset(Model::CreateFromOBJ("rock2", true));
 	rockModel_[2].reset(Model::CreateFromOBJ("rock3", true));
 	rockModel_[3].reset(Model::CreateFromOBJ("rock4", true));
+	rockModel_[4].reset(Model::CreateFromOBJ("rock5", true));
+	rockModel_[5].reset(Model::CreateFromOBJ("rock6", true));
+	rockModel_[6].reset(Model::CreateFromOBJ("rock7", true));
+	rockModel_[7].reset(Model::CreateFromOBJ("rock8", true));
+	rockModel_[8].reset(Model::CreateFromOBJ("rock9", true));
+	rockModel_[9].reset(Model::CreateFromOBJ("rock10", true));
+
+	ladderModel_[0].reset(Model::CreateFromOBJ("ladder1", true));
+	ladderModel_[1].reset(Model::CreateFromOBJ("ladder2", true));
+	ladderModel_[2].reset(Model::CreateFromOBJ("ladder3", true));
+	ladderModel_[3].reset(Model::CreateFromOBJ("ladder4", true));
+	ladderModel_[4].reset(Model::CreateFromOBJ("ladder5", true));
+	ladderModel_[5].reset(Model::CreateFromOBJ("ladder6", true));
+	ladderModel_[6].reset(Model::CreateFromOBJ("ladder7", true));
+	ladderModel_[7].reset(Model::CreateFromOBJ("ladder8", true));
 
 	// 家モデル
 	house_ = std::make_unique<HouseStageOBJ>();
