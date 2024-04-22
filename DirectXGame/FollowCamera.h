@@ -11,6 +11,9 @@ public:
 
 	void SetTarget(const WorldTransform* target) { target_ = target; };
 
+	// Imgui
+	void Debug();
+
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 
 private:
