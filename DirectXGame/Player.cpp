@@ -6,12 +6,6 @@ void Player::Initialize(const std::vector<Model*>& models)
 {
 	BaseCharacter::Initialize(models);
 
-	/*modelFighterBody_ = modelBody;
-	modelFighterHead_ = modelHead;
-	modelFighterL_arm = modelL_arm;
-	modelFighterR_arm = modelR_arm;
-	modelFighterL_leg = modelL_leg;
-	modelFighterR_leg = modelR_leg;*/
 	isPushX_ = false;
 	
 	// 初期化
@@ -63,10 +57,8 @@ void Player::Initialize(const std::vector<Model*>& models)
 	// スプライト生成
 	spriteButton_ =
 	    Sprite::Create(textureButton, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
-	//斧フラグ
-	useAxe_ = false;
-
-	
+	//
+	isStartTimer_ = 0;
 }
 	
 
@@ -112,14 +104,17 @@ void Player::MotionJumpInitialize() {
 	worldTransformBody_.translation_.y = 2;
 	worldTransformL_arm.rotation_.x = 0;
 	worldTransformR_arm.rotation_.x = 0;
-	// ジャンプ初速
-	const float kJumpFirstSpeed = 1.0f;
-	// ジャンプ初速を与える
-	velocity_.y = kJumpFirstSpeed;
+	if (isStartTimer_>60) {
+		// ジャンプ初速
+		const float kJumpFirstSpeed = 1.0f;
+		// ジャンプ初速を与える
+		velocity_.y = kJumpFirstSpeed;
+	}
 }
 
 void Player::MotionAxeInitialize() {
-
+	// 斧フラグ
+	useAxe_ = false;
 }
 
 void Player::Update() {
@@ -169,6 +164,9 @@ void Player::Update() {
 	}
 	//アクションボタン
 	ActionButtonUpdate();
+
+	//
+	isStartTimer_++;
 
 	BaseCharacter::Update();
 	// 行列の更新

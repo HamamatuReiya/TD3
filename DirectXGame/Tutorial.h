@@ -21,9 +21,16 @@ public:
 	/// </summary>
 	void TutorialDraw();
 
+	/*int GetmovePlayer() { return ismovePlayer_; }*/
+
 private:
 	// チュートリアルスプライト
-	Sprite* spritetTuorial_ = nullptr;
+	Sprite* spritetTuorial_[4] = {nullptr,nullptr,nullptr,nullptr};
 	//フラグ
-	bool isTuorial_;
+	bool isTuorial_[4];
+	//プレイヤーに動いてもらう
+	bool ismovePlayer_;
+	//ボタンクールダウン
+	int ButtonCoolDown_;
+
 };

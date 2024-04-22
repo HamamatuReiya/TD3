@@ -254,7 +254,6 @@ private: // メンバ変数
 	// チュートリアル
 	std::unique_ptr<Tutorial> tutorial_;
 	
-	
 
 	/// <summary>
 	/// ゲームシーン用

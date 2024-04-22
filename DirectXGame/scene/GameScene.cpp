@@ -167,7 +167,6 @@ void GameScene::Initialize() {
 	// スプライト生成
 	spriteBommActionButton_ = Sprite::Create(
 	    textureBommActionButton, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
-	
 }
 
 void GameScene::Update() {
@@ -211,7 +210,6 @@ void GameScene::Update() {
 		break;
 
 	case Stage::kTown:
-
 		ground_->Update();
 		skydome_->Update();
 		door_[0]->Update();
@@ -463,7 +461,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	if (player_->SetActionbutton() == 1) {
+	if (player_->GetActionbutton() == 1) {
 		player_->ActionbuttonDraw();
 	}else
 	{
@@ -476,16 +474,16 @@ void GameScene::Draw() {
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		// window
-		if (player_->SetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
+		if (player_->GetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
 			isWindow_ = true;
 			player_->SetMotion();
 		}
-		if (player_->SetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_B) {
+		if (player_->GetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_B) {
 			isWindow_ = false;
 		}
 	}
 	// 爆弾の強化ウィンドウ
-	if (player_->SetActionbutton() ==1 && isWindow_ == true) {
+	if (player_->GetActionbutton() ==1 && isWindow_ == true) {
 		ui_->Draw();
 	}
 	///!

@@ -109,7 +109,7 @@ public:
 	/// <summary>
 	/// アクションボタン
 	/// </summary>
-	int SetActionbutton() { return isInvestigatebutton_; }
+	int GetActionbutton() { return isInvestigatebutton_; }
 
 	void SetMotion();
 
@@ -164,4 +164,6 @@ private:
 	//斧フラグ
 	bool useAxe_;
 
+	// スタートフラグ
+	int isStartTimer_;
 };
