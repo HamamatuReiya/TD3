@@ -122,6 +122,11 @@ void GameScene::Initialize() {
 	// 木の初期化
 	forestWood_->Initialize(forestWoodModel_.get());
 
+	// チュートリアルの生成
+	tutorial_ = std::make_unique<Tutorial>();
+	//チュートリアル
+	tutorial_->TutorialInitialize();
+
 	/*森エリア終わり*/
 
 	//家ステージの読み込み
@@ -139,6 +144,8 @@ void GameScene::Initialize() {
 	//所持数UIの生成
 	itemCounter_ = std::make_unique<ItemCounter>();
 	itemCounter_->Initialize();
+
+	
 
 	//素材のモデル
 	modelStone_.reset(Model::CreateFromOBJ("stone", true));
@@ -199,9 +206,11 @@ void GameScene::Update() {
 		door2_[0]->Update5();
 		door_[10]->Update4();
 		door2_[1]->Update6();
+		//チュートリアル
+		tutorial_->TutorialUpdate();
 		break;
 
-	case Stage::kIsland:
+	case Stage::kTown:
 
 		ground_->Update();
 		skydome_->Update();
@@ -220,7 +229,7 @@ void GameScene::Update() {
 		door2_[1]->Update6();
 		break;
 
-	case Stage::kDesert:
+	case Stage::kForest:
 
 		break;
 
@@ -379,9 +388,9 @@ void GameScene::Draw() {
 		door2_[0]->Draw(viewProjection_);
 		door_[10]->Draw(viewProjection_);
 		door2_[1]->Draw(viewProjection_);
-	case Stage::kIsland:
-		//ground_->Draw(viewProjection_);
-		//skydome_->Draw(viewProjection_);
+	case Stage::kTown:
+		// ground_->Draw(viewProjection_);
+		// skydome_->Draw(viewProjection_);
 		house_->Draw(viewProjection_);
 		door_[0]->Draw(viewProjection_);
 		door_[1]->Draw(viewProjection_);
@@ -399,7 +408,7 @@ void GameScene::Draw() {
 
 		break;
 
-	case Stage::kDesert:
+	case Stage::kForest:
 
 		/*森エリア*/
 		// 地面
@@ -485,6 +494,8 @@ void GameScene::Draw() {
 			ui_->ExclamationMarkDraw();
 		}
 	}
+	//チュートリアル
+	tutorial_->TutorialDraw();
 	
 
 	// スプライト描画後処理
@@ -1176,6 +1187,7 @@ void GameScene::MaterialCheckCollisions() {
 				stone->OnCollision();
 				//素材の所持数を足す
 				stoneCount_++;
+				
 				isExclamation_[12] = false;
 			}
 		} else {

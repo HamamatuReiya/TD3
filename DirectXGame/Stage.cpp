@@ -1,5 +1,5 @@
 ﻿#include "Stage.h"
 
-int StageSelect::stageNo = kIsland;
+int StageSelect::stageNo = kTown;
 
 int StageSelect::GetStageNo() { return stageNo; }

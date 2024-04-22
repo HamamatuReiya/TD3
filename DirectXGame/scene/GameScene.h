@@ -25,6 +25,7 @@
 #include "ForestTreeLeaf.h"
 #include "ForestTreeWood.h"
 #include "ForestWood.h"
+#include "Tutorial.h"
 
 #include "ItemCounter.h"
 #include "Stone.h"
@@ -250,6 +251,8 @@ private: // メンバ変数
 	std::unique_ptr<UI> ui_;
 	bool isWindow_;
 	bool isExclamation_[16];
+	// チュートリアル
+	std::unique_ptr<Tutorial> tutorial_;
 	
 	
 
