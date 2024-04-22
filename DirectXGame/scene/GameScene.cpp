@@ -146,7 +146,9 @@ void GameScene::Initialize() {
 	modelJushi_.reset(Model::CreateFromOBJ("jushi", true));
 	modelShell_.reset(Model::CreateFromOBJ("shell", true));
 
-	LoadMaterialPopData();
+	LoadMaterialPopData(
+	    "Resources/stonePop.csv", "Resources/goldPop.csv",
+	    "Resources/jushiPop.csv", "Resources/shellPop.csv");
 	// 爆弾モデル
 	std::vector<Model*> bommModels = {bommModel_.get()};
 	// 爆弾の初期化
@@ -1254,7 +1256,9 @@ void GameScene::ShellSpawn(Vector3 position) {
 	shells_.push_back(shell);
 }
 
-void GameScene::LoadMaterialPopData() { 
+void GameScene::LoadMaterialPopData(
+    const std::string& fileStone, const std::string& fileGold, const std::string& fileJushi,
+    const std::string& fileShell) { 
 	stonePopCommands.clear(); 
 	goldPopCommands.clear();
 	jushiPopCommands.clear();
@@ -1262,7 +1266,7 @@ void GameScene::LoadMaterialPopData() {
 
 	//ファイルを開く
 	std::ifstream stoneFile;
-	stoneFile.open("Resources/stonePop.csv");
+	stoneFile.open(fileStone);
 	assert(stoneFile.is_open());
 	// ファイルの内容を文字列ストリームにコピー
 	stonePopCommands << stoneFile.rdbuf();
@@ -1271,7 +1275,7 @@ void GameScene::LoadMaterialPopData() {
 
 	// ファイルを開く
 	std::ifstream goldFile;
-	goldFile.open("Resources/goldPop.csv");
+	goldFile.open(fileGold);
 	assert(goldFile.is_open());
 	// ファイルの内容を文字列ストリームにコピー
 	goldPopCommands << goldFile.rdbuf();
@@ -1280,7 +1284,7 @@ void GameScene::LoadMaterialPopData() {
 
 	// ファイルを開く
 	std::ifstream jushiFile;
-	jushiFile.open("Resources/jushiPop.csv");
+	jushiFile.open(fileJushi);
 	assert(jushiFile.is_open());
 	// ファイルの内容を文字列ストリームにコピー
 	jushiPopCommands << jushiFile.rdbuf();
@@ -1289,7 +1293,7 @@ void GameScene::LoadMaterialPopData() {
 
 	// ファイルを開く
 	std::ifstream shellFile;
-	shellFile.open("Resources/shellPop.csv");
+	shellFile.open(fileShell);
 	assert(shellFile.is_open());
 	// ファイルの内容を文字列ストリームにコピー
 	shellPopCommands << shellFile.rdbuf();
