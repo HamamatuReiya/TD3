@@ -987,6 +987,96 @@ void GameScene::HouseCollision() {
 	if (posA.x >= 173.0f && posA.x <= 175.0f && posA.z <= 325.0f && posA.z >= -238.0f) {
 		player_->SetTranslationX(173.0f);
 	}
+
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= -90.0f && posA.x <= -88.0f && posA.z <= 166.0f && posA.z >= 68.0f) {
+		player_->SetTranslationX(-88.0f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= -300.0f && posA.x <= -90.0f && posA.z <= 69.0f && posA.z >= 67.0f) {
+		player_->SetTranslationZ(67.0f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >= -300.0f && posA.x <= -90.0f && posA.z <= 167.0f && posA.z >= 165.0f) {
+		player_->SetTranslationZ(167.0f);
+	}
+
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= -56.0f && posA.x <= -54.0f && posA.z <= 208.0f && posA.z >= 179.0f) {
+		player_->SetTranslationX(-54.0f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= -100.0f && posA.x <= -54.0f && posA.z <= 175.0f && posA.z >= 172.5f) {
+		player_->SetTranslationZ(172.5f);
+	}
+	// 下壁          //下                //上                 //左                //右
+	if (posA.x >= -101.5f && posA.x <= -99.5f && posA.z <= 231.0f && posA.z >= 170.5f) {
+		player_->SetTranslationX(-101.5f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >= -100.0f && posA.x <= -75.0f && posA.z <= 233.0f && posA.z >= 231.0f) {
+		player_->SetTranslationZ(233.0f);
+	}
+
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= -127.0f && posA.x <= -125.0f && posA.z <= -166.0f && posA.z >= -300.0f) {
+		player_->SetTranslationX(-125.0f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >= -215.0f && posA.x <= -126.0f && posA.z <= -165.0f && posA.z >= -167.0f) {
+		player_->SetTranslationZ(-165.0f);
+	}
+
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= 8.0f && posA.x <= 10.2f && posA.z <= -186.0f && posA.z >= -230.0f) {
+		player_->SetTranslationX(10.2f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >= -25.5f && posA.x <= 8.5f && posA.z <= -185.0f && posA.z >= -187.0f) {
+		player_->SetTranslationZ(-185.0f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= -33.5f && posA.x <= 8.5f && posA.z <= -229.5f && posA.z >= -231.5f) {
+		player_->SetTranslationZ(-231.5f);
+	}
+	// 下壁          //下                //上                 //左                //右
+	if (posA.x >= -34.5f && posA.x <= -32.5f && posA.z <= -186.0f && posA.z >= -230.0f) {
+		player_->SetTranslationX(-34.5f);
+	}
+
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= 26.0f && posA.x <= 28.0f && posA.z <= -200.0f && posA.z >= -218.5f) {
+		player_->SetTranslationX(28.0f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >= 8.0f && posA.x <= 27.0f && posA.z <= -199.0f && posA.z >= -201.0f) {
+		player_->SetTranslationZ(-199.0f);
+	}
+	// 下壁          //下                //上                 //左                //右
+	if (posA.x >= 7.0f && posA.x <= 9.0f && posA.z <= -200.0f && posA.z >= -218.5f) {
+		player_->SetTranslationX(7.0f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= 8.0f && posA.x <= 27.0f && posA.z <= -217.5f && posA.z >= -219.5f) {
+		player_->SetTranslationZ(-219.5f);
+	}
+
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= 183.0f && posA.x <= 185.0f && posA.z <= -164.0f && posA.z >= -241.0f) {
+		player_->SetTranslationX(185.0f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >= 26.5f && posA.x <= 183.0f && posA.z <= -162.0f && posA.z >= -164.0f) {
+		player_->SetTranslationZ(-162.0f);
+	}
+	// 下壁          //下                //上                 //左                //右
+	if (posA.x >= 25.0f && posA.x <= 27.0f && posA.z <= -164.0f && posA.z >= -241.0f) {
+		player_->SetTranslationX(25.0f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= 26.5f && posA.x <= 183.0f && posA.z <= -241.0f && posA.z >= -243.0f) {
+		player_->SetTranslationZ(-243.0f);
+	}
 }
 
 void GameScene::HouseStage() {// ドアモデル
