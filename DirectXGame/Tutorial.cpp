@@ -2,27 +2,80 @@
 
 void Tutorial::TutorialInitialize() {
 	// テクスチャ
-	uint32_t texturetutorial = TextureManager::Load("Tutorial.png");
+	uint32_t texturetutorial = TextureManager::Load("Tutorial0.png");
+	uint32_t texturetutorial1 = TextureManager::Load("Tutorial1.png");
+	uint32_t texturetutorial2 = TextureManager::Load("Tutorial.png");
+	uint32_t texturetutorial3 = TextureManager::Load("Tutorial3.png");
 	// スプライト生成
-	spritetTuorial_ =
+	spritetTuorial_[0] =
 	    Sprite::Create(texturetutorial, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	spritetTuorial_[1] =
+	    Sprite::Create(texturetutorial1, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	spritetTuorial_[2] =
+	    Sprite::Create(texturetutorial2, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	spritetTuorial_[3] =
+	    Sprite::Create(texturetutorial3, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 	//
-	isTuorial_ = false;
+	for (int i = 0; i < 4; i++) {
+		isTuorial_[i] = false;
+	}
+
+	ButtonCoolDown_ = 60;
+	// 0
+	isTuorial_[0] = true;
 }
 
 void Tutorial::TutorialUpdate() {
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		// 拾うモーション
-		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
-			isTuorial_ = true;
+		ButtonCoolDown_--;
+		//1
+		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && isTuorial_[0] == true) {
+			
+			if (ButtonCoolDown_ <= 0) {
+				isTuorial_[1] = true;
+				isTuorial_[0] = false;
+				ButtonCoolDown_ = 60;
+			} 
+		}
+		//2
+		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && isTuorial_[1] == true) {
+			if (ButtonCoolDown_ <= 0) {
+				isTuorial_[2] = true;
+				isTuorial_[1] = false;
+				isTuorial_[0] = false;
+				ButtonCoolDown_ = 60;
+			} 
+		}
+		//3
+		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && isTuorial_[2] == true) {
+			if (ButtonCoolDown_ <= 0) {
+				isTuorial_[3] = true;
+				isTuorial_[2] = false;
+				isTuorial_[1] = false;
+				isTuorial_[0] = false;
+				ButtonCoolDown_ = 60;
+			} 
 		}
 	}
 }
 
 void Tutorial::TutorialDraw() {
-	if (isTuorial_==true) {
-		spritetTuorial_->Draw(); 
+	//0
+	if (isTuorial_[0] == true) {
+		spritetTuorial_[0]->Draw(); 
+	}
+	//1
+	if (isTuorial_[1] == true) {
+		spritetTuorial_[1]->Draw();
+	}
+	//2
+	if (isTuorial_[2] == true) {
+		spritetTuorial_[2]->Draw();
+	}
+	//3
+	if (isTuorial_[3] == true) {
+		spritetTuorial_[3]->Draw();
 	}
 }
