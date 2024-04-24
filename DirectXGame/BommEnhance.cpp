@@ -15,9 +15,10 @@ void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
 	exp += shell;
 
 	for (int i = 0; i < 10; i++) {
-		if (exp >= expMax[i]) {
+		if (exp >= expMax[i] && bommLv >= i + 1) {
 			bommLv += 1;
 			exp = 0;
 		}
 	}
+	
 }
