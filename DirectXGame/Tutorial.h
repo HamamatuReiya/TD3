@@ -21,8 +21,9 @@ public:
 	/// </summary>
 	void TutorialDraw();
 
-	/*int GetmovePlayer() { return ismovePlayer_; }*/
-
+	bool GetIsTutorialEnd_() { return isTutorialEnd_; }
+	bool SetIsTutorialEnd_(bool tutorialEnd) { return isTutorialEnd_ = tutorialEnd; }
+	
 private:
 	// チュートリアルスプライト
 	Sprite* spritetTuorial_[4] = {nullptr,nullptr,nullptr,nullptr};
@@ -32,5 +33,7 @@ private:
 	bool ismovePlayer_;
 	//ボタンクールダウン
 	int ButtonCoolDown_;
-
+	//チュートリアルフラグ
+	bool isTutorialEnd_;
+	
 };

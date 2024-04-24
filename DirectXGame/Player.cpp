@@ -119,8 +119,7 @@ void Player::MotionAxeInitialize() {
 }
 
 void Player::Update() {
-	if (isController == true) {
-
+	
 		// モーション切り替え
 		if (motionRequest_) {
 			motion_ = motionRequest_.value();
@@ -146,13 +145,19 @@ void Player::Update() {
 			MotionRunUpdate();
 			break;
 		case Motion::kPick:
-			MotionPickUpdate();
+		    
+			    MotionPickUpdate();
+		    
 			break;
 		case Motion::kJump:
-			MotionJumpUpdate();
+		 
+			    MotionJumpUpdate();
+		    
 			break;
 		case Motion::kAxe:
-			MotionAxeUpdate();
+		  
+			    MotionAxeUpdate();
+		    
 		}
 		// ゲームパッドの状態を得る変数
 		XINPUT_STATE joyState;
@@ -167,7 +172,7 @@ void Player::Update() {
 		}
 		// アクションボタン
 		ActionButtonUpdate();
-	}
+	
 	//
 	isStartTimer_++;
 
@@ -192,60 +197,62 @@ void Player::MotionRunUpdate() {
 	XINPUT_STATE joyState;
 
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		// 速さ
-		const float speed = 0.6f;
-		worldTransformBody_.parent_ = &worldTransform_;
-		worldTransformHead_.parent_ = &worldTransform_;
-		worldTransformL_arm.parent_ = &worldTransform_;
-		worldTransformR_arm.parent_ = &worldTransform_;
-		worldTransformL_leg.parent_ = &worldTransform_;
-		worldTransformR_leg.parent_ = &worldTransform_;
-		worldTransformAxe_.parent_ = &worldTransform_;
-		// 移動量
-		Vector3 move = {
-		    (float)joyState.Gamepad.sThumbLX / SHRT_MAX * -speed, 0.0f,
-		    (float)joyState.Gamepad.sThumbLY / SHRT_MAX * -speed};
-		// 移動量に速さを反映
-		move = Multiply(speed, Normalize(move));
+		    // 速さ
+		    const float speed = 0.6f;
+		    worldTransformBody_.parent_ = &worldTransform_;
+		    worldTransformHead_.parent_ = &worldTransform_;
+		    worldTransformL_arm.parent_ = &worldTransform_;
+		    worldTransformR_arm.parent_ = &worldTransform_;
+		    worldTransformL_leg.parent_ = &worldTransform_;
+		    worldTransformR_leg.parent_ = &worldTransform_;
+		    worldTransformAxe_.parent_ = &worldTransform_;
+		    if (isController == true) {
 
-		move = TransformNormal(move, MakeRotateYmatrix(viewProjection_->rotation_.y));
+			    // 移動量
+			    Vector3 move = {
+			        (float)joyState.Gamepad.sThumbLX / SHRT_MAX * -speed, 0.0f,
+			        (float)joyState.Gamepad.sThumbLY / SHRT_MAX * -speed};
+			    // 移動量に速さを反映
+			    move = Multiply(speed, Normalize(move));
 
-		// 移動
-		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+			    move = TransformNormal(move, MakeRotateYmatrix(viewProjection_->rotation_.y));
 
-		if (Length(move) != 0) {
-			worldTransform_.rotation_.y = std::atan2(move.x, move.z);
-			// 左足
-			if (isLeftLeg_ == false) {
-				worldTransformL_leg.rotation_.x += 0.1f;
-				if (worldTransformL_leg.rotation_.x >= 1.0f) {
-					isLeftLeg_ = true;
-				}
-			} else if (isLeftLeg_ == true) {
-				worldTransformL_leg.rotation_.x -= 0.1f;
-				if (worldTransformL_leg.rotation_.x <= -1.0f) {
-					isLeftLeg_ = false;
-				}
-			}
-			// 右足
-			if (isRightLeg_ == false) {
-				worldTransformR_leg.rotation_.x -= 0.1f;
-				if (worldTransformR_leg.rotation_.x <= -1.0f) {
-					isRightLeg_ = true;
-				}
-			} else if (isRightLeg_ == true) {
-				worldTransformR_leg.rotation_.x += 0.1f;
-				if (worldTransformR_leg.rotation_.x >= 1.0f) {
-					isRightLeg_ = false;
-				}
-			}
-		} else {
-			worldTransformL_leg.rotation_.x = 0.0f;
-			worldTransformR_leg.rotation_.x = 0.0f;
-			isLeftLeg_ = false;
-			isRightLeg_ = false;
-		}
-		
+			    // 移動
+			    worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+
+			    if (Length(move) != 0) {
+				    worldTransform_.rotation_.y = std::atan2(move.x, move.z);
+				    // 左足
+				    if (isLeftLeg_ == false) {
+					    worldTransformL_leg.rotation_.x += 0.1f;
+					    if (worldTransformL_leg.rotation_.x >= 1.0f) {
+						    isLeftLeg_ = true;
+					    }
+				    } else if (isLeftLeg_ == true) {
+					    worldTransformL_leg.rotation_.x -= 0.1f;
+					    if (worldTransformL_leg.rotation_.x <= -1.0f) {
+						    isLeftLeg_ = false;
+					    }
+				    }
+				    // 右足
+				    if (isRightLeg_ == false) {
+					    worldTransformR_leg.rotation_.x -= 0.1f;
+					    if (worldTransformR_leg.rotation_.x <= -1.0f) {
+						    isRightLeg_ = true;
+					    }
+				    } else if (isRightLeg_ == true) {
+					    worldTransformR_leg.rotation_.x += 0.1f;
+					    if (worldTransformR_leg.rotation_.x >= 1.0f) {
+						    isRightLeg_ = false;
+					    }
+				    }
+			    } else {
+				    worldTransformL_leg.rotation_.x = 0.0f;
+				    worldTransformR_leg.rotation_.x = 0.0f;
+				    isLeftLeg_ = false;
+				    isRightLeg_ = false;
+			    }
+		    }
 	}
 };
 

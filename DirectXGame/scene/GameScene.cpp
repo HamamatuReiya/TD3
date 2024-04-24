@@ -126,6 +126,7 @@ void GameScene::Initialize() {
 	tutorial_ = std::make_unique<Tutorial>();
 	//チュートリアル
 	tutorial_->TutorialInitialize();
+	
 
 	/*森エリア終わり*/
 
@@ -209,6 +210,12 @@ void GameScene::Update() {
 		door2_[1]->Update6();
 		//チュートリアル
 		tutorial_->TutorialUpdate();
+		if (tutorial_->GetIsTutorialEnd_()==false) {
+			player_->SetIsController(false);
+		} else {
+			player_->SetIsController(true);
+		}
+
 		break;
 
 	case Stage::kTown:
@@ -494,8 +501,13 @@ void GameScene::Draw() {
 			ui_->ExclamationMarkDraw();
 		}
 	}
-	//チュートリアル
-	tutorial_->TutorialDraw();
+	// チュートリアル
+	if (tutorial_->GetIsTutorialEnd_() == false) {
+		tutorial_->TutorialDraw();
+	}
+		
+	
+	
 	
 
 	// スプライト描画後処理
@@ -738,14 +750,7 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[16] = false;
 	}
-	if (player_->GetIsController() == false) {
-		claimCount++;
-		if (claimCount >= 180) {
-			claimCount=0;
-			player_->SetIsController(true);
-		}
-	}
-	
+
 
 	// 家の当たり判定
 	if (posA.x >= 20.5f && posA.x <= 23.0f && posA.z <= -88.0f && posA.z >= -139.5f) {
@@ -1312,7 +1317,12 @@ void GameScene::MaterialCheckCollisions() {
 				stone->OnCollision();
 				//素材の所持数を足す
 				stoneCount_++;
-				
+				//チュートリアル用
+				tutorial_->SetIsTutorialEnd_(false);
+				if (tutorial_->GetIsTutorialEnd_()==false) {
+					player_->SetIsController(false);
+				}
+
 				isExclamation_[12] = false;
 			}
 		} else {
