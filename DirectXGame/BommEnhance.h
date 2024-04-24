@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Input.h"
 
 class BommEnhance {
 public:

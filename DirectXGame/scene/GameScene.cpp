@@ -250,15 +250,10 @@ void GameScene::Update() {
 	///更新
 	if (isWindow_==false) {
 		player_->Update();
-
-		if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A &&
-			    !(joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) 
-			{
-				bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
-			}
-		}
+	} else {
+		bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
 	}
+
 	//player_->SetIsController(false);
 	debugCamera_->Update();
 	bomm_->Update();
