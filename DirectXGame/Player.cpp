@@ -21,7 +21,7 @@ void Player::Initialize(const std::vector<Model*>& models)
 	// 初期化
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransform_.translation_ = {-1.292f, 0.0f, -40.178f};
+	worldTransform_.translation_ = {-1.292f, 0.0f, -30.178f};
 	// 体の初期化
 	worldTransformBody_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformBody_.rotation_ = {0.0f, 0.0f, 0.0f};
@@ -119,7 +119,7 @@ void Player::MotionAxeInitialize() {
 }
 
 void Player::Update() {
-	if (isController == true) {
+	
 
 		// モーション切り替え
 		if (motionRequest_) {
@@ -143,16 +143,24 @@ void Player::Update() {
 		switch (motion_) {
 		case Motion::kRun:
 		default:
+		  
 			MotionRunUpdate();
+		
 			break;
 		case Motion::kPick:
-			MotionPickUpdate();
+		    if (isController == true) {
+			    MotionPickUpdate();
+		    }
 			break;
 		case Motion::kJump:
-			MotionJumpUpdate();
+		    if (isController == true) {
+			    MotionJumpUpdate();
+		    }
 			break;
 		case Motion::kAxe:
-			MotionAxeUpdate();
+		    if (isController == true) {
+			    MotionAxeUpdate();
+		    }
 		}
 		// ゲームパッドの状態を得る変数
 		XINPUT_STATE joyState;
@@ -167,7 +175,7 @@ void Player::Update() {
 		}
 		// アクションボタン
 		ActionButtonUpdate();
-	}
+	
 	//
 	isStartTimer_++;
 
@@ -202,50 +210,52 @@ void Player::MotionRunUpdate() {
 		worldTransformR_leg.parent_ = &worldTransform_;
 		worldTransformAxe_.parent_ = &worldTransform_;
 		// 移動量
-		Vector3 move = {
-		    (float)joyState.Gamepad.sThumbLX / SHRT_MAX * -speed, 0.0f,
-		    (float)joyState.Gamepad.sThumbLY / SHRT_MAX * -speed};
-		// 移動量に速さを反映
-		move = Multiply(speed, Normalize(move));
+		if (isController == true) {
+			    Vector3 move = {
+			        (float)joyState.Gamepad.sThumbLX / SHRT_MAX * -speed, 0.0f,
+			        (float)joyState.Gamepad.sThumbLY / SHRT_MAX * -speed};
 
-		move = TransformNormal(move, MakeRotateYmatrix(viewProjection_->rotation_.y));
+			    // 移動量に速さを反映
+			    move = Multiply(speed, Normalize(move));
 
-		// 移動
-		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+			    move = TransformNormal(move, MakeRotateYmatrix(viewProjection_->rotation_.y));
 
-		if (Length(move) != 0) {
-			worldTransform_.rotation_.y = std::atan2(move.x, move.z);
-			// 左足
-			if (isLeftLeg_ == false) {
-				worldTransformL_leg.rotation_.x += 0.1f;
-				if (worldTransformL_leg.rotation_.x >= 1.0f) {
-					isLeftLeg_ = true;
-				}
-			} else if (isLeftLeg_ == true) {
-				worldTransformL_leg.rotation_.x -= 0.1f;
-				if (worldTransformL_leg.rotation_.x <= -1.0f) {
-					isLeftLeg_ = false;
-				}
-			}
-			// 右足
-			if (isRightLeg_ == false) {
-				worldTransformR_leg.rotation_.x -= 0.1f;
-				if (worldTransformR_leg.rotation_.x <= -1.0f) {
-					isRightLeg_ = true;
-				}
-			} else if (isRightLeg_ == true) {
-				worldTransformR_leg.rotation_.x += 0.1f;
-				if (worldTransformR_leg.rotation_.x >= 1.0f) {
-					isRightLeg_ = false;
-				}
-			}
-		} else {
-			worldTransformL_leg.rotation_.x = 0.0f;
-			worldTransformR_leg.rotation_.x = 0.0f;
-			isLeftLeg_ = false;
-			isRightLeg_ = false;
+			    // 移動
+			    worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+
+			    if (Length(move) != 0) {
+				    worldTransform_.rotation_.y = std::atan2(move.x, move.z);
+				    // 左足
+				    if (isLeftLeg_ == false) {
+					    worldTransformL_leg.rotation_.x += 0.1f;
+					    if (worldTransformL_leg.rotation_.x >= 1.0f) {
+						    isLeftLeg_ = true;
+					    }
+				    } else if (isLeftLeg_ == true) {
+					    worldTransformL_leg.rotation_.x -= 0.1f;
+					    if (worldTransformL_leg.rotation_.x <= -1.0f) {
+						    isLeftLeg_ = false;
+					    }
+				    }
+				    // 右足
+				    if (isRightLeg_ == false) {
+					    worldTransformR_leg.rotation_.x -= 0.1f;
+					    if (worldTransformR_leg.rotation_.x <= -1.0f) {
+						    isRightLeg_ = true;
+					    }
+				    } else if (isRightLeg_ == true) {
+					    worldTransformR_leg.rotation_.x += 0.1f;
+					    if (worldTransformR_leg.rotation_.x >= 1.0f) {
+						    isRightLeg_ = false;
+					    }
+				    }
+			    } else {
+				    worldTransformL_leg.rotation_.x = 0.0f;
+				    worldTransformR_leg.rotation_.x = 0.0f;
+				    isLeftLeg_ = false;
+				    isRightLeg_ = false;
+			    }
 		}
-		
 	}
 };
 
@@ -367,7 +377,7 @@ void Player::RoopInitialize() {
 	// 初期化
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransform_.translation_ = {-1.292f, 0.0f, -40.178f};
+	worldTransform_.translation_ = {-1.292f, 0.0f, -30.178f};
 	// 体の初期化
 	worldTransformBody_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransformBody_.rotation_ = {0.0f, 0.0f, 0.0f};

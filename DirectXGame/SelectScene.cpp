@@ -214,4 +214,7 @@ void SelectScene::StageSelect() {
 void SelectScene::SceneReset() {
 	// フェードインの開始
 	fade_->FadeInStart();
+	isSceneEnd_ = false;
+	fadeTimerFlag_ = false;
+	fadeTimer_ = kFadeTimer_;
 }

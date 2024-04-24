@@ -1,4 +1,4 @@
-#include "ResultSCene.h"
+ï»¿#include "ResultSCene.h"
 
 
 
@@ -7,11 +7,14 @@ ResultScene::ResultScene() {}
 ResultScene::~ResultScene() {}
 
 void ResultScene::Initialize() {
-
-	// ƒ[ƒ‹ƒhƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Ì‰Šú‰»
+	dxCommon_ = DirectXCommon::GetInstance();
+	input_ = Input::GetInstance();
+	audio_ = Audio::GetInstance();
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã®åˆæœŸåŒ–
 	worldTransform_.Initialize();
-	// ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“‚Ì‰Šú‰»
+	// ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³ã®åˆæœŸåŒ–
 	viewProjection_.Initialize();
+	isSceneEnd_ = false;
 }
 
 void ResultScene::Update() {
@@ -22,6 +25,6 @@ void ResultScene::Update() {
 
 void ResultScene::Draw() {}
 
-void ResultScene::SceneReset() {}
+void ResultScene::SceneReset() { isSceneEnd_ = false; }
 
 

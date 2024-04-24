@@ -162,13 +162,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			break;
 		}
-	}
+
 		// 軸表示の更新
 		axisIndicator->Update();
 		// ImGui受付終了
 		imguiManager->End();
 
-		//フルスクリーン
+		// フルスクリーン
 		if (input->TriggerKey(DIK_F)) {
 			win->SetFullscreen(true);
 		}
@@ -186,7 +186,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 
 		case SceneType::kSelect:
-			//セレクトシーンの描画
+			// セレクトシーンの描画
 			selectScene->Draw();
 			break;
 
@@ -204,7 +204,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		imguiManager->Draw();
 		// 描画終了
 		dxCommon->PostDraw();
-	
+	}
 
 	// 各種解放
 	SafeDelete(gameScene);

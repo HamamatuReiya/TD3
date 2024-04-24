@@ -18,6 +18,8 @@ void TitleScene::Initialize() {
 	subTitleHandle_ = TextureManager::Load("subTitle.png");
 	textureSubTitle_ = Sprite::Create(subTitleHandle_, {0.0f, 0.0f}, subTitleColor_, {0.0f, 0.0f});
 
+	isSceneEnd_ = false;
+
 	/*score_ = std::make_unique<Score>();
 	score_->Initialize();
 
@@ -183,6 +185,13 @@ void TitleScene::Draw() {
 void TitleScene::SceneReset() {
 	// フェードインの開始
 	fade_->FadeInStart();
+	isSceneEnd_ = false;
+	selectCount_ = 0;
+	padStateFlag_ = false;
+	dPadStateFlag_ = false;
+	fadeTimerFlag_ = false;
+	fadeTimer_ = kFadeTimer_;
+
 }
 
 void TitleScene::Select() {

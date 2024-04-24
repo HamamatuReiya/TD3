@@ -30,6 +30,8 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
+	isSceneEnd_ = false;
+
 	// 3Dモデル生成
 	model_.reset(Model::Create());
 	// ワールドトランスフォームの初期化
@@ -172,6 +174,9 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+	if (input_->TriggerKey(DIK_SPACE)) {
+		isSceneEnd_ = true;
+	}
 	//player_->Update();
 	debugCamera_->Update();
 	ground_->Update();
@@ -244,9 +249,10 @@ void GameScene::Update() {
 	if (isWindow_==false) {
 		player_->Update();
 	}
+	//player_->SetIsController(false);
 	debugCamera_->Update();
 	bomm_->Update();
-
+		
 	UpdateStonePopCommands();
 	UpdateGoldPopCommands();
 	UpdateJushiPopCommands();
@@ -541,6 +547,12 @@ void GameScene::SceneReset() {
 	for (int i = 0; i < 17; i++) {
 		isExclamation_[i] = false;
 	}
+
+	isSceneEnd_ = false;
+
+	LoadMaterialPopData(
+	    "Resources/stonePop.csv", "Resources/goldPop.csv", "Resources/jushiPop.csv",
+	    "Resources/shellPop.csv");
 }
 
 void GameScene::HouseCollision() {
@@ -775,13 +787,13 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[16] = false;
 	}
-	if (player_->GetIsController() == false) {
+	/*if (player_->GetIsController() == false) {
 		claimCount++;
 		if (claimCount >= 180) {
 			claimCount=0;
 			player_->SetIsController(true);
 		}
-	}
+	}*/
 	
 
 	// 家の当たり判定
