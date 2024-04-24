@@ -250,7 +250,7 @@ private: // メンバ変数
 	//UI
 	std::unique_ptr<UI> ui_;
 	bool isWindow_;
-	bool isExclamation_[16];
+	bool isExclamation_[17];
 	// チュートリアル
 	std::unique_ptr<Tutorial> tutorial_;
 	

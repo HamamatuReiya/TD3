@@ -137,7 +137,7 @@ void GameScene::Initialize() {
 	// ui
 	ui_->Initialize();
 	isWindow_ = false;
-	for (int i = 0; i < 16; i++) {
+	for (int i = 0; i < 17; i++) {
 		isExclamation_[i] = false;
 	}
 	
@@ -487,7 +487,7 @@ void GameScene::Draw() {
 		ui_->Draw();
 	}
 	///!
-	for (int i = 0; i < 16; i++) {
+	for (int i = 0; i < 17; i++) {
 		if (isExclamation_[i] == true) {
 			ui_->ExclamationMarkDraw();
 		}
@@ -723,6 +723,17 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[11] = false;
 	}
+
+	//梯子の当たり判定
+	if ( 165.0f >= posA.x && 155.0f <= posA.x &&2.0f>=posA.y&& 186.0f <= posA.z &&
+	    196.0f >= posA.z) {
+		isExclamation_[16] = true;
+		if (player_->GetIsPushX() == true) {
+		}
+	} else {
+		isExclamation_[16] = false;
+	}
+	
 
 	// 家の当たり判定
 	if (posA.x >= 20.5f && posA.x <= 23.0f && posA.z <= -88.0f && posA.z >= -139.5f) {
@@ -1074,6 +1085,19 @@ void GameScene::HouseCollision() {
 	// 右壁          //下                //上                 //左                //右
 	if (posA.x >= 26.5f && posA.x <= 183.0f && posA.z <= -241.0f && posA.z >= -243.0f) {
 		player_->SetTranslationZ(-243.0f);
+	}
+
+	// 上壁          //下                //上                 //左                //右
+	if (posA.x >= 161.0f && posA.x <= 163.0f && posA.z <= 193.5f && posA.z >= 188.5f) {
+		player_->SetTranslationX(163.0f);
+	}
+	// 左壁          //下                //上                 //左                //右
+	if (posA.x >= 155.0f && posA.x <= 162.0f && posA.z <= 194.5f && posA.z >= 192.5f) {
+		player_->SetTranslationZ(194.5f);
+	}
+	// 右壁          //下                //上                 //左                //右
+	if (posA.x >= 155.0f && posA.x <= 162.0f && posA.z <= 189.5f && posA.z >= 187.5f) {
+		player_->SetTranslationZ(187.5f);
 	}
 }
 
