@@ -147,7 +147,9 @@ void GameScene::Initialize() {
 	itemCounter_ = std::make_unique<ItemCounter>();
 	itemCounter_->Initialize();
 
-	
+	// 爆弾強化
+	bommEnhance_ = std::make_unique<BommEnhance>();
+	bommEnhance_->Initialize();
 
 	//素材のモデル
 	modelStone_.reset(Model::CreateFromOBJ("stone", true));
@@ -248,6 +250,14 @@ void GameScene::Update() {
 	///更新
 	if (isWindow_==false) {
 		player_->Update();
+
+		if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A &&
+			    !(joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) 
+			{
+				bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
+			}
+		}
 	}
 	//player_->SetIsController(false);
 	debugCamera_->Update();
@@ -479,7 +489,7 @@ void GameScene::Draw() {
 	itemCounter_->Draw();
 
 	// ゲームパッドの状態を得る変数
-	XINPUT_STATE joyState;
+	//XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		// window
 		if (player_->GetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
