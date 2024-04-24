@@ -95,6 +95,9 @@ public:
 	float SetTranslationY(float pos) { return worldTransform_.translation_.y = pos; }
 	float SetTranslationZ(float pos) { return worldTransform_.translation_.z = pos; }
 
+	bool GetIsController() { return isController; }
+	bool SetIsController(bool controllerFlag) { return isController = controllerFlag; }
+
 	// 中心座標を取得
 	Vector3 GetCenterPosition() const override;
 
@@ -166,4 +169,7 @@ private:
 
 	// スタートフラグ
 	int isStartTimer_;
+
+	//コントローラーの入力フラグ
+	bool isController;
 };

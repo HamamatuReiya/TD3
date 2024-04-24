@@ -724,14 +724,24 @@ void GameScene::HouseCollision() {
 		isExclamation_[11] = false;
 	}
 
+	
+
 	//梯子の当たり判定
 	if ( 165.0f >= posA.x && 155.0f <= posA.x &&2.0f>=posA.y&& 186.0f <= posA.z &&
 	    196.0f >= posA.z) {
 		isExclamation_[16] = true;
 		if (player_->GetIsPushX() == true) {
+			player_->SetIsController(false);
 		}
 	} else {
 		isExclamation_[16] = false;
+	}
+	if (player_->GetIsController() == false) {
+		claimCount++;
+		if (claimCount >= 180) {
+			claimCount=0;
+			player_->SetIsController(true);
+		}
 	}
 	
 
@@ -1087,6 +1097,7 @@ void GameScene::HouseCollision() {
 		player_->SetTranslationZ(-243.0f);
 	}
 
+	//梯子の当たり判定
 	// 上壁          //下                //上                 //左                //右
 	if (posA.x >= 161.0f && posA.x <= 163.0f && posA.z <= 193.5f && posA.z >= 188.5f) {
 		player_->SetTranslationX(163.0f);
