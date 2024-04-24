@@ -14,10 +14,10 @@ void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A &&
 		    !(joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
-			exp += stone;
-			exp += gold;
-			exp += jushi;
-			exp += shell;
+			exp += stone * 2; 
+			exp += gold * 2;
+			exp += jushi * 2;
+			exp += shell * 2;
 
 			for (int i = 0; i < 10; i++) {
 				if (exp >= expMax[i] && bommLv >= i + 1) {
