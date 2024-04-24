@@ -229,7 +229,7 @@ private: // メンバ変数
 	std::unique_ptr<ForestGround> forestGround_;
 
 	// 3Dモデル
-	std::unique_ptr<Model> forestTreeLeafModel_[4] = {nullptr};
+	std::unique_ptr<Model> forestTreeLeafModel_ = nullptr;
 	// 木の葉
 	std::unique_ptr<ForestTreeLeaf> forestTreeLeaf_;
 
