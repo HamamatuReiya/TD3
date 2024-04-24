@@ -128,6 +128,7 @@ void GameScene::Initialize() {
 	tutorial_ = std::make_unique<Tutorial>();
 	//チュートリアル
 	tutorial_->TutorialInitialize();
+	
 
 	/*森エリア終わり*/
 
@@ -216,6 +217,14 @@ void GameScene::Update() {
 		door2_[1]->Update6();
 		//チュートリアル
 		tutorial_->TutorialUpdate();
+		if (tutorial_->GetIsTutorialEnd_()==false) {
+			player_->SetIsController(false);
+		} else {
+			player_->SetIsController(true);
+			// 追従カメラの更新
+			followCamera_->Update();
+		}
+
 		break;
 
 	case Stage::kTown:
@@ -316,8 +325,9 @@ void GameScene::Update() {
 		return false;
 	});
 
-	// 追従カメラの更新
-	followCamera_->Update();
+
+	//// 追従カメラの更新
+	//followCamera_->Update();
 
 	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 	viewProjection_.matView = followCamera_->GetViewProjection().matView;
@@ -505,8 +515,13 @@ void GameScene::Draw() {
 			ui_->ExclamationMarkDraw();
 		}
 	}
-	//チュートリアル
-	tutorial_->TutorialDraw();
+	// チュートリアル
+	if (tutorial_->GetIsTutorialEnd_() == false) {
+		tutorial_->TutorialDraw();
+	}
+		
+	
+	
 	
 
 	// スプライト描画後処理
@@ -1366,7 +1381,12 @@ void GameScene::MaterialCheckCollisions() {
 				stone->OnCollision();
 				//素材の所持数を足す
 				stoneCount_++;
-				
+				//チュートリアル用
+				tutorial_->SetIsTutorialEnd_(false);
+				if (tutorial_->GetIsTutorialEnd_()==false) {
+					player_->SetIsController(false);
+				}
+
 				isExclamation_[12] = false;
 			}
 		} else {

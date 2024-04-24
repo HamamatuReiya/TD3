@@ -120,7 +120,6 @@ void Player::MotionAxeInitialize() {
 
 void Player::Update() {
 	
-
 		// モーション切り替え
 		if (motionRequest_) {
 			motion_ = motionRequest_.value();
