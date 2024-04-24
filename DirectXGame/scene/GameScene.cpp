@@ -105,17 +105,24 @@ void GameScene::Initialize() {
 	// 木の葉の生成
 	forestTreeLeaf_ = std::make_unique<ForestTreeLeaf>();
 	// 3Dモデルの生成
-	forestTreeLeafModel_[0].reset(Model::CreateFromOBJ("forestTreeLeaf", true));
+	forestTreeLeafModel_.reset(Model::CreateFromOBJ("forestTreeLeaf", true));
 	// 木の葉の初期化
 	forestTreeLeaf_->Initialize(
-	    forestTreeLeafModel_[0].get());
+	    forestTreeLeafModel_.get(), forestTreeLeafModel_.get(), forestTreeLeafModel_.get(),
+	    forestTreeLeafModel_.get(), forestTreeLeafModel_.get(), forestTreeLeafModel_.get(),
+	    forestTreeLeafModel_.get(), forestTreeLeafModel_.get(), forestTreeLeafModel_.get(),
+	    forestTreeLeafModel_.get());
 
 	// 木の生成
 	forestTreeWood_ = std::make_unique<ForestTreeWood>();
 	// 3Dモデルの生成
 	forestTreeWoodModel_.reset(Model::CreateFromOBJ("forestTreeWood", true));
 	// 木の初期化
-	forestTreeWood_->Initialize(forestTreeWoodModel_.get());
+	forestTreeWood_->Initialize(
+	    forestTreeWoodModel_.get(), forestTreeWoodModel_.get(), forestTreeWoodModel_.get(),
+	    forestTreeWoodModel_.get(), forestTreeWoodModel_.get(), forestTreeWoodModel_.get(),
+	    forestTreeWoodModel_.get(), forestTreeWoodModel_.get(), forestTreeWoodModel_.get(),
+	    forestTreeWoodModel_.get());
 
 	// 丸太の生成
 	forestWood_ = std::make_unique<ForestWood>();
