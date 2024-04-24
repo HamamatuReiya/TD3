@@ -28,6 +28,7 @@
 #include "Tutorial.h"
 
 #include "ItemCounter.h"
+#include "BommEnhance.h"
 #include "Stone.h"
 #include "Gold.h"
 #include "Jushi.h"
@@ -225,6 +226,9 @@ private: // メンバ変数
 	int jushiCount_ = 0;
 	int shellCount_ = 0;
 
+	//爆弾強化
+	std::unique_ptr<BommEnhance> bommEnhance_;
+
 	/*森エリア*/
 	// 3Dモデル
 	std::unique_ptr<Model> forestGroundModel_ = nullptr;
@@ -256,7 +260,9 @@ private: // メンバ変数
 	bool isExclamation_[17];
 	// チュートリアル
 	std::unique_ptr<Tutorial> tutorial_;
-	
+
+	// ゲームパッドの状態を得る変数
+	XINPUT_STATE joyState;
 
 	/// <summary>
 	/// ゲームシーン用
