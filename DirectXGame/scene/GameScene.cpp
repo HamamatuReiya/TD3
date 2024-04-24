@@ -214,6 +214,8 @@ void GameScene::Update() {
 			player_->SetIsController(false);
 		} else {
 			player_->SetIsController(true);
+			// 追従カメラの更新
+			followCamera_->Update();
 		}
 
 		break;
@@ -311,6 +313,7 @@ void GameScene::Update() {
 		}
 		return false;
 	});
+
 
 	// 追従カメラの更新
 	followCamera_->Update();

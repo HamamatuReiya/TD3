@@ -33,46 +33,45 @@ void Tutorial::TutorialUpdate() {
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		ButtonCoolDown_--;
-		// 0-1
+		// 1
 		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && isTuorial_[0] == true) {
 		
 			if (ButtonCoolDown_ <= 0) {
-				isTuorial_[1] = true;
 				isTuorial_[0] = false;
+				isTuorial_[1] = true;
+				isTuorial_[2] = false;
 				isTuorial_[3] = false;
 				ButtonCoolDown_ = 60;
 			}
 		}
-		// 1-2
+		// 2
 		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && isTuorial_[1] == true) {
 			if (ButtonCoolDown_ <= 0) {
-				isTuorial_[2] = true;
-				isTuorial_[1] = false;
 				isTuorial_[0] = false;
+				isTuorial_[1] = false;
+				isTuorial_[2] = true;
 				isTuorial_[3] = false;
 				ButtonCoolDown_ = 60;
 			}
 		}
-		
-		// 2-3
-		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A &&
-		        isTuorial_[2] == true) {
+		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A &&isTuorial_[2] == true) {
 			if (ButtonCoolDown_ <= 0) {
 				ButtonCoolDown_ = 60;
 				isTutorialEnd_ = true;
 			}
 		}
-		//3
-		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && isTutorialEnd_ == false &&
-		    isTuorial_[2] == true) {
-			if (ButtonCoolDown_ <= 0) {
-				isTuorial_[3] = true;
-				isTuorial_[2] = false;
-				isTuorial_[1] = false;
-				isTuorial_[0] = false;
-				ButtonCoolDown_ = 60;
-			}
-		}
+
+		////3
+		//if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && isTutorialEnd_ == false &&
+		//    isTuorial_[2] == true) {
+		//	if (ButtonCoolDown_ <= 0) {
+		//		isTuorial_[3] = true;
+		//		isTuorial_[2] = false;
+		//		isTuorial_[1] = false;
+		//		isTuorial_[0] = false;
+		//		ButtonCoolDown_ = 60;
+		//	}
+		//}
 		
     }
 }
