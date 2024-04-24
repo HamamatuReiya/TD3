@@ -1,4 +1,5 @@
 ﻿#include "BommEnhance.h"
+#include <ImGuiManager.h>
 
 void BommEnhance::Initialize() { 
 	for (int i = 0; i < 10; i++) {
@@ -21,4 +22,8 @@ void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
 		}
 	}
 	
+	ImGui::Begin("BommEnhance");
+	ImGui::Text("exp : %d", exp);
+	ImGui::Text("bommLv : %d", bommLv);
+	ImGui::End();
 }
