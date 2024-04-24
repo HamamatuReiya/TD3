@@ -116,6 +116,8 @@ public:
 
 	void SetMotion();
 
+	void RoopInitialize();
+
 private:
 	//ワールド変換
 	WorldTransform worldTransform_;

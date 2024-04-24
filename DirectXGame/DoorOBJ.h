@@ -28,6 +28,8 @@ public:
 
 	void SetKeyFlag(bool setKeyFlag) { keyFlag = setKeyFlag; }
 
+	void RoopInitialize(Vector3 pos, float rotate);
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;

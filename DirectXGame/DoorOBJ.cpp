@@ -87,3 +87,12 @@ Vector3 DoorOBJ::GetWorldPosition() {
 }
 
 void DoorOBJ::Collision() { doorOpenFlag = true; }
+
+void DoorOBJ::RoopInitialize(Vector3 pos, float rotate) {
+	doorOpenFlag = false;
+	keyFlag = false;
+	worldTransform_.Initialize();
+	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
+	worldTransform_.rotation_ = {0.0f, rotate, 0.0f};
+	worldTransform_.translation_ = pos;
+}

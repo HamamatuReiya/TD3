@@ -79,3 +79,13 @@ void Tutorial::TutorialDraw() {
 		spritetTuorial_[3]->Draw();
 	}
 }
+
+void Tutorial::RoopInitilize() {
+	for (int i = 0; i < 4; i++) {
+		isTuorial_[i] = false;
+	}
+
+	ButtonCoolDown_ = 60;
+	// 0
+	isTuorial_[0] = true;
+}

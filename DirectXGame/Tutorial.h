@@ -21,6 +21,8 @@ public:
 	/// </summary>
 	void TutorialDraw();
 
+	void RoopInitilize();
+
 	/*int GetmovePlayer() { return ismovePlayer_; }*/
 
 private:

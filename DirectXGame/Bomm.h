@@ -27,6 +27,7 @@ public:
 	// 中心座標を取得
 	Vector3 GetCenterPosition() const override;
 
+	void RoopInitialize();
 
 private:
 	//ビュープロジェクション

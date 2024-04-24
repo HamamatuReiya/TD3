@@ -11,6 +11,7 @@
 #include "SelectScene.h"
 #include "DesertStage.h"
 #include "VolcanoStage.h"
+#include "ResultScene.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -27,6 +28,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	DesertStage* desertStage = nullptr;
 	VolcanoStage* volcanoStage = nullptr;
+	ResultScene* resultScene = nullptr;
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
@@ -88,6 +90,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	volcanoStage = new VolcanoStage();
 	volcanoStage->Initialize();
 
+	resultScene = new ResultScene();
+	resultScene->Initialize();
+
 	//最初のシーン
 	SceneType sceneNo = SceneType::kTitle;
 
@@ -142,7 +147,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 
 			break;
+
+		case SceneType::kResult:
+			// ゲームシーンの毎フレーム処理
+			resultScene->Update();
+
+			if (resultScene->IsSceneEnd()) {
+				// 次のシーンの値を代入してシーン切り替え
+				sceneNo = resultScene->NextScene();
+
+				// ゲームシーンの初期化、フラグリセット等
+				resultScene->SceneReset();
+			}
+
+			break;
 		}
+	}
 		// 軸表示の更新
 		axisIndicator->Update();
 		// ImGui受付終了
@@ -184,7 +204,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		imguiManager->Draw();
 		// 描画終了
 		dxCommon->PostDraw();
-	}
+	
 
 	// 各種解放
 	SafeDelete(gameScene);

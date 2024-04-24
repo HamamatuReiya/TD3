@@ -29,6 +29,8 @@ public:
 
 	void Draw(ViewProjection& viewProjection);
 
+	void RoopInitialize();
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;

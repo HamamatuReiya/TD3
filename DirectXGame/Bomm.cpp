@@ -32,3 +32,10 @@ Vector3 Bomm::GetCenterPosition() const {
 
 	return worldPos;
 }
+
+void Bomm::RoopInitialize() {// 初期化
+	worldTransform_.Initialize();
+	worldTransform_.scale_ = {3.0f, 3.0f, 3.0f};
+	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
+	worldTransform_.translation_ = {0.0f, 2.0f, 0.0f};
+}

@@ -75,7 +75,7 @@ public:
 	bool isSceneEnd_ = false;
 
 	bool IsSceneEnd() { return isSceneEnd_; }
-	SceneType NextScene() { return SceneType::kTitle; }
+	SceneType NextScene() { return SceneType::kResult; }
 
 private:
 	/// <summary>

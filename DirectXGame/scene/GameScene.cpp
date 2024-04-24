@@ -504,7 +504,44 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
-void GameScene::SceneReset() {}
+void GameScene::SceneReset() {
+	// ワールドトランスフォームの初期化
+	worldTransform_.Initialize();
+	// ビュープロジェクションの初期化
+	viewProjection_.Initialize();
+
+	followCamera_->Initialize();
+
+	player_->RoopInitialize();
+
+	bomm_->RoopInitialize();
+
+	tutorial_->RoopInitilize();
+
+	isWindow_ = false;
+	for (int i = 0; i < 17; i++) {
+		isExclamation_[i] = false;
+	}
+
+	door_[0]->RoopInitialize({49.5f,0.0f, -89.0f,},0.0f);
+	door_[1]->RoopInitialize({-88.0f, 0.0f, -135.2f}, 0.0f);
+	door_[2]->RoopInitialize({-129.0f, 0.0f, -48.8f}, 0.0f);
+	door_[3]->RoopInitialize({-130.0f, 17.0f, -84.5f}, 0.0f);
+	door_[4]->RoopInitialize({107.0f, 0.0f, -34.3f}, 1.57f * 3.0f);
+	door_[5]->RoopInitialize({106.6f, 0.0f, 56.3f}, 1.57f * 3.0f);
+	door_[6]->RoopInitialize({-69.2f, 0.0f, 65.7f}, 1.57f * 2.0f);
+	door_[7]->RoopInitialize({-123.4f, 0.0f, 8.2f}, 1.57f * 1.0f);
+	door_[8]->RoopInitialize({-14.6f, 0.0f, 162.2f}, 1.57f * 1.0f);
+	door_[9]->RoopInitialize({86.7f, 0.0f, 191.2f}, 1.57f * 3.0f);
+	door_[10]->RoopInitialize({-163.3f, 0.0f, 247.6f}, 1.57f * 1.0f);
+		
+	door2_[0]->RoopInitialize({86.7f, 0.0f, 204.02f}, 1.57f * 3.0f);
+	door2_[1]->RoopInitialize({-163.3f, 0.0f, 234.8f}, 1.57f * 1.0f);
+
+	for (int i = 0; i < 17; i++) {
+		isExclamation_[i] = false;
+	}
+}
 
 void GameScene::HouseCollision() {
 	Vector3 posA = player_->GetWorldPosition();
