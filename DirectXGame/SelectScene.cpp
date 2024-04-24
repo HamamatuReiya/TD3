@@ -40,29 +40,31 @@ void SelectScene::Update() {
 	// ゲームパッド状態取得
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		if (stageCount_ >= 0 || stageCount_ <= kMaxStage_) {
-			if (joyState.Gamepad.sThumbLX < -1 && padStateFlag_ == false) {
-				padStateFlag_ = true;
-				stageCount_ -= 1;
-			} else if (joyState.Gamepad.sThumbLX > 1 && padStateFlag_ == false) {
-				padStateFlag_ = true;
-				stageCount_ += 1;
-			}
+			if (fadeTimerFlag_ == false) {
+				if (joyState.Gamepad.sThumbLX < -1 && padStateFlag_ == false) {
+					padStateFlag_ = true;
+					stageCount_ -= 1;
+				} else if (joyState.Gamepad.sThumbLX > 1 && padStateFlag_ == false) {
+					padStateFlag_ = true;
+					stageCount_ += 1;
+				}
 
-			if (joyState.Gamepad.sThumbLX == 0) {
-				padStateFlag_ = false;
-			}
+				if (joyState.Gamepad.sThumbLX == 0) {
+					padStateFlag_ = false;
+				}
 
-			Input::GetInstance()->Input::GetJoystickStatePrevious(0, preJoyState);
-			
-			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT &&
-			    !(preJoyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)) {
-				stageCount_ += 1;
+				Input::GetInstance()->Input::GetJoystickStatePrevious(0, preJoyState);
 
-			} else if (
-			    joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT &&
-			    !(preJoyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)) {
-				stageCount_ -= 1;
-			}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT &&
+				    !(preJoyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)) {
+					stageCount_ += 1;
+
+				} else if (
+				    joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT &&
+				    !(preJoyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)) {
+					stageCount_ -= 1;
+				}   
+			}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 		}
 
 		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && fadeTimerFlag_ == false) {

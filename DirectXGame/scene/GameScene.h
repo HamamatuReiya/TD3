@@ -98,7 +98,10 @@ private:
     /// <summary>
     /// 素材発生データの読み込み  
     /// </summary>
-	void LoadMaterialPopData();
+	void LoadMaterialPopData(
+	    const std::string& fileStone, const std::string& fileGold, const std::string& fileJushi,
+	    const std::string& fileShell);
+
 private:
 	void HouseCollision();
 
