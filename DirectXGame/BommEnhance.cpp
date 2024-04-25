@@ -27,9 +27,10 @@ void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
 			}
 		}
 	}
-	
+#ifdef _DEBUG
 	ImGui::Begin("BommEnhance");
 	ImGui::Text("exp : %d", exp);
 	ImGui::Text("bommLv : %d", bommLv);
 	ImGui::End();
+#endif !_DEBUG
 }
