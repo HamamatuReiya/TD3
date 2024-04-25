@@ -226,9 +226,17 @@ void GameScene::Update() {
 		tutorial_->TutorialUpdate();
 		if (tutorial_->GetIsTutorialEnd_()==false) {
 			player_->SetIsController(false);
+			followCamera_->SetIsController(false);
 		} else {
 			player_->SetIsController(true);
+			followCamera_->SetIsController(true);
 			
+		}
+		
+		if (tutorial_->GetIsView_() == true) {
+			followCamera_->UpView();
+		} else {
+			followCamera_->LowView();
 		}
 
 		break;
