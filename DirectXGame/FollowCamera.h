@@ -14,6 +14,10 @@ public:
 	// Imgui
 	void Debug();
 
+	//アップ
+	void UpView();
+
+
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 
 	bool GetIsController() { return isController; };
