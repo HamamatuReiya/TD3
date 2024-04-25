@@ -147,19 +147,19 @@ void Player::Update() {
 		
 			break;
 		case Motion::kPick:
-		    if (isController == true) {
-			    MotionPickUpdate();
-		    }
+		    
+			MotionPickUpdate();
+		    
 			break;
 		case Motion::kJump:
-		    if (isController == true) {
-			    MotionJumpUpdate();
-		    }
+		    
+			MotionJumpUpdate();
+		    
 			break;
 		case Motion::kAxe:
-		    if (isController == true) {
-			    MotionAxeUpdate();
-		    }
+		    
+			MotionAxeUpdate();
+		    
 		}
 		// ゲームパッドの状態を得る変数
 		XINPUT_STATE joyState;
@@ -174,7 +174,9 @@ void Player::Update() {
 		}
 		// アクションボタン
 		ActionButtonUpdate();
-	
+	    if (isController == false) {
+		    motionRequest_ = Motion::kRun;
+	    }
 	//
 	isStartTimer_++;
 
@@ -300,11 +302,13 @@ void Player::Debug() {
 	XINPUT_STATE joyState;
 	//斧
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_DPAD_UP) {
-			useAxe_ = true;
-		}
-		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_DPAD_DOWN) {
-			useAxe_ = false;
+		if (isController == true) {
+			    if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_DPAD_UP) {
+				    useAxe_ = true;
+			    }
+			    if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_DPAD_DOWN) {
+				    useAxe_ = false;
+			    }
 		}
 	}
 
@@ -472,9 +476,11 @@ void Player::MotionAxeUpdate() {
 
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		//モーション
-		if (useAxe_ == true && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_X) {
-			motionRequest_ = Motion::kAxe;
-		}
+		
+			if (useAxe_ == true && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_X) {
+				    motionRequest_ = Motion::kAxe;
+			}
+		
 	}
 
 }

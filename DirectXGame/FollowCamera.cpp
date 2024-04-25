@@ -1,6 +1,7 @@
 ﻿#include "FollowCamera.h"
 #include "ImGuiManager.h"
 #include <MT.h>
+#include "Player.h"
 
 void FollowCamera::Initialize() {
 	// ワールドトランスフォーム
@@ -9,6 +10,8 @@ void FollowCamera::Initialize() {
 	viewProjection_.Initialize();
 
 	input_ = Input::GetInstance();
+
+	isController = true;
 
 	////角度
 	viewProjection_.rotation_.y = 3.16f;
@@ -29,8 +32,10 @@ void FollowCamera::Update() {
 
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		// 速さ
-		const float rotate = 0.04f;
-		viewProjection_.rotation_.y += joyState.Gamepad.sThumbRX / SHRT_MAX * rotate;
+		if (isController == true) {
+			const float rotate = 0.04f;
+			viewProjection_.rotation_.y += joyState.Gamepad.sThumbRX / SHRT_MAX * rotate;
+		}
 	}
 	
 	//Imgui

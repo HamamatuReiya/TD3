@@ -219,12 +219,13 @@ void GameScene::Update() {
 		tutorial_->TutorialUpdate();
 		if (tutorial_->GetIsTutorialEnd_()==false) {
 			player_->SetIsController(false);
+			followCamera_->SetIsController(false);
 		} else {
 			player_->SetIsController(true);
-			// 追従カメラの更新
-			followCamera_->Update();
+			followCamera_->SetIsController(true);
 		}
-
+		// 追従カメラの更新
+		followCamera_->Update();
 		break;
 
 	case Stage::kTown:

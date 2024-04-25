@@ -16,6 +16,9 @@ public:
 
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 
+	bool GetIsController() { return isController; };
+	bool SetIsController(bool flag) { return isController = flag; }
+
 private:
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
@@ -23,6 +26,8 @@ private:
 	WorldTransform worldTransform_;
 	// キーボード
 	Input* input_ = nullptr;
+
+	bool isController = true;
 
 private:
 	// 追従対象
