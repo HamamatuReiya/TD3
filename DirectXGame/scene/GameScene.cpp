@@ -223,9 +223,9 @@ void GameScene::Update() {
 		} else {
 			player_->SetIsController(true);
 			followCamera_->SetIsController(true);
+			
 		}
-		// 追従カメラの更新
-		followCamera_->Update();
+
 		break;
 
 	case Stage::kTown:
@@ -327,8 +327,9 @@ void GameScene::Update() {
 	});
 
 
-	//// 追従カメラの更新
-	//followCamera_->Update();
+
+	// 追従カメラの更新
+	followCamera_->Update();
 
 	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 	viewProjection_.matView = followCamera_->GetViewProjection().matView;
