@@ -221,8 +221,7 @@ void GameScene::Update() {
 			player_->SetIsController(false);
 		} else {
 			player_->SetIsController(true);
-			// 追従カメラの更新
-			followCamera_->Update();
+			
 		}
 
 		break;
@@ -326,8 +325,9 @@ void GameScene::Update() {
 	});
 
 
-	//// 追従カメラの更新
-	//followCamera_->Update();
+
+	// 追従カメラの更新
+	followCamera_->Update();
 
 	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 	viewProjection_.matView = followCamera_->GetViewProjection().matView;
