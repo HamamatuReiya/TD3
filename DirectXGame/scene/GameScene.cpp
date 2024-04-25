@@ -225,6 +225,12 @@ void GameScene::Update() {
 			followCamera_->SetIsController(true);
 			
 		}
+		
+		if (tutorial_->GetIsView_() == true) {
+			followCamera_->UpView();
+		} else {
+			followCamera_->LowView();
+		}
 
 		break;
 

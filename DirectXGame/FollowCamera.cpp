@@ -16,13 +16,16 @@ void FollowCamera::Initialize() {
 	////角度
 	viewProjection_.rotation_.y = 3.16f;
 	viewProjection_.rotation_.x = 90.0f;
+
+	offsetZ = 20.0f;
+	offsetY = 55.0f;
 }
 
 void FollowCamera::Update() {
 
 	if (target_) {
 		// 追従対象からカメラまでのオフセット
-		Vector3 offset = {0.0f, 55.0f, 20.0f};
+		Vector3 offset = {0.0f, offsetY, offsetZ};
 		offset = TransformNormal(offset, MakeRotateYmatrix(viewProjection_.rotation_.y));
 		// 座標をコピーしてオフセット分ずらす
 		viewProjection_.translation_ = Add(target_->translation_, offset);
@@ -38,6 +41,7 @@ void FollowCamera::Update() {
 		}
 	}
 	
+	
 	//Imgui
 	Debug();
 
@@ -47,8 +51,14 @@ void FollowCamera::Update() {
 
 void FollowCamera::UpView() {
 	viewProjection_.rotation_.x = 3.358f;
-	viewProjection_.translation_.y = 4.03f;
-	viewProjection_.translation_.z = -9.0f;
+	offsetY = 2.3f;
+	offsetZ = 0.0f;
+}
+
+void FollowCamera::LowView() { 
+	viewProjection_.rotation_.x = 90.0f;
+	offsetY = 55.0f;
+	offsetZ = 20.0f;
 }
 
 
