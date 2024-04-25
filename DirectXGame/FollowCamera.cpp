@@ -40,6 +40,14 @@ void FollowCamera::Update() {
 	viewProjection_.UpdateMatrix();
 }
 
+void FollowCamera::UpView() {
+	viewProjection_.rotation_.x = 3.358f;
+	viewProjection_.translation_.y = 4.03f;
+	viewProjection_.translation_.z = -9.0f;
+}
+
+
+
 void FollowCamera::Debug() {
 
 #ifdef _DEBUG
@@ -47,16 +55,27 @@ void FollowCamera::Debug() {
 	// デバック
 	float cameraRot[3] = {
 	    viewProjection_.rotation_.x, viewProjection_.rotation_.y, viewProjection_.rotation_.z};
+	// デバック
+	float cameraPos[3] = {
+	    viewProjection_.translation_.x, viewProjection_.translation_.y,
+	    viewProjection_.translation_.z};
 
 	// 画面の座標を表示
 	ImGui::Begin("Camera");
-	ImGui::SliderFloat3("Rot", cameraRot, -90.0f, 90.0f);
+	ImGui::SliderFloat3("Rot", cameraRot, -15.0f,15.0f);
+	ImGui::SliderFloat3("Pos", cameraPos, -30.0f, 30.0f);
 	ImGui::End();
 
 	// 回転
 	viewProjection_.rotation_.x = cameraRot[0];
 	viewProjection_.rotation_.y = cameraRot[1];
 	viewProjection_.rotation_.z = cameraRot[2];
+
+	// 移動
+	viewProjection_.translation_.x = cameraPos[0];
+	viewProjection_.translation_.y = cameraPos[1];
+	viewProjection_.translation_.z = cameraPos[2];
 	
 #endif !_DEBUG
 }
+
