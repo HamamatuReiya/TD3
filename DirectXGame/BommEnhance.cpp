@@ -2,7 +2,7 @@
 #include <ImGuiManager.h>
 
 void BommEnhance::Initialize() { 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 1; i <= 10; i++) {
 		expMax[i] = 10 * i;
 	}
 	 
@@ -19,12 +19,11 @@ void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
 			exp += jushi * 2;
 			exp += shell * 2;
 
-			for (int i = 0; i < 10; i++) {
-				if (exp >= expMax[i] && bommLv >= i + 1) {
-					bommLv += 1;
-					exp = 0;
-				}
+			if (exp >= expMax[0] && bommLv >= 2) {
+				bommLv += 1;
 			}
+
+
 		}
 	}
 	
