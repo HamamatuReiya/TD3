@@ -118,6 +118,11 @@ public:
 
 	void RoopInitialize();
 
+	void DoorOpenAnimeX1(Vector3 pos,float rotate);
+	/*void DoorOpenAnimeX2(Vector3 pos, float rotate);
+	void DoorOpenAnimeY1(Vector3 pos, float rotate);
+	void DoorOpenAnimeY2(Vector3 pos, float rotate);*/
+
 private:
 	//ワールド変換
 	WorldTransform worldTransform_;

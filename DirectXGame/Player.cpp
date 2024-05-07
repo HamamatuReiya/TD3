@@ -420,6 +420,8 @@ void Player::RoopInitialize() {
 	worldTransform_.translation_.y = 0.0f;
 }
 
+void Player::DoorOpenAnimeX1(Vector3 pos, float rotate) {}
+
 void Player::MotionPickUpdate() { 
 	// 拾うモーション時間
 	PickMotionTime_++;
