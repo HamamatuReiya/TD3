@@ -252,7 +252,6 @@ private: // メンバ変数
 
 	/*森エリア終わり*/
 
-	int claimCount = 0;
 
 	//UI
 	std::unique_ptr<UI> ui_;

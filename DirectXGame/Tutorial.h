@@ -21,9 +21,14 @@ public:
 	/// </summary>
 	void TutorialDraw();
 
+	bool GetIsTutorialEnd_() { return isTutorialEnd_; }
+	bool SetIsTutorialEnd_(bool tutorialEnd) { return isTutorialEnd_ = tutorialEnd; }
+
+	bool GetIsView_() { return isView_; }
+	bool SetIsView__(bool isview) { return isView_ = isview; }
+	
 	void RoopInitilize();
 
-	/*int GetmovePlayer() { return ismovePlayer_; }*/
 
 private:
 	// チュートリアルスプライト
@@ -34,5 +39,8 @@ private:
 	bool ismovePlayer_;
 	//ボタンクールダウン
 	int ButtonCoolDown_;
-
+	//チュートリアルフラグ
+	bool isTutorialEnd_;
+	//
+	bool isView_;
 };

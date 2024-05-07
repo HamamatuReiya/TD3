@@ -21,8 +21,11 @@ void Tutorial::TutorialInitialize() {
 	}
 
 	ButtonCoolDown_ = 60;
-	// 0
+	//0
 	isTuorial_[0] = true;
+
+	
+	isTutorialEnd_ = false;
 }
 
 void Tutorial::TutorialUpdate() {
@@ -30,54 +33,75 @@ void Tutorial::TutorialUpdate() {
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		ButtonCoolDown_--;
-		//1
+		// 1
 		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && isTuorial_[0] == true) {
-			
+		
 			if (ButtonCoolDown_ <= 0) {
-				isTuorial_[1] = true;
 				isTuorial_[0] = false;
+				isTuorial_[1] = true;
+				isTuorial_[2] = false;
+				isTuorial_[3] = false;
 				ButtonCoolDown_ = 60;
-			} 
+				isView_ = true;
+			}
 		}
-		//2
+		// 2
 		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && isTuorial_[1] == true) {
 			if (ButtonCoolDown_ <= 0) {
-				isTuorial_[2] = true;
-				isTuorial_[1] = false;
 				isTuorial_[0] = false;
+				isTuorial_[1] = false;
+				isTuorial_[2] = true;
+				isTuorial_[3] = false;
 				ButtonCoolDown_ = 60;
-			} 
+				isView_ = false;
+			}
 		}
-		//3
 		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && isTuorial_[2] == true) {
+			if (ButtonCoolDown_ <= 0) {
+				isTuorial_[2] = false;
+				ButtonCoolDown_ = 60;
+				isTutorialEnd_ = true;
+			}
+		}
+
+		//3
+		if (isTutorialEnd_ == false && isTuorial_[2] == false && isTuorial_[0] == false &&
+		    isTuorial_[1] == false) {
 			if (ButtonCoolDown_ <= 0) {
 				isTuorial_[3] = true;
 				isTuorial_[2] = false;
 				isTuorial_[1] = false;
 				isTuorial_[0] = false;
 				ButtonCoolDown_ = 60;
-			} 
+			}
 		}
-	}
+		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && isTuorial_[3] == true) {
+			isTutorialEnd_ = true;
+		}
+		
+    }
 }
 
+
 void Tutorial::TutorialDraw() {
-	//0
+	
+	// 0
 	if (isTuorial_[0] == true) {
-		spritetTuorial_[0]->Draw(); 
+		spritetTuorial_[0]->Draw();
 	}
-	//1
+	// 1
 	if (isTuorial_[1] == true) {
 		spritetTuorial_[1]->Draw();
 	}
-	//2
+	// 2
 	if (isTuorial_[2] == true) {
 		spritetTuorial_[2]->Draw();
 	}
-	//3
+	// 3
 	if (isTuorial_[3] == true) {
 		spritetTuorial_[3]->Draw();
 	}
+	
 }
 
 void Tutorial::RoopInitilize() {
@@ -88,4 +112,5 @@ void Tutorial::RoopInitilize() {
 	ButtonCoolDown_ = 60;
 	// 0
 	isTuorial_[0] = true;
+	isTutorialEnd_ = false;
 }
