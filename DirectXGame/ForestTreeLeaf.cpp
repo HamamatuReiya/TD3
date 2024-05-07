@@ -21,15 +21,15 @@ void ForestTreeLeaf::Initialize(
 		worldTransform_[i].rotation_ = {0.0f, 0.0f, 0.0f};
 	}
 	worldTransform_[0].translation_ = {0.0f, 0.0f, 0.0f};
-	worldTransform_[1].translation_ = {0.0f, 0.0f, -200.0f};
-	worldTransform_[2].translation_ = {-200.0f, 0.0f, 0.0f};
-	worldTransform_[3].translation_ = {-200.0f, 0.0f, -200.0f};
-	worldTransform_[4].translation_ = {-400.0f, 0.0f, 0.0f};
-	worldTransform_[5].translation_ = {-400.0f, 0.0f, -200.0f};
-	worldTransform_[6].translation_ = {-400.0f, 0.0f, -400.0f};
-	worldTransform_[7].translation_ = {0.0f, 0.0f, -400.0f};
-	worldTransform_[8].translation_ = {-200.0f, 0.0f, -400.0f};
-	worldTransform_[9].translation_ = {-600.0f, 0.0f, -400.0f};
+	worldTransform_[1].translation_ = {0.0f, 0.0f, -100.0f};
+	worldTransform_[2].translation_ = {-100.0f, 0.0f, 0.0f};
+	worldTransform_[3].translation_ = {-100.0f, 0.0f, -100.0f};
+	worldTransform_[4].translation_ = {-200.0f, 0.0f, 0.0f};
+	worldTransform_[5].translation_ = {-200.0f, 0.0f, -100.0f};
+	worldTransform_[6].translation_ = {-200.0f, 0.0f, -200.0f};
+	worldTransform_[7].translation_ = {0.0f, 0.0f, -200.0f};
+	worldTransform_[8].translation_ = {-100.0f, 0.0f, -200.0f};
+	worldTransform_[9].translation_ = {-300.0f, 0.0f, -200.0f};
 }
 
 void ForestTreeLeaf::Update() {
