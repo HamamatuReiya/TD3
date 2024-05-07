@@ -476,10 +476,9 @@ void Player::MotionAxeUpdate() {
 
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		//モーション
-		
-			if (useAxe_ == true && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_X) {
-				    motionRequest_ = Motion::kAxe;
-			}
+		if (useAxe_ == true && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_X) {
+			    motionRequest_ = Motion::kAxe;
+		}
 		
 	}
 
