@@ -142,9 +142,10 @@ void Player::Update() {
 		switch (motion_) {
 		case Motion::kRun:
 		default:
-		  
-			MotionRunUpdate();
-		
+		    if (inHouseControllerFlag == true) {
+
+			    MotionRunUpdate();
+		    }
 			break;
 		case Motion::kPick:
 		    
@@ -174,7 +175,7 @@ void Player::Update() {
 		}
 		// アクションボタン
 		ActionButtonUpdate();
-	    if (isController == false) {
+	    if (isController == false||inHouseControllerFlag==false) {
 		    motionRequest_ = Motion::kRun;
 	    }
 	//
@@ -420,7 +421,22 @@ void Player::RoopInitialize() {
 	worldTransform_.translation_.y = 0.0f;
 }
 
-void Player::DoorOpenAnimeX1(Vector3 pos, float rotate) {}
+void Player::InHouse1() {
+	if (houseInFlag[0] == false) {
+		worldTransform_.translation_ = {53.0f, 0.0f, -86.5f};
+		worldTransform_.rotation_.y = 3.2f;
+		houseInFlag[0] = true;
+		inHouseControllerFlag = false;
+	}
+	if (inMoveFlag == true && houseInFlag[0] == true) {
+		worldTransform_.translation_.z -= 0.3f;
+		if (worldTransform_.translation_.z <= -107.0f) {
+			    inMoveFlag = false;
+			    inHouseControllerFlag = true;
+		}
+	
+	}
+}
 
 void Player::MotionPickUpdate() { 
 	// 拾うモーション時間

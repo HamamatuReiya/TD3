@@ -118,10 +118,9 @@ public:
 
 	void RoopInitialize();
 
-	void DoorOpenAnimeX1(Vector3 pos,float rotate);
-	/*void DoorOpenAnimeX2(Vector3 pos, float rotate);
-	void DoorOpenAnimeY1(Vector3 pos, float rotate);
-	void DoorOpenAnimeY2(Vector3 pos, float rotate);*/
+	void InHouse1();
+
+	bool GetInMoveFlag() { return inMoveFlag; }
 
 private:
 	//ワールド変換
@@ -179,4 +178,8 @@ private:
 
 	//コントローラーの入力フラグ
 	bool isController;
+
+	bool houseInFlag[11] = {false};
+	bool inMoveFlag = {true};
+	bool inHouseControllerFlag = true;
 };
