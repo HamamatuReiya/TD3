@@ -186,6 +186,8 @@ private: // メンバ変数
 	//梯子
 	std::unique_ptr<Model> ladderModel_[8] = {nullptr};
 
+	bool houseCollisionFlag=true; 
+
 	//素材
 	//std::list<BommParts*> bommParts_;
 	std::list<Stone*> stones_;
