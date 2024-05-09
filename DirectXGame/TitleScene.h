@@ -49,9 +49,6 @@ public:
 	bool IsSceneEnd() { return isSceneEnd_; }
 	SceneType NextScene() { return SceneType::kSelect; }
 
-private:
-    void Select();
-
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -73,12 +70,6 @@ private: // メンバ変数
 	uint32_t subTitleHandle_;
 
 	Vector4 subTitleColor_ = {1.0f, 1.0f, 1.0f, 0.0f};
-
-	int selectCount_ = 0;
-
-	// スティックのフラグ
-	bool padStateFlag_ = false;
-	bool dPadStateFlag_ = false;
 
 	// 天球
 	std::unique_ptr<Spacedome> spacedome_;
