@@ -187,6 +187,7 @@ private: // メンバ変数
 	std::unique_ptr<Model> ladderModel_[8] = {nullptr};
 
 	bool houseCollisionFlag=true; 
+	bool houseCollisionSwitchFlag[11] = {true};
 
 	//素材
 	//std::list<BommParts*> bommParts_;

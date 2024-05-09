@@ -120,7 +120,7 @@ public:
 
 	void InHouse1();
 
-	bool GetInMoveFlag() { return inMoveFlag; }
+	bool GetOutMoveFlag1() { return outMoveFlag[0]; }
 
 private:
 	//ワールド変換
@@ -180,6 +180,10 @@ private:
 	bool isController;
 
 	bool houseInFlag[11] = {false};
-	bool inMoveFlag = {true};
+	bool inMoveFlag[11] = {true};
+	bool outMoveFlag[11] = {true};
 	bool inHouseControllerFlag = true;
+	bool isItemGetFlag[11] = {false};
+	int itemGetCount[11] = {0};
+	int itemCount = 300;
 };

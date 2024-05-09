@@ -419,6 +419,13 @@ void Player::RoopInitialize() {
 	// モーション初期化
 	motion_ = Motion::kRun;
 	worldTransform_.translation_.y = 0.0f;
+	for (int x = 0; x < 11; x++) {
+		houseInFlag[x] = {false};
+		inMoveFlag[x] = {true};
+		outMoveFlag[x] = {true};
+		isItemGetFlag[x] = {false};
+	}
+	inHouseControllerFlag = true;
 }
 
 void Player::InHouse1() {
@@ -427,14 +434,31 @@ void Player::InHouse1() {
 		worldTransform_.rotation_.y = 3.2f;
 		houseInFlag[0] = true;
 		inHouseControllerFlag = false;
+		
 	}
-	if (inMoveFlag == true && houseInFlag[0] == true) {
+	if (inMoveFlag[0] == true && houseInFlag[0] == true) {
 		worldTransform_.translation_.z -= 0.3f;
 		if (worldTransform_.translation_.z <= -107.0f) {
-			    inMoveFlag = false;
-			    inHouseControllerFlag = true;
+			    worldTransform_.translation_.z = -107.0f;
+			    inMoveFlag[0] = false;
+			    
 		}
-	
+	}
+	if (inMoveFlag[0] == false && isItemGetFlag[0]==false) {
+		itemGetCount[0]++;
+	}
+	if (itemGetCount[0] >= itemCount) {
+		isItemGetFlag[0] = true;
+	}
+	if (isItemGetFlag[0] == true && outMoveFlag[0]==true) {
+		worldTransform_.translation_.z += 0.3f;
+		if (worldTransform_.translation_.z >= -86.5f) {
+			    worldTransform_.translation_.z = -86.5f;
+			    outMoveFlag[0] = false;
+		}
+	}
+	if (outMoveFlag[0] == false) {
+		inHouseControllerFlag = true;
 	}
 }
 

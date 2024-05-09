@@ -546,6 +546,9 @@ void GameScene::SceneReset() {
 
 	tutorial_->RoopInitilize();
 
+	houseCollisionFlag = true;
+	houseCollisionSwitchFlag[11] = {true};
+
 	isWindow_ = false;
 	for (int i = 0; i < 17; i++) {
 		isExclamation_[i] = false;
@@ -602,13 +605,19 @@ void GameScene::HouseCollision() {
 	if (door_[0]->GetKeyFlag() == true) {
 		door_[0]->Collision();
 		player_->InHouse1();
-		houseCollisionFlag = false;
+		if (houseCollisionSwitchFlag[0] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posB.x + 7.0f >= posA.x && posB.x <= posA.x && posB.z <= posA.z - 1.5f &&
 	    posB.z + 4.0f >= posA.z) {
 		isExclamation_[0] = true;
 	} else {
 		isExclamation_[0] = false;
+	}
+	if (player_->GetOutMoveFlag1() == false && houseCollisionSwitchFlag[0] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[0] = false;
 	}
 
 
