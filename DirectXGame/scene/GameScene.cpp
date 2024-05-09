@@ -3,6 +3,7 @@
 #include "TextureManager.h"
 #include <cassert>
 #include <fstream>
+#include <ImGuiManager.h>
 
 GameScene::GameScene() {}
 
@@ -275,6 +276,10 @@ void GameScene::Update() {
 		player_->Update();
 	} else {
 		bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
+		stoneCount_ = 0;
+		goldCount_ = 0;
+		jushiCount_ = 0;
+		shellCount_ = 0;
 	}
 
 	//player_->SetIsController(false);
