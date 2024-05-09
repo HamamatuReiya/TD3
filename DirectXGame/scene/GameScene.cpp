@@ -3,6 +3,7 @@
 #include "TextureManager.h"
 #include <cassert>
 #include <fstream>
+#include <ImGuiManager.h>
 
 GameScene::GameScene() {}
 
