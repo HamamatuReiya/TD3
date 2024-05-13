@@ -201,14 +201,7 @@ void SelectScene::StageSelect() {
 		cursorPos_.x = 313.0f - 30;
 		stageNo = Stage::kTown;
 	}
-	if (stageCount_ == 2) {
-		cursorPos_.x = 600.0f - 30;
-		stageNo = Stage::kForest;
-	}
-	if (stageCount_ == 3) {
-		cursorPos_.x = 853.0f - 30;
-		stageNo = Stage::kVolcano;
-	}
+
 }
 
 void SelectScene::SceneReset() {
