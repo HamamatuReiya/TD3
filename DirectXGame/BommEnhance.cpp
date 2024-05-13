@@ -2,16 +2,10 @@
 #include <ImGuiManager.h>
 
 void BommEnhance::Initialize() { 
-	expMax[0] = 10;
-	expMax[1] = 20;
-	expMax[2] = 30;
-	expMax[3] = 40;
-	expMax[4] = 50;
-	expMax[5] = 60;
-	expMax[6] = 70;
-	expMax[7] = 80;
-	expMax[8] = 90;
-	expMax[9] = 100;
+
+	for (int i = 0; i < 10; i++) {
+		expMax[i] = 10 * (i + 1);
+	}
 	 
 }
 
@@ -21,51 +15,66 @@ void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
 	exp += jushi * 2;
 	exp += shell * 2;
 
-	// 1
-	if (exp >= expMax[0] && bommLv == 1) {
-		bommLv += 1;
-		exp = 0;
+
+	for (int i = 0; i < 10; i++) {
+		if (exp >= expMax[i] && bommLv == i + 1) {
+			bommLv += 1;
+
+			if (exp <= 10) {
+				exp = 0;
+			} 
+			else if (exp > 10) {
+				int num = exp / 10;
+				exp -= 10 * num;
+			}
+		}
 	}
-	// 2 
-	if (exp >= expMax[1] && bommLv == 2) {
-		bommLv += 1;
-		exp = 0;
-	}
-	// 3
-	if (exp >= expMax[2] && bommLv == 3) {
-		bommLv += 1;
-		exp = 0;
-	}
-	// 4
-	if (exp >= expMax[3] && bommLv == 4) {
-		bommLv += 1;
-		exp = 0;
-	}
-	// 5
-	if (exp >= expMax[4] && bommLv == 5) {
-		bommLv += 1;
-		exp = 0;
-	}
-	// 6
-	if (exp >= expMax[5] && bommLv == 6) {
-		bommLv += 1;
-		exp = 0;
-	}
-	// 7
-	if (exp >= expMax[6] && bommLv == 7) {
-		bommLv += 1;
-		exp = 0;
-	}
-	// 8
-	if (exp >= expMax[7] && bommLv == 8) {
-		bommLv += 1;
-		exp = 0;
-	}
-	// 9
-	if (exp >= expMax[8] && bommLv == 9) {
-		bommLv += 1;
-		exp = 0;
-	}
+
+	//// 1
+	//if (exp >= expMax[0] && bommLv == 1) {
+	//	bommLv += 1;
+	//	exp = 0;
+	//}
+	//// 2 
+	//if (exp >= expMax[1] && bommLv == 2) {
+	//	bommLv += 1;
+	//	exp = 0;
+	//}
+	//// 3
+	//if (exp >= expMax[2] && bommLv == 3) {
+	//	bommLv += 1;
+	//	exp = 0;
+	//}
+	//// 4
+	//if (exp >= expMax[3] && bommLv == 4) {
+	//	bommLv += 1;
+	//	exp = 0;
+	//}
+	//// 5
+	//if (exp >= expMax[4] && bommLv == 5) {
+	//	bommLv += 1;
+	//	exp = 0;
+	//}
+	//// 6
+	//if (exp >= expMax[5] && bommLv == 6) {
+	//	bommLv += 1;
+	//	exp = 0;
+	//}
+	//// 7
+	//if (exp >= expMax[6] && bommLv == 7) {
+	//	bommLv += 1;
+	//	exp = 0;
+	//}
+	//// 8
+	//if (exp >= expMax[7] && bommLv == 8) {
+	//	bommLv += 1;
+	//	exp = 0;
+	//}
+	//// 9
+	//if (exp >= expMax[8] && bommLv == 9) {
+	//	bommLv += 1;
+	//	exp = 0;
+	//}
 
 	// ゲームパッドの状態を得る変数
 	/*XINPUT_STATE joyState;
