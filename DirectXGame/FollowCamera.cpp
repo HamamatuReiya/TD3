@@ -14,7 +14,7 @@ void FollowCamera::Initialize() {
 	isController = true;
 
 	////角度
-	viewProjection_.rotation_.y = 3.16f;
+	viewProjection_.rotation_.y = 3.145f;
 	viewProjection_.rotation_.x = 90.0f;
 
 	offsetZ = 20.0f;
@@ -77,7 +77,7 @@ void FollowCamera::Debug() {
 
 	// 画面の座標を表示
 	ImGui::Begin("Camera");
-	ImGui::SliderFloat3("Rot", cameraRot, -15.0f,15.0f);
+	ImGui::SliderFloat3("Rot", cameraRot, -10.0f,10.0f);
 	ImGui::SliderFloat3("Pos", cameraPos, -30.0f, 30.0f);
 	ImGui::End();
 

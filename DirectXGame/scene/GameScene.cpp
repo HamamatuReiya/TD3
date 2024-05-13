@@ -259,16 +259,6 @@ void GameScene::Update() {
 		door_[10]->Update4();
 		door2_[1]->Update6();
 		break;
-
-	case Stage::kForest:
-
-		break;
-
-	case Stage::kVolcano:
-
-		ground_->Update();
-
-		break;
 	}
 	
 	///更新
@@ -413,8 +403,7 @@ void GameScene::Draw() {
 
 	switch (stageNo) {
 	case Stage::kTutorial:
-		// ground_->Draw(viewProjection_);
-		// skydome_->Draw(viewProjection_);
+		
 		house_->Draw(viewProjection_);
 		door_[0]->Draw(viewProjection_);
 		door_[1]->Draw(viewProjection_);
@@ -429,9 +418,9 @@ void GameScene::Draw() {
 		door2_[0]->Draw(viewProjection_);
 		door_[10]->Draw(viewProjection_);
 		door2_[1]->Draw(viewProjection_);
+		break;
 	case Stage::kTown:
-		// ground_->Draw(viewProjection_);
-		// skydome_->Draw(viewProjection_);
+		
 		house_->Draw(viewProjection_);
 		door_[0]->Draw(viewProjection_);
 		door_[1]->Draw(viewProjection_);
@@ -449,26 +438,7 @@ void GameScene::Draw() {
 
 		break;
 
-	case Stage::kForest:
-
-		/*森エリア*/
-		// 地面
-		forestGround_->Draw(viewProjection_);
-		// 木の葉
-		forestTreeLeaf_->Draw(viewProjection_);
-		// 木
-		forestTreeWood_->Draw(viewProjection_);
-		// 丸太
-		forestWood_->Draw(viewProjection_);
-		/*森エリア終わり*/
-
-		break;
-
-	case Stage::kVolcano:
-
-		ground_->Draw(viewProjection_);
-
-		break;
+	
 	}
 
 	for (Stone* stone : stones_) {
@@ -506,11 +476,22 @@ void GameScene::Draw() {
 	/// </summary>
 	if (player_->GetActionbutton() == 1) {
 		player_->ActionbuttonDraw();
-	}else
-	{
+	} else {
 		ui_->ButtonHintDraw();
 	}
+	switch (stageNo) {
+	case Stage::kTutorial:
+		// チュートリアル
+		if (tutorial_->GetIsTutorialEnd_() == false) {
+			tutorial_->TutorialDraw();
+		}
+		break;
+	case Stage::kTown:
+		
 
+
+		break;
+	}
 	itemCounter_->Draw();
 
 	// ゲームパッドの状態を得る変数
@@ -530,20 +511,11 @@ void GameScene::Draw() {
 		ui_->Draw();
 	}
 	///!
-	for (int i = 0; i < 17; i++) {
+	for (int i = 0; i < 18; i++) {
 		if (isExclamation_[i] == true) {
 			ui_->ExclamationMarkDraw();
 		}
 	}
-	// チュートリアル
-	if (tutorial_->GetIsTutorialEnd_() == false) {
-		tutorial_->TutorialDraw();
-	}
-		
-	
-	
-	
-
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -565,10 +537,10 @@ void GameScene::SceneReset() {
 	tutorial_->RoopInitilize();
 
 	houseCollisionFlag = true;
-	houseCollisionSwitchFlag[11] = {true};
+
 
 	isWindow_ = false;
-	for (int i = 0; i < 17; i++) {
+	for (int i = 0; i < 18; i++) {
 		isExclamation_[i] = false;
 	}
 
@@ -587,7 +559,7 @@ void GameScene::SceneReset() {
 	door2_[0]->RoopInitialize({86.7f, 0.0f, 204.02f}, 1.57f * 3.0f);
 	door2_[1]->RoopInitialize({-163.3f, 0.0f, 234.8f}, 1.57f * 1.0f);
 
-	for (int i = 0; i < 17; i++) {
+	for (int i = 0; i < 18; i++) {
 		isExclamation_[i] = false;
 	}
 
@@ -1409,21 +1381,28 @@ void GameScene::MaterialCheckCollisions() {
 		// プレイヤーと石の交差判定
 		if (hit <= radius) {
 			isExclamation_[12] = true;
+			isExclamation_[18] = true;
 			if (player_->GetIsPushX() == true) {
 				// 石の衝突時コールバックを呼び出す
 				stone->OnCollision();
 				//素材の所持数を足す
 				stoneCount_++;
-				//チュートリアル用
-				tutorial_->SetIsTutorialEnd_(false);
-				if (tutorial_->GetIsTutorialEnd_()==false) {
-					player_->SetIsController(false);
+				switch (stageNo) {
+				case Stage::kTutorial:
+					// チュートリアル用
+					tutorial_->SetIsTutorialEnd_(false);
+					if (tutorial_->GetIsTutorialEnd_() == false) {
+						player_->SetIsController(false);
+					}
+					break;
 				}
 
 				isExclamation_[12] = false;
+				isExclamation_[18] = false;
 			}
 		} else {
 			isExclamation_[12] = false;
+			isExclamation_[18] = false;
 		}
 	}
 
