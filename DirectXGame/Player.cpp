@@ -8,6 +8,13 @@ void Player::Initialize(const std::vector<Model*>& models)
 
 	isPushX_ = false;
 	isController = true;
+	for (int x = 0; x < 11; x++) {
+		houseInFlag[x] = {false};
+		inMoveFlag[x] = {true};
+		outMoveFlag[x] = {true};
+		isItemGetFlag[x] = {false};
+		offFlag[x] = {false};
+	}
 	
 	// 初期化
 	worldTransform_.Initialize();
@@ -424,6 +431,7 @@ void Player::RoopInitialize() {
 		inMoveFlag[x] = {true};
 		outMoveFlag[x] = {true};
 		isItemGetFlag[x] = {false};
+		offFlag[x] = {false};
 	}
 	inHouseControllerFlag = true;
 }
@@ -457,8 +465,42 @@ void Player::InHouse1() {
 			    outMoveFlag[0] = false;
 		}
 	}
-	if (outMoveFlag[0] == false) {
+	if (outMoveFlag[0] == false && offFlag[0]==false) {
 		inHouseControllerFlag = true;
+		offFlag[0] = true;
+	}
+}
+
+void Player::InHouse2() {
+	if (houseInFlag[1] == false) {
+		worldTransform_.translation_ = {-84.8f, 0.0f, -132.5f};
+		worldTransform_.rotation_.y = 3.2f;
+		houseInFlag[1] = true;
+		inHouseControllerFlag = false;
+	}
+	if (inMoveFlag[1] == true && houseInFlag[1] == true) {
+		worldTransform_.translation_.z -= 0.3f;
+		if (worldTransform_.translation_.z <= -150.0f) {
+			    worldTransform_.translation_.z = -150.0f;
+			    inMoveFlag[1] = false;
+		}
+	}
+	if (inMoveFlag[1] == false && isItemGetFlag[1] == false) {
+		itemGetCount[1]++;
+	}
+	if (itemGetCount[1] >= itemCount) {
+		isItemGetFlag[1] = true;
+	}
+	if (isItemGetFlag[1] == true && outMoveFlag[1] == true) {
+		worldTransform_.translation_.z += 0.3f;
+		if (worldTransform_.translation_.z >= -132.5f) {
+			    worldTransform_.translation_.z = -132.5f;
+			    outMoveFlag[1] = false;
+		}
+	}
+	if (outMoveFlag[1] == false && offFlag[1]==false) {
+		inHouseControllerFlag = true;
+		offFlag[1] = true;
 	}
 }
 

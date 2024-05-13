@@ -33,6 +33,10 @@ void GameScene::Initialize() {
 
 	isSceneEnd_ = false;
 
+	for (int i = 0; i < 11; i++) {
+		houseCollisionSwitchFlag[i] = true;
+	}
+
 	// 3Dモデル生成
 	model_.reset(Model::Create());
 	// ワールドトランスフォームの初期化
@@ -535,6 +539,26 @@ void GameScene::Draw() {
 			ui_->ExclamationMarkDraw();
 		}
 	}
+	for (Stone* stone : stones_) {
+		if (stone->GetIsExclamation() == true) {
+			ui_->ExclamationMarkDraw();
+		}
+	}
+	for (Gold* gold : golds_) {
+		if (gold->GetIsExclamation() == true) {
+			ui_->ExclamationMarkDraw();
+		}
+	}
+	for (Jushi* jushi : jushis_) {
+		if (jushi->GetIsExclamation() == true) {
+			ui_->ExclamationMarkDraw();
+		}
+	}
+	for (Shell* shell : shells_) {
+		if (shell->GetIsExclamation() == true) {
+			ui_->ExclamationMarkDraw();
+		}
+	}
 	// チュートリアル
 	if (tutorial_->GetIsTutorialEnd_() == false) {
 		tutorial_->TutorialDraw();
@@ -565,11 +589,26 @@ void GameScene::SceneReset() {
 	tutorial_->RoopInitilize();
 
 	houseCollisionFlag = true;
-	houseCollisionSwitchFlag[11] = {true};
+	for (int i = 0; i < 11; i++) {
+		houseCollisionSwitchFlag[i] = true;
+	}
 
 	isWindow_ = false;
 	for (int i = 0; i < 17; i++) {
 		isExclamation_[i] = false;
+	}
+
+	for (Stone* stone : stones_) {
+		stone->SetIsExclamation(false);
+	}
+	for (Gold* gold : golds_) {
+		gold->SetIsExclamation(false);
+	}
+	for (Jushi* jushi : jushis_) {
+		jushi->SetIsExclamation(false);
+	}
+	for (Shell* shell : shells_) {
+		shell->SetIsExclamation(false);
 	}
 
 	door_[0]->RoopInitialize({49.5f,0.0f, -89.0f,},0.0f);
@@ -586,10 +625,6 @@ void GameScene::SceneReset() {
 		
 	door2_[0]->RoopInitialize({86.7f, 0.0f, 204.02f}, 1.57f * 3.0f);
 	door2_[1]->RoopInitialize({-163.3f, 0.0f, 234.8f}, 1.57f * 1.0f);
-
-	for (int i = 0; i < 17; i++) {
-		isExclamation_[i] = false;
-	}
 
 	isSceneEnd_ = false;
 
@@ -648,6 +683,10 @@ void GameScene::HouseCollision() {
 	} 
 	if (door_[1]->GetKeyFlag() == true) {
 		door_[1]->Collision();
+		player_->InHouse2();
+		if (houseCollisionSwitchFlag[1] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posC.x + 7.0f >= posA.x && posC.x <= posA.x && posC.z <= posA.z - 1.5f &&
 	    posC.z + 4.0f >= posA.z) {
@@ -655,6 +694,11 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[1] = false;
 	}
+	if (player_->GetOutMoveFlag2() == false && houseCollisionSwitchFlag[1] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[1] = false;
+	}
+
 
 	// ドアの判定
 	if (posD.x + 7.0f >= posA.x && posD.x <= posA.x && posD.z <= posA.z - 1.5f &&
@@ -1397,7 +1441,7 @@ void GameScene::MaterialCheckCollisions() {
 	for (Stone* stone : stones_) {
 		// 石の座標
 		posB = stone->GetWorldPosition();
-
+		
 		float radius1 = 1.5f;
 		float radius2 = 2.0f;
 
@@ -1408,7 +1452,7 @@ void GameScene::MaterialCheckCollisions() {
 
 		// プレイヤーと石の交差判定
 		if (hit <= radius) {
-			isExclamation_[12] = true;
+			stone->SetIsExclamation(true);
 			if (player_->GetIsPushX() == true) {
 				// 石の衝突時コールバックを呼び出す
 				stone->OnCollision();
@@ -1420,10 +1464,10 @@ void GameScene::MaterialCheckCollisions() {
 					player_->SetIsController(false);
 				}
 
-				isExclamation_[12] = false;
+				stone->SetIsExclamation(false);
 			}
 		} else {
-			isExclamation_[12] = false;
+			stone->SetIsExclamation(false);
 		}
 	}
 
@@ -1442,16 +1486,16 @@ void GameScene::MaterialCheckCollisions() {
 
 		// プレイヤーと金の交差判定
 		if (hit <= radius) {
-			isExclamation_[13] = true;
+			gold->SetIsExclamation(true);
 			if (player_->GetIsPushX() == true) {
 				// 金の衝突時コールバックを呼び出す
 				gold->OnCollision();
 				// 素材の所持数を足す
 				goldCount_++;
-				isExclamation_[13] = false;
+				gold->SetIsExclamation(false);
 			}
 		} else {
-			isExclamation_[13] = false;
+			gold->SetIsExclamation(false);
 		}
 	}
 
@@ -1470,16 +1514,16 @@ void GameScene::MaterialCheckCollisions() {
 
 		// プレイヤーと樹脂の交差判定
 		if (hit <= radius) {
-			isExclamation_[14] = true;
+			jushi->SetIsExclamation(true);
 			if (player_->GetIsPushX() == true) {
 				// 樹脂の衝突時コールバックを呼び出す
 				jushi->OnCollision();
 				// 素材の所持数を足す
 				jushiCount_++;
-				isExclamation_[14] = false;
+				jushi->SetIsExclamation(false);
 			}
 		} else {
-			isExclamation_[14] = false;
+			jushi->SetIsExclamation(false);
 		}
 	}
 
@@ -1498,16 +1542,16 @@ void GameScene::MaterialCheckCollisions() {
 
 		// プレイヤーと貝の交差判定
 		if (hit <= radius) {
-			isExclamation_[15] = true;
+			shell->SetIsExclamation(true);
 			if (player_->GetIsPushX() == true) {
 				// 貝の衝突時コールバックを呼び出す
 				shell->OnCollision();
 				// 素材の所持数を足す
 				shellCount_++;
-				isExclamation_[15] = false;
+				shell->SetIsExclamation(false);
 			}
 		} else {
-			isExclamation_[15] = false;
+			shell->SetIsExclamation(false);
 		}
 	}
 }
