@@ -275,11 +275,15 @@ void GameScene::Update() {
 	if (isWindow_==false) {
 		player_->Update();
 	} else {
-		bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
-		stoneCount_ = 0;
-		goldCount_ = 0;
-		jushiCount_ = 0;
-		shellCount_ = 0;
+		if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+				bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
+				stoneCount_ = 0;
+				goldCount_ = 0;
+				jushiCount_ = 0;
+				shellCount_ = 0;
+			}
+		}
 	}
 
 	//player_->SetIsController(false);
