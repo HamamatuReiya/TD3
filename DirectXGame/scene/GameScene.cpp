@@ -563,10 +563,6 @@ void GameScene::Draw() {
 			ui_->ExclamationMarkDraw();
 		}
 	}
-	// チュートリアル
-	if (tutorial_->GetIsTutorialEnd_() == false) {
-		tutorial_->TutorialDraw();
-	}
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
