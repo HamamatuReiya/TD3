@@ -140,6 +140,7 @@
     <ClCompile Include="Spacedome.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Stone.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="UI.cpp" />
@@ -207,6 +208,7 @@
     <ClInclude Include="Spacedome.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Stone.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Tutorial.h" />
     <ClInclude Include="UI.h" />
