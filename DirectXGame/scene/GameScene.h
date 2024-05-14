@@ -33,6 +33,7 @@
 #include "Gold.h"
 #include "Jushi.h"
 #include "Shell.h"
+#include "Timer.h"
 
 /// <summary>
 /// ゲームシーン
@@ -231,6 +232,10 @@ private: // メンバ変数
 
 	//爆弾強化
 	std::unique_ptr<BommEnhance> bommEnhance_;
+
+	//時間
+	std::unique_ptr<Timer> timer_;
+	int time = 180 * 60;
 
 	/*森エリア*/
 	// 3Dモデル

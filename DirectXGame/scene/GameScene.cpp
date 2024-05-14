@@ -160,6 +160,10 @@ void GameScene::Initialize() {
 	itemCounter_ = std::make_unique<ItemCounter>();
 	itemCounter_->Initialize();
 
+	//時間
+	timer_ = std::make_unique<Timer>();
+	timer_->Initialize();
+
 	// 爆弾強化
 	bommEnhance_ = std::make_unique<BommEnhance>();
 	bommEnhance_->Initialize();
@@ -325,6 +329,10 @@ void GameScene::Update() {
 
 	// 所持数UIの更新
 	itemCounter_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
+
+	time--;
+	//時間更新
+	timer_->Update(time);
 
 	stones_.remove_if([](Stone* stone) {
 		if (stone->IsDead()) {
@@ -520,6 +528,8 @@ void GameScene::Draw() {
 	if (isFade == true) {
 		fadeSprite_->Draw();
 	}
+	// 時間更新
+	timer_->Draw();
 
 	// ゲームパッドの状態を得る変数
 	//XINPUT_STATE joyState;
