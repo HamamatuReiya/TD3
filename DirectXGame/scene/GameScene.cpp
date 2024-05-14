@@ -641,7 +641,7 @@ void GameScene::HouseCollision() {
 	} 
 	if (door_[0]->GetKeyFlag() == true) {
 		door_[0]->Collision();
-		player_->InHouse1();
+		player_->InHouseZ(0, {53.0f, 0.0f, -86.5f}, 3.2f,-107.0f);
 		if (houseCollisionSwitchFlag[0] == true) {
 			houseCollisionFlag = false;
 		}
@@ -667,7 +667,7 @@ void GameScene::HouseCollision() {
 	} 
 	if (door_[1]->GetKeyFlag() == true) {
 		door_[1]->Collision();
-		player_->InHouse2();
+		player_->InHouseZ(1, {-84.8f, 0.0f, -132.5f}, 3.2f, -150.0f);
 		if (houseCollisionSwitchFlag[1] == true) {
 			houseCollisionFlag = false;
 		}
@@ -689,10 +689,15 @@ void GameScene::HouseCollision() {
 	    posD.z + 4.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
 			door_[2]->SetKeyFlag(true);
+			
 		}
 	} 
 	if (door_[2]->GetKeyFlag() == true) {
 		door_[2]->Collision();
+		player_->InHouseZ(2, {-125.7f, 0.0f, -47.0f}, 3.2f, -70.0f);
+		if (houseCollisionSwitchFlag[2] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posD.x + 7.0f >= posA.x && posD.x <= posA.x && posD.z <= posA.z - 1.5f &&
 	    posD.z + 4.0f >= posA.z) {
@@ -700,16 +705,25 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[2] = false;
 	}
+	if (player_->GetOutMoveFlag3() == false && houseCollisionSwitchFlag[2] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[2] = false;
+	}
 
 	// ドアの判定
 	if (posF.x+3.0f >= posA.x && posF.x-5.0f <= posA.x && posF.z <= posA.z &&
 	    posF.z+8.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
 			door_[4]->SetKeyFlag(true);
+			
 		}
 	} 
 	if (door_[4]->GetKeyFlag() == true) {
 		door_[4]->Collision();
+		player_->InHouseX(3, {104.5f, 0.0f, -31.2f}, 1.6f, 130.0f);
+		if (houseCollisionSwitchFlag[3] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posF.x + 3.0f >= posA.x && posF.x - 5.0f <= posA.x && posF.z <= posA.z &&
 	    posF.z + 8.0f >= posA.z) {
@@ -717,7 +731,10 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[3]= false;
 	}
-
+	if (player_->GetOutMoveFlag4() == false && houseCollisionSwitchFlag[3] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[3] = false;
+	}
 
 	// ドアの判定
 	if (posG.x + 3.0f >= posA.x && posG.x - 5.0f <= posA.x && posG.z <= posA.z &&
@@ -728,6 +745,10 @@ void GameScene::HouseCollision() {
 	}
 	if (door_[5]->GetKeyFlag() == true) {
 		door_[5]->Collision();
+		player_->InHouseX(4, {104.0f, 0.0f, 59.5f}, 1.6f, 135.0f);
+		if (houseCollisionSwitchFlag[4] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posG.x + 3.0f >= posA.x && posG.x - 5.0f <= posA.x && posG.z <= posA.z &&
 	    posG.z + 7.0f >= posA.z) {
@@ -735,6 +756,11 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[4] = false;
 	}
+	if (player_->GetOutMoveFlag5() == false && houseCollisionSwitchFlag[4] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[4] = false;
+	}
+
 
 	// ドアの判定
 	if (posH.x >= posA.x && posH.x - 7.0f <= posA.x && posH.z - 3.0f <= posA.z &&
@@ -745,6 +771,10 @@ void GameScene::HouseCollision() {
 	}
 	if (door_[6]->GetKeyFlag() == true) {
 		door_[6]->Collision();
+		player_->InHouseZ2(5, {-72.4f, 0.0f, 63.0f}, 0.0f, 90.0f);
+		if (houseCollisionSwitchFlag[5] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posH.x >= posA.x && posH.x - 7.0f <= posA.x && posH.z - 3.0f <= posA.z &&
 	    posH.z + 5.0f >= posA.z) {
@@ -752,6 +782,11 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[5] = false;
 	}
+	if (player_->GetOutMoveFlag6() == false && houseCollisionSwitchFlag[5] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[5] = false;
+	}
+
 
 	// ドアの判定
 	if (posI.x+5.0f >= posA.x && posI.x - 3.0f <= posA.x && posI.z-7.0f  <= posA.z &&
@@ -762,12 +797,20 @@ void GameScene::HouseCollision() {
 	}
 	if (door_[7]->GetKeyFlag() == true) {
 		door_[7]->Collision();
+		player_->InHouseX2(6, {-120.0f, 0.0f, 63.0f}, -150.0f, 4.8f);
+		if (houseCollisionSwitchFlag[6] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posI.x + 5.0f >= posA.x && posI.x - 3.0f <= posA.x && posI.z - 7.0f <= posA.z &&
 	    posI.z >= posA.z) {
 		isExclamation_[6] = true;
 	} else {
 		isExclamation_[6] = false;
+	}
+	if (player_->GetOutMoveFlag7() == false && houseCollisionSwitchFlag[6] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[6] = false;
 	}
 
 	// ドアの判定
@@ -779,6 +822,10 @@ void GameScene::HouseCollision() {
 	}
 	if (door_[8]->GetKeyFlag() == true) {
 		door_[8]->Collision();
+		player_->InHouseX2(7, {-11.5f, 0.0f, 159.0f}, 4.8f, -40.0f);
+		if (houseCollisionSwitchFlag[7] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posJ.x + 5.0f >= posA.x && posJ.x - 3.0f <= posA.x && posJ.z - 7.0f <= posA.z &&
 	    posJ.z >= posA.z) {
@@ -786,6 +833,11 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[7] = false;
 	}
+	if (player_->GetOutMoveFlag8() == false && houseCollisionSwitchFlag[7] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[7] = false;
+	}
+
 
 	// ドアの判定
 	if (posK.x + 3.0f >= posA.x && posK.x - 5.0f <= posA.x && posK.z <= posA.z &&
@@ -796,6 +848,10 @@ void GameScene::HouseCollision() {
 	}
 	if (door_[9]->GetKeyFlag() == true) {
 		door_[9]->Collision();
+		player_->InHouseX(8, {83.5f, 0.0f, 197.7f}, 1.6f, 120.0f);
+		if (houseCollisionSwitchFlag[8] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posK.x + 3.0f >= posA.x && posK.x - 5.0f <= posA.x && posK.z <= posA.z &&
 	    posK.z + 14.0f >= posA.z) {
@@ -803,6 +859,11 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[8] = false;
 	}
+	if (player_->GetOutMoveFlag9() == false && houseCollisionSwitchFlag[8] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[8] = false;
+	}
+
 	// ドアの判定
 	if (posL.x + 3.0f >= posA.x && posL.x - 5.0f <= posA.x && posL.z - 14.0f <= posA.z &&
 	    posL.z  >= posA.z) {
@@ -812,6 +873,7 @@ void GameScene::HouseCollision() {
 	}
 	if (door2_[0]->GetKeyFlag() == true) {
 		door2_[0]->Collision();
+		
 	}
 	if (posL.x + 3.0f >= posA.x && posL.x - 5.0f <= posA.x && posL.z - 14.0f <= posA.z &&
 	    posL.z >= posA.z) {
@@ -819,6 +881,7 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[9] = false;
 	}
+	
 
 	// ドアの判定
 	if (posM.x + 3.0f >= posA.x && posM.x - 5.0f <= posA.x && posM.z - 14.0f <= posA.z &&
@@ -829,12 +892,20 @@ void GameScene::HouseCollision() {
 	}
 	if (door_[10]->GetKeyFlag() == true) {
 		door_[10]->Collision();
+		player_->InHouseX2(9, {-161.0f, 0.0f, 240.7f}, 1.6f, -200.0f);
+		if (houseCollisionSwitchFlag[9] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posM.x + 3.0f >= posA.x && posM.x - 5.0f <= posA.x && posM.z - 14.0f <= posA.z &&
 	    posM.z >= posA.z) {
 		isExclamation_[10] = true;
 	} else {
 		isExclamation_[10] = false;
+	}
+	if (player_->GetOutMoveFlag10() == false && houseCollisionSwitchFlag[9] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[9] = false;
 	}
 
 	// ドアの判定
@@ -859,13 +930,11 @@ void GameScene::HouseCollision() {
 	//梯子の当たり判定
 	if ( 165.0f >= posA.x && 155.0f <= posA.x &&2.0f>=posA.y&& 186.0f <= posA.z &&
 	    196.0f >= posA.z) {
-		isExclamation_[16] = true;
+		
 		if (player_->GetIsPushX() == true) {
 			player_->SetIsController(false);
 		}
-	} else {
-		isExclamation_[16] = false;
-	}
+	} 
 	/*if (player_->GetIsController() == false) {
 		claimCount++;
 		if (claimCount >= 180) {
