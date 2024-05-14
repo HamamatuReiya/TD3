@@ -700,7 +700,7 @@ void GameScene::HouseCollision() {
 
 
 	// ドアの判定
-	if (posD.x + 7.0f >= posA.x && posD.x <= posA.x && posD.z <= posA.z - 1.5f &&
+	if (posD.x + 7.0f >= posA.x && posD.x <= posA.x && posD.z <= posA.z - 0.5f &&
 	    posD.z + 4.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
 			door_[2]->SetKeyFlag(true);
@@ -714,7 +714,7 @@ void GameScene::HouseCollision() {
 			houseCollisionFlag = false;
 		}
 	}
-	if (posD.x + 7.0f >= posA.x && posD.x <= posA.x && posD.z <= posA.z - 1.5f &&
+	if (posD.x + 7.0f >= posA.x && posD.x <= posA.x && posD.z <= posA.z - 0.5f &&
 	    posD.z + 4.0f >= posA.z) {
 		isExclamation_[2] = true;
 	} else {
