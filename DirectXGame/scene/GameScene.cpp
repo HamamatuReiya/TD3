@@ -186,10 +186,26 @@ void GameScene::Initialize() {
 	// スプライト生成
 	spriteBommActionButton_ = Sprite::Create(
 	    textureBommActionButton, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+
+	//フェード
+	//初期化処理
+	uint32_t fadeTexHandle = TextureManager::Load("white.png");
+	fadeSprite_ = Sprite::Create(fadeTexHandle, {0, 0});
+
+	fadeColor_.w = 0.0f;
 }
 
 void GameScene::Update() {
 	if (input_->TriggerKey(DIK_SPACE)) {
+		isFade = true;
+	}
+	if (isFade == true) {
+		fadeColor_.w += 0.01f;
+		fadeSprite_->SetColor(fadeColor_);
+	}
+	if (fadeColor_.w >= 1.0f) {
+		fadeColor_.w = 0.0f;
+		isFade = false;
 		isSceneEnd_ = true;
 	}
 	//player_->Update();
@@ -501,6 +517,9 @@ void GameScene::Draw() {
 		break;
 	}
 	itemCounter_->Draw();
+	if (isFade == true) {
+		fadeSprite_->Draw();
+	}
 
 	// ゲームパッドの状態を得る変数
 	//XINPUT_STATE joyState;
@@ -543,10 +562,6 @@ void GameScene::Draw() {
 		if (shell->GetIsExclamation() == true) {
 			ui_->ExclamationMarkDraw();
 		}
-	}
-	// チュートリアル
-	if (tutorial_->GetIsTutorialEnd_() == false) {
-		tutorial_->TutorialDraw();
 	}
 	// スプライト描画後処理
 	Sprite::PostDraw();

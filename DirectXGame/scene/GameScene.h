@@ -266,6 +266,11 @@ private: // メンバ変数
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
 
+	//フェード
+	Sprite* fadeSprite_ = nullptr;
+	Vector4 fadeColor_ = {1.0f, 1.0f, 1.0f, 0.0f};
+	bool isFade;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
