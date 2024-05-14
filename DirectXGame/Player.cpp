@@ -436,71 +436,135 @@ void Player::RoopInitialize() {
 	inHouseControllerFlag = true;
 }
 
-void Player::InHouse1() {
-	if (houseInFlag[0] == false) {
-		worldTransform_.translation_ = {53.0f, 0.0f, -86.5f};
-		worldTransform_.rotation_.y = 3.2f;
-		houseInFlag[0] = true;
+void Player::InHouseZ(int number, Vector3 pos, float rotate, float translate) {
+	if (houseInFlag[number] == false) {
+		worldTransform_.translation_ = {pos};
+		worldTransform_.rotation_.y = rotate;
+		houseInFlag[number] = true;
 		inHouseControllerFlag = false;
-		
 	}
-	if (inMoveFlag[0] == true && houseInFlag[0] == true) {
+	if (inMoveFlag[number] == true && houseInFlag[number] == true) {
 		worldTransform_.translation_.z -= 0.3f;
-		if (worldTransform_.translation_.z <= -107.0f) {
-			    worldTransform_.translation_.z = -107.0f;
-			    inMoveFlag[0] = false;
-			    
+		if (worldTransform_.translation_.z <= translate) {
+			    worldTransform_.translation_.z = translate;
+			    inMoveFlag[number] = false;
 		}
 	}
-	if (inMoveFlag[0] == false && isItemGetFlag[0]==false) {
-		itemGetCount[0]++;
+	if (inMoveFlag[number] == false && isItemGetFlag[number] == false) {
+		itemGetCount[number]++;
 	}
-	if (itemGetCount[0] >= itemCount) {
-		isItemGetFlag[0] = true;
+	if (itemGetCount[number] >= itemCount) {
+		isItemGetFlag[number] = true;
 	}
-	if (isItemGetFlag[0] == true && outMoveFlag[0]==true) {
+	if (isItemGetFlag[number] == true && outMoveFlag[number] == true) {
 		worldTransform_.translation_.z += 0.3f;
-		if (worldTransform_.translation_.z >= -86.5f) {
-			    worldTransform_.translation_.z = -86.5f;
-			    outMoveFlag[0] = false;
+		if (worldTransform_.translation_.z >= pos.z) {
+			    worldTransform_.translation_.z = pos.z;
+			    outMoveFlag[number] = false;
 		}
 	}
-	if (outMoveFlag[0] == false && offFlag[0]==false) {
+	if (outMoveFlag[number] == false && offFlag[number] == false) {
 		inHouseControllerFlag = true;
-		offFlag[0] = true;
+		offFlag[number] = true;
 	}
 }
 
-void Player::InHouse2() {
-	if (houseInFlag[1] == false) {
-		worldTransform_.translation_ = {-84.8f, 0.0f, -132.5f};
-		worldTransform_.rotation_.y = 3.2f;
-		houseInFlag[1] = true;
+void Player::InHouseZ2(int number, Vector3 pos, float rotate, float translate) {
+	if (houseInFlag[number] == false) {
+		worldTransform_.translation_ = {pos};
+		worldTransform_.rotation_.y = rotate;
+		houseInFlag[number] = true;
 		inHouseControllerFlag = false;
 	}
-	if (inMoveFlag[1] == true && houseInFlag[1] == true) {
-		worldTransform_.translation_.z -= 0.3f;
-		if (worldTransform_.translation_.z <= -150.0f) {
-			    worldTransform_.translation_.z = -150.0f;
-			    inMoveFlag[1] = false;
-		}
-	}
-	if (inMoveFlag[1] == false && isItemGetFlag[1] == false) {
-		itemGetCount[1]++;
-	}
-	if (itemGetCount[1] >= itemCount) {
-		isItemGetFlag[1] = true;
-	}
-	if (isItemGetFlag[1] == true && outMoveFlag[1] == true) {
+	if (inMoveFlag[number] == true && houseInFlag[number] == true) {
 		worldTransform_.translation_.z += 0.3f;
-		if (worldTransform_.translation_.z >= -132.5f) {
-			    worldTransform_.translation_.z = -132.5f;
-			    outMoveFlag[1] = false;
+		if (worldTransform_.translation_.z >= translate) {
+			    worldTransform_.translation_.z = translate;
+			    inMoveFlag[number] = false;
 		}
 	}
-	if (outMoveFlag[1] == false && offFlag[1]==false) {
+	if (inMoveFlag[number] == false && isItemGetFlag[number] == false) {
+		itemGetCount[number]++;
+	}
+	if (itemGetCount[number] >= itemCount) {
+		isItemGetFlag[number] = true;
+	}
+	if (isItemGetFlag[number] == true && outMoveFlag[number] == true) {
+		worldTransform_.translation_.z -= 0.3f;
+		if (worldTransform_.translation_.z <= pos.z) {
+			    worldTransform_.translation_.z = pos.z;
+			    outMoveFlag[number] = false;
+		}
+	}
+	if (outMoveFlag[number] == false && offFlag[number] == false) {
 		inHouseControllerFlag = true;
-		offFlag[1] = true;
+		offFlag[number] = true;
+	}
+}
+
+void Player::InHouseX(int number,Vector3 pos,float rotate,float translate) {
+	if (houseInFlag[number] == false) {
+		worldTransform_.translation_ = pos;
+		worldTransform_.rotation_.y = rotate;
+		houseInFlag[number] = true;
+		inHouseControllerFlag = false;
+	}
+	if (inMoveFlag[number] == true && houseInFlag[number] == true) {
+		worldTransform_.translation_.x += 0.3f;
+		if (worldTransform_.translation_.x >= translate) {
+			    worldTransform_.translation_.x = translate;
+			    inMoveFlag[number] = false;
+		}
+	}
+	if (inMoveFlag[number] == false && isItemGetFlag[number] == false) {
+		itemGetCount[number]++;
+	}
+	if (itemGetCount[number] >= itemCount) {
+		isItemGetFlag[number] = true;
+	}
+	if (isItemGetFlag[number] == true && outMoveFlag[number] == true) {
+		worldTransform_.translation_.x -= 0.3f;
+		if (worldTransform_.translation_.x <= pos.x) {
+			    worldTransform_.translation_.x = pos.x;
+			    outMoveFlag[number] = false;
+		}
+	}
+	if (outMoveFlag[number] == false && offFlag[number] == false) {
+		inHouseControllerFlag = true;
+		offFlag[number] = true;
+	}
+}
+
+void Player::InHouseX2(int number, Vector3 pos, float rotate, float translate) {
+	if (houseInFlag[number] == false) {
+		worldTransform_.translation_ = pos;
+		worldTransform_.rotation_.y = rotate;
+		houseInFlag[number] = true;
+		inHouseControllerFlag = false;
+	}
+	if (inMoveFlag[number] == true && houseInFlag[number] == true) {
+		worldTransform_.translation_.x -= 0.3f;
+		if (worldTransform_.translation_.x <= translate) {
+			    worldTransform_.translation_.x = translate;
+			    inMoveFlag[number] = false;
+		}
+	}
+	if (inMoveFlag[number] == false && isItemGetFlag[number] == false) {
+		itemGetCount[number]++;
+	}
+	if (itemGetCount[number] >= itemCount) {
+		isItemGetFlag[number] = true;
+	}
+	if (isItemGetFlag[number] == true && outMoveFlag[number] == true) {
+		worldTransform_.translation_.x += 0.3f;
+		if (worldTransform_.translation_.x >= pos.x) {
+			    worldTransform_.translation_.x = pos.x;
+			    outMoveFlag[number] = false;
+		}
+	}
+	if (outMoveFlag[number] == false && offFlag[number] == false) {
+		inHouseControllerFlag = true;
+		offFlag[number] = true;
 	}
 }
 

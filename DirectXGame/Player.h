@@ -118,11 +118,11 @@ public:
 
 	void RoopInitialize();
 
-	void InHouse1();
-	void InHouse2();
-	/*void InHouse3();
-	void InHouse4();
-	void InHouse5();
+	void InHouseZ(int number, Vector3 pos, float rotate, float translate);
+	void InHouseZ2(int number, Vector3 pos, float rotate, float translate);
+	void InHouseX(int number, Vector3 pos, float rotate, float translate);
+	void InHouseX2(int number, Vector3 pos, float rotate, float translate);
+	/* void InHouse5();
 	void InHouse6();
 	void InHouse7();
 	void InHouse8();
