@@ -200,7 +200,7 @@ void GameScene::Update() {
 		isFade = true;
 	}
 	if (isFade == true) {
-		fadeColor_.w += 0.005f;
+		fadeColor_.w += 0.01f;
 		fadeSprite_->SetColor(fadeColor_);
 	}
 	if (fadeColor_.w >= 1.0f) {
