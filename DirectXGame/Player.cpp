@@ -434,6 +434,8 @@ void Player::RoopInitialize() {
 		offFlag[x] = {false};
 	}
 	inHouseControllerFlag = true;
+
+	isStartTimer_ = 0;
 }
 
 void Player::InHouseZ(int number, Vector3 pos, float rotate, float translate) {
