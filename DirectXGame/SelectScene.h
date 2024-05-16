@@ -8,6 +8,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Scene.h"
+#include "Earth.h"
 
 #include "fade/Fade.h"
 #include "Spacedome.h"
@@ -71,10 +72,19 @@ private: // メンバ変数
 	int stageCount_ = 0;
 	const int kMaxStage_ = 4; 
 
+	Sprite* stageTitle_[2];
+
 	//天球
 	std::unique_ptr<Spacedome> spacedome_;
 	//  3Dモデル
 	std::unique_ptr<Model> modelSpacedome_;
+
+	std::unique_ptr<Earth> earth_[2];
+
+	std::unique_ptr<Model> modelEarth_;
+
+	float earthPos_;
+	bool isSelectEarth = false;
 
 	//シーンを終わらせる変数
 	bool isSceneEnd_ = false;
