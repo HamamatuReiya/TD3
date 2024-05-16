@@ -52,8 +52,11 @@ void TitleScene::Update() {
 	// ゲームパッドの状態を得る変数(XINPUT)
 	XINPUT_STATE joyState;
 
+
+
 	// ゲームパッド状態取得
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+
 		if (subTitleColor2_.w >= 1.0f) {
 			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && fadeTimerFlag_ == false) {
 				fadeTimerFlag_ = true;
