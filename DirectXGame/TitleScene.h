@@ -69,7 +69,15 @@ private: // メンバ変数
 	Sprite* textureSubTitle_;
 	uint32_t subTitleHandle_;
 
+	Sprite* textureSubTitle1_;
+	uint32_t subTitleHandle1_;
+
+	Sprite* textureSubTitle2_;
+	uint32_t subTitleHandle2_;
+
 	Vector4 subTitleColor_ = {1.0f, 1.0f, 1.0f, 0.0f};
+	Vector4 subTitleColor1_ = {1.0f, 1.0f, 1.0f, 0.0f};
+	Vector4 subTitleColor2_ = {1.0f, 1.0f, 1.0f, 0.0f};
 
 	// 天球
 	std::unique_ptr<Spacedome> spacedome_;

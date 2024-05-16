@@ -18,6 +18,12 @@ void TitleScene::Initialize() {
 	subTitleHandle_ = TextureManager::Load("subTitle.png");
 	textureSubTitle_ = Sprite::Create(subTitleHandle_, {0.0f, 0.0f}, subTitleColor_, {0.0f, 0.0f});
 
+	subTitleHandle1_ = TextureManager::Load("subTitle1.png");
+	textureSubTitle1_ = Sprite::Create(subTitleHandle1_, {0.0f, 0.0f}, subTitleColor1_, {0.0f, 0.0f});
+
+	subTitleHandle2_ = TextureManager::Load("subTitle2.png");
+	textureSubTitle2_ = Sprite::Create(subTitleHandle2_, {0.0f, 0.0f}, subTitleColor2_, {0.0f, 0.0f});
+
 	isSceneEnd_ = false;
 
 	/*score_ = std::make_unique<Score>();
@@ -48,20 +54,20 @@ void TitleScene::Update() {
 
 	// ゲームパッド状態取得
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		
-		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && fadeTimerFlag_ == false) {
-			fadeTimerFlag_ = true;
-			fade_->FadeOutStart();
-		}
+		if (subTitleColor2_.w >= 1.0f) {
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && fadeTimerFlag_ == false) {
+				fadeTimerFlag_ = true;
+				fade_->FadeOutStart();
+			}
 
-		if (fadeTimerFlag_ == true) {
-			fadeTimer_--;
-		}
+			if (fadeTimerFlag_ == true) {
+				fadeTimer_--;
+			}
 
-		if (fadeTimer_ <= 0) {
-			isSceneEnd_ = true;
+			if (fadeTimer_ <= 0) {
+				isSceneEnd_ = true;
+			}
 		}
-
 	}
 
 	if (input_->TriggerKey(DIK_SPACE)) {
@@ -79,7 +85,13 @@ void TitleScene::Update() {
 
 	ranking_->Update(sc);*/
 
-	subTitleColor_.w += 0.007f;
+	subTitleColor_.w += 0.01f;
+	if (subTitleColor_.w>=1.0f) {
+		subTitleColor1_.w += 0.01f;
+	}
+	if (subTitleColor1_.w >= 0.5f) {
+		subTitleColor2_.w += 0.01f;
+	}
 
 	// 天球の更新
 	spacedome_->Update();
@@ -130,11 +142,19 @@ void TitleScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	if (subTitleColor2_.w >= 1.0f) {
+		textureTitle_->Draw();
+	}
 	
-	textureTitle_->Draw();
 
 	textureSubTitle_->SetColor(subTitleColor_);
+	textureSubTitle1_->SetColor(subTitleColor1_);
+	textureSubTitle2_->SetColor(subTitleColor2_);
+
 	textureSubTitle_->Draw();
+	textureSubTitle1_->Draw();
+	textureSubTitle2_->Draw();
+	
 
 	// フェードの描画
 	fade_->Draw();
