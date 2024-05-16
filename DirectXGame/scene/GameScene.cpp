@@ -822,7 +822,7 @@ void GameScene::HouseCollision() {
 	}
 	if (door_[7]->GetKeyFlag() == true) {
 		door_[7]->Collision();
-		player_->InHouseX2(6, {-120.0f, 0.0f, 63.0f}, -150.0f, 4.8f);
+		player_->InHouseX2(6, {-120.0f, 0.0f, 4.7f}, 4.8f, -150.0f);
 		if (houseCollisionSwitchFlag[6] == true) {
 			houseCollisionFlag = false;
 		}
