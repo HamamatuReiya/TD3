@@ -201,6 +201,14 @@ void GameScene::Initialize() {
 	fadeSprite_ = Sprite::Create(fadeTexHandle, {0, 0});
 
 	fadeColor_.w = 0.0f;
+
+	// 爆発の生成
+	explosion_ = std::make_unique<Explosion>();
+	// 3Dモデルの生成
+	explosionModel_.reset(Model::CreateFromOBJ("explosion", true));
+	// 爆発の初期化
+	explosion_->Initialize(explosionModel_.get());
+
 }
 
 void GameScene::Update() {
@@ -508,7 +516,9 @@ void GameScene::Draw() {
 
 	player_->Draw(viewProjection_);
 	bomm_->Draw(viewProjection_);
-
+	if (isFade == true) {
+		explosion_->Draw(viewProjection_);
+	}
 	
 
 	/*collisionManager_->Draw(viewProjection_);*/

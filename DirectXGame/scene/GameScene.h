@@ -35,6 +35,7 @@
 #include "Shell.h"
 #include "Timer.h"
 #include "FixedCamera.h"
+#include "Explosion.h"
 
 /// <summary>
 /// ゲームシーン
@@ -279,6 +280,11 @@ private: // メンバ変数
 	Sprite* fadeSprite_ = nullptr;
 	Vector4 fadeColor_ = {1.0f, 1.0f, 1.0f, 0.0f};
 	bool isFade;
+
+	// 3Dモデル
+	std::unique_ptr<Model> explosionModel_ = nullptr;
+	// 爆発
+	std::unique_ptr<Explosion> explosion_;
 
 	//クリアフラグ
 	bool clearFlag = false;

@@ -117,6 +117,7 @@
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="DoorOBJ.cpp" />
     <ClCompile Include="Earth.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="fade\Fade.cpp" />
     <ClCompile Include="FixedCamera.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="DoorOBJ.h" />
     <ClInclude Include="Earth.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="fade\Fade.h" />
     <ClInclude Include="FixedCamera.h" />
     <ClInclude Include="FollowCamera.h" />
