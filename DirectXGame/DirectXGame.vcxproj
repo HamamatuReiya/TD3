@@ -117,6 +117,7 @@
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="DoorOBJ.cpp" />
     <ClCompile Include="fade\Fade.cpp" />
+    <ClCompile Include="FixedCamera.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="ForestGround.cpp" />
     <ClCompile Include="ForestTreeLeaf.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="DoorOBJ.h" />
     <ClInclude Include="fade\Fade.h" />
+    <ClInclude Include="FixedCamera.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="ForestGround.h" />
     <ClInclude Include="ForestTreeLeaf.h" />
