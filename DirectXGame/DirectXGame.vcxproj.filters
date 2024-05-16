@@ -53,6 +53,7 @@
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="BommEnhance.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="FixedCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\ImGuiManager.h" />
@@ -120,6 +121,7 @@
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="BommEnhance.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="FixedCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Obj.hlsli" />

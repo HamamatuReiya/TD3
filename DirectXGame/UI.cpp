@@ -28,7 +28,7 @@ void UI::Initialize() {
 	
 	//
 	spriteStone_ =
-	    Sprite::Create(textureStone, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	    Sprite::Create(textureStone, {100.0f, 300.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 
 	spriteGold_ = Sprite::Create(textureGold, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 

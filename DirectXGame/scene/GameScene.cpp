@@ -56,6 +56,10 @@ void GameScene::Initialize() {
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
 
+	//固定カメラ
+	fixedCamera_ = std::make_unique<FixedCamera>();
+	fixedCamera_->Initialize();
+
 	// 自キャラの生成
 	player_ = std::make_unique<Player>();
 	// 3Dモデルの生成
@@ -201,17 +205,18 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 	if (input_->TriggerKey(DIK_SPACE)) {
+		clearFlag = true;
 		isFade = true;
 	}
 	if (isFade == true) {
-		followCamera_->UpView();
+		
 		fadeColor_.w += 0.01f;
 		fadeSprite_->SetColor(fadeColor_);
 	}
 	if (fadeColor_.w >= 1.0f) {
 		fadeColor_.w = 0.0f;
 		isFade = false;
-		followCamera_->LowView();
+		clearFlag = false;
 		isSceneEnd_ = true;
 	}
 	//player_->Update();
@@ -289,6 +294,7 @@ void GameScene::Update() {
 	
 	///更新
 	if (isWindow_==false) {
+		if (clearFlag == false)
 		player_->Update();
 	} else {
 		if (Input::GetInstance()->GetJoystickState(0, joyState)) {
@@ -371,10 +377,19 @@ void GameScene::Update() {
 
 
 	// 追従カメラの更新
-	followCamera_->Update();
+	if (clearFlag == false) {
+		followCamera_->Update();
+		viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+		viewProjection_.matView = followCamera_->GetViewProjection().matView;
 
-	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
-	viewProjection_.matView = followCamera_->GetViewProjection().matView;
+	} else {
+		fixedCamera_->Update();
+		viewProjection_.matView = fixedCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = fixedCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
+	}
+	
 
 	debugCamera_->Update();
 #ifdef _DEBUG

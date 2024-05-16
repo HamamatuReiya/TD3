@@ -34,6 +34,7 @@
 #include "Jushi.h"
 #include "Shell.h"
 #include "Timer.h"
+#include "FixedCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -165,6 +166,9 @@ private: // メンバ変数
 	// 追従カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
 
+	//固定カメラ
+	std::unique_ptr<FixedCamera> fixedCamera_;
+
 	// 衝突マネージャ
 	std::unique_ptr<CollisionManager> collisionManager_;
 
@@ -276,6 +280,8 @@ private: // メンバ変数
 	Vector4 fadeColor_ = {1.0f, 1.0f, 1.0f, 0.0f};
 	bool isFade;
 
+	//クリアフラグ
+	bool clearFlag = false;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
