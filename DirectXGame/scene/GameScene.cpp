@@ -350,6 +350,10 @@ void GameScene::Update() {
 	//時間更新
 	timer_->Update(time);
 
+	if (time <= 0) {
+		clearFlag = true;
+	}
+
 	stones_.remove_if([](Stone* stone) {
 		if (stone->IsDead()) {
 			delete stone;
@@ -392,6 +396,8 @@ void GameScene::Update() {
 
 	} else {
 		fixedCamera_->Update();
+		isFade = true;
+		explosion_->Update();
 		viewProjection_.matView = fixedCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = fixedCamera_->GetViewProjection().matProjection;
 		// ビュープロジェクション行列の転送
@@ -619,6 +625,10 @@ void GameScene::SceneReset() {
 	bomm_->RoopInitialize();
 
 	tutorial_->RoopInitilize();
+
+	time = kTime;
+
+	explosion_->Initialize(explosionModel_.get());
 
 	houseCollisionFlag = true;
 	for (int i = 0; i < 11; i++) {

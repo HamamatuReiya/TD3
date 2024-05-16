@@ -240,7 +240,8 @@ private: // メンバ変数
 
 	//時間
 	std::unique_ptr<Timer> timer_;
-	int time = 180 * 60;
+	const int kTime = 100 * 60; 
+	int time = kTime;
 
 	/*森エリア*/
 	// 3Dモデル

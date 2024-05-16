@@ -9,6 +9,9 @@ void Explosion::Initialize(Model* model) {
 }
 
 void Explosion::Update() {
+	worldTransform_.scale_.x += 0.4f;
+	worldTransform_.scale_.y += 0.4f;
+	worldTransform_.scale_.z += 0.4f;
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 }
