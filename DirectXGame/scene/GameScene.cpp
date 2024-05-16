@@ -204,12 +204,14 @@ void GameScene::Update() {
 		isFade = true;
 	}
 	if (isFade == true) {
+		followCamera_->UpView();
 		fadeColor_.w += 0.01f;
 		fadeSprite_->SetColor(fadeColor_);
 	}
 	if (fadeColor_.w >= 1.0f) {
 		fadeColor_.w = 0.0f;
 		isFade = false;
+		followCamera_->LowView();
 		isSceneEnd_ = true;
 	}
 	//player_->Update();
@@ -525,11 +527,11 @@ void GameScene::Draw() {
 		break;
 	}
 	itemCounter_->Draw();
+	// 時間更新
+	timer_->Draw();
 	if (isFade == true) {
 		fadeSprite_->Draw();
 	}
-	// 時間更新
-	timer_->Draw();
 
 	// ゲームパッドの状態を得る変数
 	//XINPUT_STATE joyState;
