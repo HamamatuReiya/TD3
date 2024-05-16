@@ -3,6 +3,7 @@
 #include "TextureManager.h"
 #include <cassert>
 #include <fstream>
+#include <ImGuiManager.h>
 
 GameScene::GameScene() {}
 
@@ -31,6 +32,10 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	isSceneEnd_ = false;
+
+	for (int i = 0; i < 11; i++) {
+		houseCollisionSwitchFlag[i] = true;
+	}
 
 	// 3Dモデル生成
 	model_.reset(Model::Create());
@@ -105,17 +110,24 @@ void GameScene::Initialize() {
 	// 木の葉の生成
 	forestTreeLeaf_ = std::make_unique<ForestTreeLeaf>();
 	// 3Dモデルの生成
-	forestTreeLeafModel_[0].reset(Model::CreateFromOBJ("forestTreeLeaf", true));
+	forestTreeLeafModel_.reset(Model::CreateFromOBJ("forestTreeLeaf", true));
 	// 木の葉の初期化
 	forestTreeLeaf_->Initialize(
-	    forestTreeLeafModel_[0].get());
+	    forestTreeLeafModel_.get(), forestTreeLeafModel_.get(), forestTreeLeafModel_.get(),
+	    forestTreeLeafModel_.get(), forestTreeLeafModel_.get(), forestTreeLeafModel_.get(),
+	    forestTreeLeafModel_.get(), forestTreeLeafModel_.get(), forestTreeLeafModel_.get(),
+	    forestTreeLeafModel_.get());
 
 	// 木の生成
 	forestTreeWood_ = std::make_unique<ForestTreeWood>();
 	// 3Dモデルの生成
 	forestTreeWoodModel_.reset(Model::CreateFromOBJ("forestTreeWood", true));
 	// 木の初期化
-	forestTreeWood_->Initialize(forestTreeWoodModel_.get());
+	forestTreeWood_->Initialize(
+	    forestTreeWoodModel_.get(), forestTreeWoodModel_.get(), forestTreeWoodModel_.get(),
+	    forestTreeWoodModel_.get(), forestTreeWoodModel_.get(), forestTreeWoodModel_.get(),
+	    forestTreeWoodModel_.get(), forestTreeWoodModel_.get(), forestTreeWoodModel_.get(),
+	    forestTreeWoodModel_.get());
 
 	// 丸太の生成
 	forestWood_ = std::make_unique<ForestWood>();
@@ -148,6 +160,10 @@ void GameScene::Initialize() {
 	itemCounter_ = std::make_unique<ItemCounter>();
 	itemCounter_->Initialize();
 
+	//時間
+	timer_ = std::make_unique<Timer>();
+	timer_->Initialize();
+
 	// 爆弾強化
 	bommEnhance_ = std::make_unique<BommEnhance>();
 	bommEnhance_->Initialize();
@@ -174,10 +190,26 @@ void GameScene::Initialize() {
 	// スプライト生成
 	spriteBommActionButton_ = Sprite::Create(
 	    textureBommActionButton, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+
+	//フェード
+	//初期化処理
+	uint32_t fadeTexHandle = TextureManager::Load("white.png");
+	fadeSprite_ = Sprite::Create(fadeTexHandle, {0, 0});
+
+	fadeColor_.w = 0.0f;
 }
 
 void GameScene::Update() {
 	if (input_->TriggerKey(DIK_SPACE)) {
+		isFade = true;
+	}
+	if (isFade == true) {
+		fadeColor_.w += 0.01f;
+		fadeSprite_->SetColor(fadeColor_);
+	}
+	if (fadeColor_.w >= 1.0f) {
+		fadeColor_.w = 0.0f;
+		isFade = false;
 		isSceneEnd_ = true;
 	}
 	//player_->Update();
@@ -251,23 +283,21 @@ void GameScene::Update() {
 		door_[10]->Update4();
 		door2_[1]->Update6();
 		break;
-
-	case Stage::kForest:
-
-		break;
-
-	case Stage::kVolcano:
-
-		ground_->Update();
-
-		break;
 	}
 	
 	///更新
 	if (isWindow_==false) {
 		player_->Update();
 	} else {
-		bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
+		if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+				bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
+				stoneCount_ = 0;
+				goldCount_ = 0;
+				jushiCount_ = 0;
+				shellCount_ = 0;
+			}
+		}
 	}
 
 	//player_->SetIsController(false);
@@ -299,6 +329,10 @@ void GameScene::Update() {
 
 	// 所持数UIの更新
 	itemCounter_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
+
+	time--;
+	//時間更新
+	timer_->Update(time);
 
 	stones_.remove_if([](Stone* stone) {
 		if (stone->IsDead()) {
@@ -401,8 +435,7 @@ void GameScene::Draw() {
 
 	switch (stageNo) {
 	case Stage::kTutorial:
-		// ground_->Draw(viewProjection_);
-		// skydome_->Draw(viewProjection_);
+		
 		house_->Draw(viewProjection_);
 		door_[0]->Draw(viewProjection_);
 		door_[1]->Draw(viewProjection_);
@@ -417,9 +450,9 @@ void GameScene::Draw() {
 		door2_[0]->Draw(viewProjection_);
 		door_[10]->Draw(viewProjection_);
 		door2_[1]->Draw(viewProjection_);
+		break;
 	case Stage::kTown:
-		// ground_->Draw(viewProjection_);
-		// skydome_->Draw(viewProjection_);
+		
 		house_->Draw(viewProjection_);
 		door_[0]->Draw(viewProjection_);
 		door_[1]->Draw(viewProjection_);
@@ -437,26 +470,7 @@ void GameScene::Draw() {
 
 		break;
 
-	case Stage::kForest:
-
-		/*森エリア*/
-		// 地面
-		forestGround_->Draw(viewProjection_);
-		// 木の葉
-		forestTreeLeaf_->Draw(viewProjection_);
-		// 木
-		forestTreeWood_->Draw(viewProjection_);
-		// 丸太
-		forestWood_->Draw(viewProjection_);
-		/*森エリア終わり*/
-
-		break;
-
-	case Stage::kVolcano:
-
-		ground_->Draw(viewProjection_);
-
-		break;
+	
 	}
 
 	for (Stone* stone : stones_) {
@@ -494,12 +508,28 @@ void GameScene::Draw() {
 	/// </summary>
 	if (player_->GetActionbutton() == 1) {
 		player_->ActionbuttonDraw();
-	}else
-	{
+	} else {
 		ui_->ButtonHintDraw();
 	}
+	switch (stageNo) {
+	case Stage::kTutorial:
+		// チュートリアル
+		if (tutorial_->GetIsTutorialEnd_() == false) {
+			tutorial_->TutorialDraw();
+		}
+		break;
+	case Stage::kTown:
+		
 
+
+		break;
+	}
 	itemCounter_->Draw();
+	if (isFade == true) {
+		fadeSprite_->Draw();
+	}
+	// 時間更新
+	timer_->Draw();
 
 	// ゲームパッドの状態を得る変数
 	//XINPUT_STATE joyState;
@@ -518,20 +548,31 @@ void GameScene::Draw() {
 		ui_->Draw();
 	}
 	///!
-	for (int i = 0; i < 17; i++) {
+	for (int i = 0; i < 18; i++) {
 		if (isExclamation_[i] == true) {
 			ui_->ExclamationMarkDraw();
 		}
 	}
-	// チュートリアル
-	if (tutorial_->GetIsTutorialEnd_() == false) {
-		tutorial_->TutorialDraw();
+	for (Stone* stone : stones_) {
+		if (stone->GetIsExclamation() == true) {
+			ui_->ExclamationMarkDraw();
+		}
 	}
-		
-	
-	
-	
-
+	for (Gold* gold : golds_) {
+		if (gold->GetIsExclamation() == true) {
+			ui_->ExclamationMarkDraw();
+		}
+	}
+	for (Jushi* jushi : jushis_) {
+		if (jushi->GetIsExclamation() == true) {
+			ui_->ExclamationMarkDraw();
+		}
+	}
+	for (Shell* shell : shells_) {
+		if (shell->GetIsExclamation() == true) {
+			ui_->ExclamationMarkDraw();
+		}
+	}
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -552,9 +593,27 @@ void GameScene::SceneReset() {
 
 	tutorial_->RoopInitilize();
 
+	houseCollisionFlag = true;
+	for (int i = 0; i < 11; i++) {
+		houseCollisionSwitchFlag[i] = true;
+	}
+
 	isWindow_ = false;
-	for (int i = 0; i < 17; i++) {
+	for (int i = 0; i < 18; i++) {
 		isExclamation_[i] = false;
+	}
+
+	for (Stone* stone : stones_) {
+		stone->SetIsExclamation(false);
+	}
+	for (Gold* gold : golds_) {
+		gold->SetIsExclamation(false);
+	}
+	for (Jushi* jushi : jushis_) {
+		jushi->SetIsExclamation(false);
+	}
+	for (Shell* shell : shells_) {
+		shell->SetIsExclamation(false);
 	}
 
 	door_[0]->RoopInitialize({49.5f,0.0f, -89.0f,},0.0f);
@@ -572,7 +631,7 @@ void GameScene::SceneReset() {
 	door2_[0]->RoopInitialize({86.7f, 0.0f, 204.02f}, 1.57f * 3.0f);
 	door2_[1]->RoopInitialize({-163.3f, 0.0f, 234.8f}, 1.57f * 1.0f);
 
-	for (int i = 0; i < 17; i++) {
+	for (int i = 0; i < 18; i++) {
 		isExclamation_[i] = false;
 	}
 
@@ -607,14 +666,20 @@ void GameScene::HouseCollision() {
 	} 
 	if (door_[0]->GetKeyFlag() == true) {
 		door_[0]->Collision();
-		player_->InHouse1();
-		houseCollisionFlag = false;
+		player_->InHouseZ(0, {53.0f, 0.0f, -86.5f}, 3.2f,-107.0f);
+		if (houseCollisionSwitchFlag[0] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posB.x + 7.0f >= posA.x && posB.x <= posA.x && posB.z <= posA.z - 1.5f &&
 	    posB.z + 4.0f >= posA.z) {
 		isExclamation_[0] = true;
 	} else {
 		isExclamation_[0] = false;
+	}
+	if (player_->GetOutMoveFlag1() == false && houseCollisionSwitchFlag[0] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[0] = false;
 	}
 
 
@@ -627,6 +692,10 @@ void GameScene::HouseCollision() {
 	} 
 	if (door_[1]->GetKeyFlag() == true) {
 		door_[1]->Collision();
+		player_->InHouseZ(1, {-84.8f, 0.0f, -132.5f}, 3.2f, -150.0f);
+		if (houseCollisionSwitchFlag[1] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posC.x + 7.0f >= posA.x && posC.x <= posA.x && posC.z <= posA.z - 1.5f &&
 	    posC.z + 4.0f >= posA.z) {
@@ -634,22 +703,36 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[1] = false;
 	}
+	if (player_->GetOutMoveFlag2() == false && houseCollisionSwitchFlag[1] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[1] = false;
+	}
+
 
 	// ドアの判定
-	if (posD.x + 7.0f >= posA.x && posD.x <= posA.x && posD.z <= posA.z - 1.5f &&
+	if (posD.x + 7.0f >= posA.x && posD.x <= posA.x && posD.z <= posA.z - 0.5f &&
 	    posD.z + 4.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
 			door_[2]->SetKeyFlag(true);
+			
 		}
 	} 
 	if (door_[2]->GetKeyFlag() == true) {
 		door_[2]->Collision();
+		player_->InHouseZ(2, {-125.7f, 0.0f, -47.0f}, 3.2f, -70.0f);
+		if (houseCollisionSwitchFlag[2] == true) {
+			houseCollisionFlag = false;
+		}
 	}
-	if (posD.x + 7.0f >= posA.x && posD.x <= posA.x && posD.z <= posA.z - 1.5f &&
+	if (posD.x + 7.0f >= posA.x && posD.x <= posA.x && posD.z <= posA.z - 0.5f &&
 	    posD.z + 4.0f >= posA.z) {
 		isExclamation_[2] = true;
 	} else {
 		isExclamation_[2] = false;
+	}
+	if (player_->GetOutMoveFlag3() == false && houseCollisionSwitchFlag[2] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[2] = false;
 	}
 
 	// ドアの判定
@@ -657,10 +740,15 @@ void GameScene::HouseCollision() {
 	    posF.z+8.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
 			door_[4]->SetKeyFlag(true);
+			
 		}
 	} 
 	if (door_[4]->GetKeyFlag() == true) {
 		door_[4]->Collision();
+		player_->InHouseX(3, {104.5f, 0.0f, -31.2f}, 1.6f, 130.0f);
+		if (houseCollisionSwitchFlag[3] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posF.x + 3.0f >= posA.x && posF.x - 5.0f <= posA.x && posF.z <= posA.z &&
 	    posF.z + 8.0f >= posA.z) {
@@ -668,7 +756,10 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[3]= false;
 	}
-
+	if (player_->GetOutMoveFlag4() == false && houseCollisionSwitchFlag[3] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[3] = false;
+	}
 
 	// ドアの判定
 	if (posG.x + 3.0f >= posA.x && posG.x - 5.0f <= posA.x && posG.z <= posA.z &&
@@ -679,6 +770,10 @@ void GameScene::HouseCollision() {
 	}
 	if (door_[5]->GetKeyFlag() == true) {
 		door_[5]->Collision();
+		player_->InHouseX(4, {104.0f, 0.0f, 59.5f}, 1.6f, 135.0f);
+		if (houseCollisionSwitchFlag[4] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posG.x + 3.0f >= posA.x && posG.x - 5.0f <= posA.x && posG.z <= posA.z &&
 	    posG.z + 7.0f >= posA.z) {
@@ -686,6 +781,11 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[4] = false;
 	}
+	if (player_->GetOutMoveFlag5() == false && houseCollisionSwitchFlag[4] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[4] = false;
+	}
+
 
 	// ドアの判定
 	if (posH.x >= posA.x && posH.x - 7.0f <= posA.x && posH.z - 3.0f <= posA.z &&
@@ -696,6 +796,10 @@ void GameScene::HouseCollision() {
 	}
 	if (door_[6]->GetKeyFlag() == true) {
 		door_[6]->Collision();
+		player_->InHouseZ2(5, {-72.4f, 0.0f, 63.0f}, 0.0f, 90.0f);
+		if (houseCollisionSwitchFlag[5] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posH.x >= posA.x && posH.x - 7.0f <= posA.x && posH.z - 3.0f <= posA.z &&
 	    posH.z + 5.0f >= posA.z) {
@@ -703,6 +807,11 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[5] = false;
 	}
+	if (player_->GetOutMoveFlag6() == false && houseCollisionSwitchFlag[5] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[5] = false;
+	}
+
 
 	// ドアの判定
 	if (posI.x+5.0f >= posA.x && posI.x - 3.0f <= posA.x && posI.z-7.0f  <= posA.z &&
@@ -713,12 +822,20 @@ void GameScene::HouseCollision() {
 	}
 	if (door_[7]->GetKeyFlag() == true) {
 		door_[7]->Collision();
+		player_->InHouseX2(6, {-120.0f, 0.0f, 63.0f}, -150.0f, 4.8f);
+		if (houseCollisionSwitchFlag[6] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posI.x + 5.0f >= posA.x && posI.x - 3.0f <= posA.x && posI.z - 7.0f <= posA.z &&
 	    posI.z >= posA.z) {
 		isExclamation_[6] = true;
 	} else {
 		isExclamation_[6] = false;
+	}
+	if (player_->GetOutMoveFlag7() == false && houseCollisionSwitchFlag[6] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[6] = false;
 	}
 
 	// ドアの判定
@@ -730,6 +847,10 @@ void GameScene::HouseCollision() {
 	}
 	if (door_[8]->GetKeyFlag() == true) {
 		door_[8]->Collision();
+		player_->InHouseX2(7, {-11.5f, 0.0f, 159.0f}, 4.8f, -40.0f);
+		if (houseCollisionSwitchFlag[7] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posJ.x + 5.0f >= posA.x && posJ.x - 3.0f <= posA.x && posJ.z - 7.0f <= posA.z &&
 	    posJ.z >= posA.z) {
@@ -737,6 +858,11 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[7] = false;
 	}
+	if (player_->GetOutMoveFlag8() == false && houseCollisionSwitchFlag[7] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[7] = false;
+	}
+
 
 	// ドアの判定
 	if (posK.x + 3.0f >= posA.x && posK.x - 5.0f <= posA.x && posK.z <= posA.z &&
@@ -747,6 +873,10 @@ void GameScene::HouseCollision() {
 	}
 	if (door_[9]->GetKeyFlag() == true) {
 		door_[9]->Collision();
+		player_->InHouseX(8, {83.5f, 0.0f, 197.7f}, 1.6f, 120.0f);
+		if (houseCollisionSwitchFlag[8] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posK.x + 3.0f >= posA.x && posK.x - 5.0f <= posA.x && posK.z <= posA.z &&
 	    posK.z + 14.0f >= posA.z) {
@@ -754,6 +884,11 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[8] = false;
 	}
+	if (player_->GetOutMoveFlag9() == false && houseCollisionSwitchFlag[8] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[8] = false;
+	}
+
 	// ドアの判定
 	if (posL.x + 3.0f >= posA.x && posL.x - 5.0f <= posA.x && posL.z - 14.0f <= posA.z &&
 	    posL.z  >= posA.z) {
@@ -763,6 +898,7 @@ void GameScene::HouseCollision() {
 	}
 	if (door2_[0]->GetKeyFlag() == true) {
 		door2_[0]->Collision();
+		
 	}
 	if (posL.x + 3.0f >= posA.x && posL.x - 5.0f <= posA.x && posL.z - 14.0f <= posA.z &&
 	    posL.z >= posA.z) {
@@ -770,6 +906,7 @@ void GameScene::HouseCollision() {
 	} else {
 		isExclamation_[9] = false;
 	}
+	
 
 	// ドアの判定
 	if (posM.x + 3.0f >= posA.x && posM.x - 5.0f <= posA.x && posM.z - 14.0f <= posA.z &&
@@ -780,12 +917,20 @@ void GameScene::HouseCollision() {
 	}
 	if (door_[10]->GetKeyFlag() == true) {
 		door_[10]->Collision();
+		player_->InHouseX2(9, {-161.0f, 0.0f, 240.7f}, 1.6f, -200.0f);
+		if (houseCollisionSwitchFlag[9] == true) {
+			houseCollisionFlag = false;
+		}
 	}
 	if (posM.x + 3.0f >= posA.x && posM.x - 5.0f <= posA.x && posM.z - 14.0f <= posA.z &&
 	    posM.z >= posA.z) {
 		isExclamation_[10] = true;
 	} else {
 		isExclamation_[10] = false;
+	}
+	if (player_->GetOutMoveFlag10() == false && houseCollisionSwitchFlag[9] == true) {
+		houseCollisionFlag = true;
+		houseCollisionSwitchFlag[9] = false;
 	}
 
 	// ドアの判定
@@ -810,13 +955,11 @@ void GameScene::HouseCollision() {
 	//梯子の当たり判定
 	if ( 165.0f >= posA.x && 155.0f <= posA.x &&2.0f>=posA.y&& 186.0f <= posA.z &&
 	    196.0f >= posA.z) {
-		isExclamation_[16] = true;
+		
 		if (player_->GetIsPushX() == true) {
 			player_->SetIsController(false);
 		}
-	} else {
-		isExclamation_[16] = false;
-	}
+	} 
 	/*if (player_->GetIsController() == false) {
 		claimCount++;
 		if (claimCount >= 180) {
@@ -1376,7 +1519,7 @@ void GameScene::MaterialCheckCollisions() {
 	for (Stone* stone : stones_) {
 		// 石の座標
 		posB = stone->GetWorldPosition();
-
+		
 		float radius1 = 1.5f;
 		float radius2 = 2.0f;
 
@@ -1387,22 +1530,26 @@ void GameScene::MaterialCheckCollisions() {
 
 		// プレイヤーと石の交差判定
 		if (hit <= radius) {
-			isExclamation_[12] = true;
+			stone->SetIsExclamation(true);
 			if (player_->GetIsPushX() == true) {
 				// 石の衝突時コールバックを呼び出す
 				stone->OnCollision();
 				//素材の所持数を足す
 				stoneCount_++;
-				//チュートリアル用
-				tutorial_->SetIsTutorialEnd_(false);
-				if (tutorial_->GetIsTutorialEnd_()==false) {
-					player_->SetIsController(false);
+				switch (stageNo) {
+				case Stage::kTutorial:
+					// チュートリアル用
+					tutorial_->SetIsTutorialEnd_(false);
+					if (tutorial_->GetIsTutorialEnd_() == false) {
+						player_->SetIsController(false);
+					}
+					break;
 				}
 
-				isExclamation_[12] = false;
+				stone->SetIsExclamation(false);
 			}
 		} else {
-			isExclamation_[12] = false;
+			stone->SetIsExclamation(false);
 		}
 	}
 
@@ -1421,16 +1568,16 @@ void GameScene::MaterialCheckCollisions() {
 
 		// プレイヤーと金の交差判定
 		if (hit <= radius) {
-			isExclamation_[13] = true;
+			gold->SetIsExclamation(true);
 			if (player_->GetIsPushX() == true) {
 				// 金の衝突時コールバックを呼び出す
 				gold->OnCollision();
 				// 素材の所持数を足す
 				goldCount_++;
-				isExclamation_[13] = false;
+				gold->SetIsExclamation(false);
 			}
 		} else {
-			isExclamation_[13] = false;
+			gold->SetIsExclamation(false);
 		}
 	}
 
@@ -1449,16 +1596,16 @@ void GameScene::MaterialCheckCollisions() {
 
 		// プレイヤーと樹脂の交差判定
 		if (hit <= radius) {
-			isExclamation_[14] = true;
+			jushi->SetIsExclamation(true);
 			if (player_->GetIsPushX() == true) {
 				// 樹脂の衝突時コールバックを呼び出す
 				jushi->OnCollision();
 				// 素材の所持数を足す
 				jushiCount_++;
-				isExclamation_[14] = false;
+				jushi->SetIsExclamation(false);
 			}
 		} else {
-			isExclamation_[14] = false;
+			jushi->SetIsExclamation(false);
 		}
 	}
 
@@ -1477,16 +1624,16 @@ void GameScene::MaterialCheckCollisions() {
 
 		// プレイヤーと貝の交差判定
 		if (hit <= radius) {
-			isExclamation_[15] = true;
+			shell->SetIsExclamation(true);
 			if (player_->GetIsPushX() == true) {
 				// 貝の衝突時コールバックを呼び出す
 				shell->OnCollision();
 				// 素材の所持数を足す
 				shellCount_++;
-				isExclamation_[15] = false;
+				shell->SetIsExclamation(false);
 			}
 		} else {
-			isExclamation_[15] = false;
+			shell->SetIsExclamation(false);
 		}
 	}
 }

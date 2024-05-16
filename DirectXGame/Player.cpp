@@ -8,6 +8,13 @@ void Player::Initialize(const std::vector<Model*>& models)
 
 	isPushX_ = false;
 	isController = true;
+	for (int x = 0; x < 11; x++) {
+		houseInFlag[x] = {false};
+		inMoveFlag[x] = {true};
+		outMoveFlag[x] = {true};
+		isItemGetFlag[x] = {false};
+		offFlag[x] = {false};
+	}
 	
 	// 初期化
 	worldTransform_.Initialize();
@@ -419,22 +426,147 @@ void Player::RoopInitialize() {
 	// モーション初期化
 	motion_ = Motion::kRun;
 	worldTransform_.translation_.y = 0.0f;
+	for (int x = 0; x < 11; x++) {
+		houseInFlag[x] = {false};
+		inMoveFlag[x] = {true};
+		outMoveFlag[x] = {true};
+		isItemGetFlag[x] = {false};
+		offFlag[x] = {false};
+	}
+	inHouseControllerFlag = true;
+
+	isStartTimer_ = 0;
 }
 
-void Player::InHouse1() {
-	if (houseInFlag[0] == false) {
-		worldTransform_.translation_ = {53.0f, 0.0f, -86.5f};
-		worldTransform_.rotation_.y = 3.2f;
-		houseInFlag[0] = true;
+void Player::InHouseZ(int number, Vector3 pos, float rotate, float translate) {
+	if (houseInFlag[number] == false) {
+		worldTransform_.translation_ = {pos};
+		worldTransform_.rotation_.y = rotate;
+		houseInFlag[number] = true;
 		inHouseControllerFlag = false;
 	}
-	if (inMoveFlag == true && houseInFlag[0] == true) {
+	if (inMoveFlag[number] == true && houseInFlag[number] == true) {
 		worldTransform_.translation_.z -= 0.3f;
-		if (worldTransform_.translation_.z <= -107.0f) {
-			    inMoveFlag = false;
-			    inHouseControllerFlag = true;
+		if (worldTransform_.translation_.z <= translate) {
+			    worldTransform_.translation_.z = translate;
+			    inMoveFlag[number] = false;
 		}
-	
+	}
+	if (inMoveFlag[number] == false && isItemGetFlag[number] == false) {
+		itemGetCount[number]++;
+	}
+	if (itemGetCount[number] >= itemCount) {
+		isItemGetFlag[number] = true;
+	}
+	if (isItemGetFlag[number] == true && outMoveFlag[number] == true) {
+		worldTransform_.translation_.z += 0.3f;
+		if (worldTransform_.translation_.z >= pos.z) {
+			    worldTransform_.translation_.z = pos.z;
+			    outMoveFlag[number] = false;
+		}
+	}
+	if (outMoveFlag[number] == false && offFlag[number] == false) {
+		inHouseControllerFlag = true;
+		offFlag[number] = true;
+	}
+}
+
+void Player::InHouseZ2(int number, Vector3 pos, float rotate, float translate) {
+	if (houseInFlag[number] == false) {
+		worldTransform_.translation_ = {pos};
+		worldTransform_.rotation_.y = rotate;
+		houseInFlag[number] = true;
+		inHouseControllerFlag = false;
+	}
+	if (inMoveFlag[number] == true && houseInFlag[number] == true) {
+		worldTransform_.translation_.z += 0.3f;
+		if (worldTransform_.translation_.z >= translate) {
+			    worldTransform_.translation_.z = translate;
+			    inMoveFlag[number] = false;
+		}
+	}
+	if (inMoveFlag[number] == false && isItemGetFlag[number] == false) {
+		itemGetCount[number]++;
+	}
+	if (itemGetCount[number] >= itemCount) {
+		isItemGetFlag[number] = true;
+	}
+	if (isItemGetFlag[number] == true && outMoveFlag[number] == true) {
+		worldTransform_.translation_.z -= 0.3f;
+		if (worldTransform_.translation_.z <= pos.z) {
+			    worldTransform_.translation_.z = pos.z;
+			    outMoveFlag[number] = false;
+		}
+	}
+	if (outMoveFlag[number] == false && offFlag[number] == false) {
+		inHouseControllerFlag = true;
+		offFlag[number] = true;
+	}
+}
+
+void Player::InHouseX(int number,Vector3 pos,float rotate,float translate) {
+	if (houseInFlag[number] == false) {
+		worldTransform_.translation_ = pos;
+		worldTransform_.rotation_.y = rotate;
+		houseInFlag[number] = true;
+		inHouseControllerFlag = false;
+	}
+	if (inMoveFlag[number] == true && houseInFlag[number] == true) {
+		worldTransform_.translation_.x += 0.3f;
+		if (worldTransform_.translation_.x >= translate) {
+			    worldTransform_.translation_.x = translate;
+			    inMoveFlag[number] = false;
+		}
+	}
+	if (inMoveFlag[number] == false && isItemGetFlag[number] == false) {
+		itemGetCount[number]++;
+	}
+	if (itemGetCount[number] >= itemCount) {
+		isItemGetFlag[number] = true;
+	}
+	if (isItemGetFlag[number] == true && outMoveFlag[number] == true) {
+		worldTransform_.translation_.x -= 0.3f;
+		if (worldTransform_.translation_.x <= pos.x) {
+			    worldTransform_.translation_.x = pos.x;
+			    outMoveFlag[number] = false;
+		}
+	}
+	if (outMoveFlag[number] == false && offFlag[number] == false) {
+		inHouseControllerFlag = true;
+		offFlag[number] = true;
+	}
+}
+
+void Player::InHouseX2(int number, Vector3 pos, float rotate, float translate) {
+	if (houseInFlag[number] == false) {
+		worldTransform_.translation_ = pos;
+		worldTransform_.rotation_.y = rotate;
+		houseInFlag[number] = true;
+		inHouseControllerFlag = false;
+	}
+	if (inMoveFlag[number] == true && houseInFlag[number] == true) {
+		worldTransform_.translation_.x -= 0.3f;
+		if (worldTransform_.translation_.x <= translate) {
+			    worldTransform_.translation_.x = translate;
+			    inMoveFlag[number] = false;
+		}
+	}
+	if (inMoveFlag[number] == false && isItemGetFlag[number] == false) {
+		itemGetCount[number]++;
+	}
+	if (itemGetCount[number] >= itemCount) {
+		isItemGetFlag[number] = true;
+	}
+	if (isItemGetFlag[number] == true && outMoveFlag[number] == true) {
+		worldTransform_.translation_.x += 0.3f;
+		if (worldTransform_.translation_.x >= pos.x) {
+			    worldTransform_.translation_.x = pos.x;
+			    outMoveFlag[number] = false;
+		}
+	}
+	if (outMoveFlag[number] == false && offFlag[number] == false) {
+		inHouseControllerFlag = true;
+		offFlag[number] = true;
 	}
 }
 

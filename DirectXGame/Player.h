@@ -118,9 +118,29 @@ public:
 
 	void RoopInitialize();
 
-	void InHouse1();
+	void InHouseZ(int number, Vector3 pos, float rotate, float translate);
+	void InHouseZ2(int number, Vector3 pos, float rotate, float translate);
+	void InHouseX(int number, Vector3 pos, float rotate, float translate);
+	void InHouseX2(int number, Vector3 pos, float rotate, float translate);
+	/* void InHouse5();
+	void InHouse6();
+	void InHouse7();
+	void InHouse8();
+	void InHouse9();
+	void InHouse10();
+	void InHouse11();*/
 
-	bool GetInMoveFlag() { return inMoveFlag; }
+	bool GetOutMoveFlag1() { return outMoveFlag[0]; }
+	bool GetOutMoveFlag2() { return outMoveFlag[1]; }
+	bool GetOutMoveFlag3() { return outMoveFlag[2]; }
+	bool GetOutMoveFlag4() { return outMoveFlag[3]; }
+	bool GetOutMoveFlag5() { return outMoveFlag[4]; }
+	bool GetOutMoveFlag6() { return outMoveFlag[5]; }
+	bool GetOutMoveFlag7() { return outMoveFlag[6]; }
+	bool GetOutMoveFlag8() { return outMoveFlag[7]; }
+	bool GetOutMoveFlag9() { return outMoveFlag[8]; }
+	bool GetOutMoveFlag10() { return outMoveFlag[9]; }
+	bool GetOutMoveFlag11() { return outMoveFlag[10]; }
 
 private:
 	//ワールド変換
@@ -180,6 +200,11 @@ private:
 	bool isController;
 
 	bool houseInFlag[11] = {false};
-	bool inMoveFlag = {true};
+	bool inMoveFlag[11] = {true};
+	bool outMoveFlag[11] = {true};
 	bool inHouseControllerFlag = true;
+	bool isItemGetFlag[11] = {false};
+	bool offFlag[11] = {false};
+	int itemGetCount[11] = {0};
+	int itemCount = 180;
 };

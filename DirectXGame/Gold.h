@@ -30,12 +30,18 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
+	bool GetIsExclamation() { return isExclamation_; }
+
+	bool SetIsExclamation(bool ex) { return isExclamation_ = ex; }
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
 
 	// 3Dモデル
 	Model* model_;
+
+	bool isExclamation_ = false;
 
 	// デスフラグ
 	bool isDead_ = false;

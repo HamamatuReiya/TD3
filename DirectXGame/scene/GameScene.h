@@ -33,6 +33,7 @@
 #include "Gold.h"
 #include "Jushi.h"
 #include "Shell.h"
+#include "Timer.h"
 
 /// <summary>
 /// ゲームシーン
@@ -187,6 +188,7 @@ private: // メンバ変数
 	std::unique_ptr<Model> ladderModel_[8] = {nullptr};
 
 	bool houseCollisionFlag=true; 
+	bool houseCollisionSwitchFlag[11] = {true};
 
 	//素材
 	//std::list<BommParts*> bommParts_;
@@ -231,6 +233,10 @@ private: // メンバ変数
 	//爆弾強化
 	std::unique_ptr<BommEnhance> bommEnhance_;
 
+	//時間
+	std::unique_ptr<Timer> timer_;
+	int time = 180 * 60;
+
 	/*森エリア*/
 	// 3Dモデル
 	std::unique_ptr<Model> forestGroundModel_ = nullptr;
@@ -238,7 +244,7 @@ private: // メンバ変数
 	std::unique_ptr<ForestGround> forestGround_;
 
 	// 3Dモデル
-	std::unique_ptr<Model> forestTreeLeafModel_[4] = {nullptr};
+	std::unique_ptr<Model> forestTreeLeafModel_ = nullptr;
 	// 木の葉
 	std::unique_ptr<ForestTreeLeaf> forestTreeLeaf_;
 
@@ -258,12 +264,17 @@ private: // メンバ変数
 	//UI
 	std::unique_ptr<UI> ui_;
 	bool isWindow_;
-	bool isExclamation_[17];
+	bool isExclamation_[18];
 	// チュートリアル
 	std::unique_ptr<Tutorial> tutorial_;
 
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
+
+	//フェード
+	Sprite* fadeSprite_ = nullptr;
+	Vector4 fadeColor_ = {1.0f, 1.0f, 1.0f, 0.0f};
+	bool isFade;
 
 	/// <summary>
 	/// ゲームシーン用

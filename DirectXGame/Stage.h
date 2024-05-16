@@ -2,8 +2,6 @@
 enum Stage {
 	kTutorial,
 	kTown,
-	kForest,
-	kVolcano,
 };
 
 class StageSelect
