@@ -11,17 +11,27 @@ void SelectScene::Initialize() {
 
 	viewProjection_.Initialize();
 
-	//天球
-	//3Dモデルの生成
+	// 天球
+	// 3Dモデルの生成
 	modelSpacedome_.reset(Model::CreateFromOBJ("spacedome", true));
-	//天球の生成
+	// 天球の生成
 	spacedome_ = std::make_unique<Spacedome>();
-	//天球の初期化
+	// 天球の初期化
 	spacedome_->Initialize(modelSpacedome_.get());
 
 	TextureInitialize();
 
 	cursorSpeed_ = {30, 0};
+
+	earthPos_ = 0.0f;
+
+	modelEarth_.reset(Model::CreateFromOBJ("aas", true));
+	earth_[0] = std::make_unique<Earth>();
+	earth_[1] = std::make_unique<Earth>();
+	earth_[0]->Initialize(modelEarth_.get(), earthPos_);
+	earth_[1]->Initialize(modelEarth_.get(), earthPos_ + 30.0f);
+
+	earth_[0]->SetScale({15.0f, 15.0f, 15.0f});
 
 	// フェードの生成
 	fade_ = std::make_unique<Fade>();
@@ -44,9 +54,16 @@ void SelectScene::Update() {
 				if (joyState.Gamepad.sThumbLX < -1 && padStateFlag_ == false) {
 					padStateFlag_ = true;
 					stageCount_ -= 1;
+					earth_[1]->SetScale({10.0f, 10.0f, 10.0f});
+					
+					isSelectEarth = false;
+					
 				} else if (joyState.Gamepad.sThumbLX > 1 && padStateFlag_ == false) {
 					padStateFlag_ = true;
 					stageCount_ += 1;
+					earth_[0]->SetScale({10.0f, 10.0f, 10.0f});
+					
+					isSelectEarth = true;
 				}
 
 				if (joyState.Gamepad.sThumbLX == 0) {
@@ -66,7 +83,6 @@ void SelectScene::Update() {
 				}   
 			}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 		}
-
 		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && fadeTimerFlag_ == false) {
 			fadeTimerFlag_ = true;
 			fade_->FadeOutStart();
@@ -93,6 +109,25 @@ void SelectScene::Update() {
 		}
 	}
 
+	if (isSelectEarth == false) {
+		earthPos_++;
+		if (earthPos_ >= 0.0f) {
+			earthPos_ = 0.0f;
+			earth_[0]->SetScale({15.0f, 15.0f, 15.0f});	
+		}
+		
+	} else if (isSelectEarth == true) {
+		
+		earthPos_--;
+		if (earthPos_ <= -30.0f) {
+			earthPos_ = -30.0f;
+			earth_[1]->SetScale({15.0f, 15.0f, 15.0f});
+		}
+	}
+
+	earth_[0]->SetPos(earthPos_);
+	earth_[1]->SetPos(earthPos_+30.0f);
+
 	//ステージ選択
 	StageSelect();
 
@@ -100,6 +135,10 @@ void SelectScene::Update() {
 
 	//天球の更新
 	spacedome_->Update();
+
+	earth_[0]->Update();
+
+	earth_[1]->Update();
 
 	// フェードの更新
 	fade_->Update();
@@ -134,6 +173,9 @@ void SelectScene::Draw() {
 	// 天球の描画
 	spacedome_->Draw(viewProjection_);
 
+	earth_[0]->Draw(viewProjection_);
+	earth_[1]->Draw(viewProjection_);
+
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -146,12 +188,17 @@ void SelectScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
-	textureCursor_->Draw();
-
+	/*textureCursor_->Draw();
 	textureNumber_[0]->Draw();
-	textureNumber_[1]->Draw();
-	textureNumber_[2]->Draw();
-	textureNumber_[3]->Draw();
+	textureNumber_[1]->Draw();*/
+	/*textureNumber_[2]->Draw();
+	textureNumber_[3]->Draw();*/
+
+	if (isSelectEarth == false) {
+		stageTitle_[0]->Draw();
+	} else if (isSelectEarth == true) {
+		stageTitle_[1]->Draw();
+	}
 
 	// フェードの描画
 	fade_->Draw();
@@ -179,6 +226,15 @@ void SelectScene::TextureInitialize() {
 	//カーソルの画像
 	uint32_t cursorHandle;
 	cursorHandle = TextureManager::Load("cursor.png");
+
+	uint32_t stageTextHandle[2];
+	stageTextHandle[0] = TextureManager::Load("TutorialText.png");
+	stageTextHandle[1] = TextureManager::Load("TownStageText.png");
+
+	stageTitle_[0] =
+	    Sprite::Create(stageTextHandle[0], {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	stageTitle_[1] =
+	    Sprite::Create(stageTextHandle[1], {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 
 	textureCursor_ = Sprite::Create(cursorHandle, {50.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 }
