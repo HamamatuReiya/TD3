@@ -579,6 +579,8 @@ void GameScene::Draw() {
 	// 爆弾の強化ウィンドウ
 	if (player_->GetActionbutton() ==1 && isWindow_ == true) {
 		ui_->Draw();
+		bommEnhance_->Draw();
+		
 	}
 	///!
 	for (int i = 0; i < 18; i++) {
