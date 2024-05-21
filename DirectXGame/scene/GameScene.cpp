@@ -672,10 +672,6 @@ void GameScene::SceneReset() {
 	}
 
 	isSceneEnd_ = false;
-
-	LoadMaterialPopData(
-	    "Resources/stonePop.csv", "Resources/goldPop.csv", "Resources/jushiPop.csv",
-	    "Resources/shellPop.csv");
 }
 
 void GameScene::HouseCollision() {
