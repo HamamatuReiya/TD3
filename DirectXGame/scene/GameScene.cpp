@@ -178,9 +178,6 @@ void GameScene::Initialize() {
 	modelJushi_.reset(Model::CreateFromOBJ("jushi", true));
 	modelShell_.reset(Model::CreateFromOBJ("shell", true));
 
-	LoadMaterialPopData(
-	    "Resources/stonePop.csv", "Resources/goldPop.csv",
-	    "Resources/jushiPop.csv", "Resources/shellPop.csv");
 	// 爆弾モデル
 	std::vector<Model*> bommModels = {bommModel_.get()};
 	// 爆弾の初期化
@@ -1756,6 +1753,22 @@ void GameScene::LoadMaterialPopData(
 	shellPopCommands << shellFile.rdbuf();
 	// ファイルを閉じる
 	shellFile.close();
+}
+
+void GameScene::LoadMaterial() {
+	switch (stageNo) {
+	case Stage::kTutorial:
+		//チュートリアル用
+		LoadMaterialPopData(
+		    "Resources/PopFile/tutorialStonePop.csv", "Resources/PopFile/tutorialGoldPop.csv",
+		    "Resources/PopFile/tutorialJushiPop.csv", "Resources/PopFile/tutorialShellPop.csv");
+		break;
+	case Stage::kTown:
+		LoadMaterialPopData(
+		    "Resources/PopFile/stonePop.csv", "Resources/PopFile/goldPop.csv",
+		    "Resources/PopFile/jushiPop.csv", "Resources/PopFile/shellPop.csv");
+		break;
+	}
 }
 
 void GameScene::UpdateStonePopCommands() {
