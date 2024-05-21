@@ -81,6 +81,9 @@ public:
 	bool IsSceneEnd() { return isSceneEnd_; }
 	SceneType NextScene() { return SceneType::kResult; }
 
+	//素材の配置の読み込み
+	void LoadMaterial();
+
 private:
 	/// <summary>
 	/// 石の発生

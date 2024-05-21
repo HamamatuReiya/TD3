@@ -9,8 +9,6 @@
 
 #include "TitleScene.h"
 #include "SelectScene.h"
-#include "DesertStage.h"
-#include "VolcanoStage.h"
 #include "ResultScene.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -26,8 +24,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	TitleScene* titleScene = nullptr;
 	SelectScene* selectScene = nullptr;
 
-	DesertStage* desertStage = nullptr;
-	VolcanoStage* volcanoStage = nullptr;
 	ResultScene* resultScene = nullptr;
 
 	// ゲームウィンドウの作成
@@ -82,14 +78,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	selectScene = new SelectScene();
 	selectScene->Initialize();
 
-	//砂漠ステージの初期化
-	desertStage = new DesertStage();
-	desertStage->Initialize();
-
-	//火山ステージの初期化
-	volcanoStage = new VolcanoStage();
-	volcanoStage->Initialize();
-
 	resultScene = new ResultScene();
 	resultScene->Initialize();
 
@@ -127,7 +115,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (selectScene->IsSceneEnd()) {
 				// 次のシーンの値を代入してシーン切り替え
 				sceneNo = selectScene->NextScene();
-
+				// 素材の配置の読み込み
+				gameScene->LoadMaterial();
 				// セレクトシーンシーンの初期化、フラグリセット等
 				selectScene->SceneReset();
 			}

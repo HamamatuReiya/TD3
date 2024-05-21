@@ -28,13 +28,14 @@ void UI::Initialize() {
 	
 	//
 	spriteStone_ =
-	    Sprite::Create(textureStone, {100.0f, 300.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	    Sprite::Create(textureStone, {80.0f, 300.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 
-	spriteGold_ = Sprite::Create(textureGold, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	spriteGold_ =
+	    Sprite::Create(textureGold, {250.0f, 480.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 
-	spriteJushi_ = Sprite::Create(textureJushi, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	spriteJushi_ = Sprite::Create(textureJushi, {820.0f, 490.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 
-	spriteShell_ = Sprite::Create(textureShell, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	spriteShell_ = Sprite::Create(textureShell, {1000.0f, 300.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 }
 
 void UI::Draw() { 
