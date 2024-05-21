@@ -19,6 +19,7 @@ void FollowCamera::Initialize() {
 
 	offsetZ = 20.0f;
 	offsetY = 55.0f;
+	isShake_ = false;
 }
 
 void FollowCamera::Update() {
@@ -59,6 +60,11 @@ void FollowCamera::LowView() {
 	viewProjection_.rotation_.x = 90.0f;
 	offsetY = 55.0f;
 	offsetZ = 20.0f;
+}
+
+void FollowCamera::Shake_() { 
+	viewProjection_.translation_.x = rand() % 201 - 100;
+	viewProjection_.translation_.y = rand() % 201 - 100;
 }
 
 
