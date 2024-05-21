@@ -548,7 +548,7 @@ void GameScene::Draw() {
 	switch (stageNo) {
 	case Stage::kTutorial:
 		// チュートリアル
-		if (tutorial_->GetIsTutorialEnd_() == false) {
+		if (tutorial_->GetIsTutorialEnd_() == false&& clearFlag == false) {
 			tutorial_->TutorialDraw();
 		}
 		break;
@@ -578,40 +578,41 @@ void GameScene::Draw() {
 		}
 	}
 	// 爆弾の強化ウィンドウ
-	if (player_->GetActionbutton() ==1 && isWindow_ == true) {
+	if (player_->GetActionbutton() == 1 && isWindow_ == true && clearFlag == false) {
 		ui_->Draw();
 		bommEnhance_->Draw();
 		
 	}
-	///!
-	for (int i = 0; i < 18; i++) {
-		if (isExclamation_[i] == true) {
-			ui_->ExclamationMarkDraw();
+	if (clearFlag == false) {
+		///!
+		for (int i = 0; i < 18; i++) {
+			if (isExclamation_[i] == true) {
+				ui_->ExclamationMarkDraw();
+			}
 		}
-	}
-	for (Stone* stone : stones_) {
-		if (stone->GetIsExclamation() == true) {
-			ui_->ExclamationMarkDraw();
+		for (Stone* stone : stones_) {
+			if (stone->GetIsExclamation() == true) {
+				ui_->ExclamationMarkDraw();
+			}
 		}
-	}
-	for (Gold* gold : golds_) {
-		if (gold->GetIsExclamation() == true) {
-			ui_->ExclamationMarkDraw();
+		for (Gold* gold : golds_) {
+			if (gold->GetIsExclamation() == true) {
+				ui_->ExclamationMarkDraw();
+			}
 		}
-	}
-	for (Jushi* jushi : jushis_) {
-		if (jushi->GetIsExclamation() == true) {
-			ui_->ExclamationMarkDraw();
+		for (Jushi* jushi : jushis_) {
+			if (jushi->GetIsExclamation() == true) {
+				ui_->ExclamationMarkDraw();
+			}
 		}
-	}
-	for (Shell* shell : shells_) {
-		if (shell->GetIsExclamation() == true) {
-			ui_->ExclamationMarkDraw();
+		for (Shell* shell : shells_) {
+			if (shell->GetIsExclamation() == true) {
+				ui_->ExclamationMarkDraw();
+			}
 		}
 	}
 	// スプライト描画後処理
 	Sprite::PostDraw();
-
 #pragma endregion
 }
 

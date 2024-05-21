@@ -24,6 +24,9 @@ public:
 	bool GetIsController() { return isController; };
 	bool SetIsController(bool flag) { return isController = flag; }
 
+	/*bool GetIsController() { return isController; };
+	bool SetIsController(bool flag) { return isController = flag; }*/
+
 	/// <summary>
 	/// カメラ
 	/// </summary>
@@ -49,4 +52,8 @@ private:
 private:
 	// 追従対象
 	const WorldTransform* target_ = nullptr;
+
+	//シェイク
+	bool isShake_;
+
 };
