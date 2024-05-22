@@ -356,11 +356,11 @@ void GameScene::Update() {
 	itemCounter_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
 
 	if (stoneCount_ + goldCount_ + jushiCount_ + shellCount_ >= 3) {
-		player_->SetIsSpeed(0.4f);
+		player_->GetIsSpeed();
 	}
 
-	if (stoneCount_+goldCount_+jushiCount_+shellCount_>=5) {
-		player_->SetIsSpeed(0.2f);
+	if (stoneCount_+goldCount_+jushiCount_+shellCount_>= 5) {
+		player_->GetIsSpeed();
 	}
 
 	//時間更新
