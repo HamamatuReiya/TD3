@@ -18,8 +18,7 @@ public:
 	void UpView();
 	//
 	void LowView();
-	//
-	void Shake_();
+	
 
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 
@@ -55,8 +54,6 @@ private:
 	// 追従対象
 	const WorldTransform* target_ = nullptr;
 
-	//シェイク
-	bool isShake_;
-	float ShakeTimer_;
+	
 	
 };

@@ -228,6 +228,7 @@ void GameScene::Update() {
 		clearFlag = false;
 		isSceneEnd_ = true;
 	}
+
 	//player_->Update();
 	debugCamera_->Update();
 	ground_->Update();
