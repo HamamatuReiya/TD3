@@ -355,8 +355,16 @@ void GameScene::Update() {
 	// 所持数UIの更新
 	itemCounter_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
 
-	time--;
+	if (stoneCount_ + goldCount_ + jushiCount_ + shellCount_ >= 3) {
+		player_->SetIsSpeed(0.4f);
+	}
+
+	if (stoneCount_+goldCount_+jushiCount_+shellCount_>=5) {
+		player_->SetIsSpeed(0.2f);
+	}
+
 	//時間更新
+	time--;
 	timer_->Update(time);
 
 	if (time <= 0) {
@@ -475,7 +483,6 @@ void GameScene::Draw() {
 
 	switch (stageNo) {
 	case Stage::kTutorial:
-		
 		house_->Draw(viewProjection_);
 		door_[0]->Draw(viewProjection_);
 		door_[1]->Draw(viewProjection_);
@@ -1719,7 +1726,11 @@ void GameScene::MaterialCheckCollisions() {
 				jushi->OnCollision();
 				// 素材の所持数を足す
 				jushiCount_++;
+				time += 180;
+
 				jushi->SetIsExclamation(false);
+				
+
 			}
 		} else {
 			jushi->SetIsExclamation(false);
