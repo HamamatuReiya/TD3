@@ -54,6 +54,4 @@ private:
 	// 追従対象
 	const WorldTransform* target_ = nullptr;
 
-	
-	
 };

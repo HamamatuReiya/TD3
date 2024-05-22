@@ -25,7 +25,7 @@ BOOL UnadjustWindowRectEx(LPRECT prc, DWORD dwStyle, BOOL fMenu, DWORD dwExStyle
 }
 } // namespace
 
-const wchar_t WinApp::kWindowClassName[] = L"DirectXGame";
+const wchar_t WinApp::kWindowClassName[] = L"この惑星を爆破しに来た";
 
 WinApp* WinApp::GetInstance() {
 	static WinApp instance;
