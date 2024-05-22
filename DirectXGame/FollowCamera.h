@@ -18,11 +18,15 @@ public:
 	void UpView();
 	//
 	void LowView();
+	
 
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 
 	bool GetIsController() { return isController; };
 	bool SetIsController(bool flag) { return isController = flag; }
+
+	/*bool GetIsController() { return isController; };
+	bool SetIsController(bool flag) { return isController = flag; }*/
 
 	/// <summary>
 	/// カメラ
@@ -49,4 +53,7 @@ private:
 private:
 	// 追従対象
 	const WorldTransform* target_ = nullptr;
+
+	
+	
 };

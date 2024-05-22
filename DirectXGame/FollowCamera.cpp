@@ -19,6 +19,8 @@ void FollowCamera::Initialize() {
 
 	offsetZ = 20.0f;
 	offsetY = 55.0f;
+
+	
 }
 
 void FollowCamera::Update() {
@@ -60,8 +62,6 @@ void FollowCamera::LowView() {
 	offsetY = 55.0f;
 	offsetZ = 20.0f;
 }
-
-
 
 void FollowCamera::Debug() {
 
