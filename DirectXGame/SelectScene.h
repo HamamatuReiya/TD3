@@ -81,7 +81,7 @@ private: // メンバ変数
 
 	std::unique_ptr<Earth> earth_[2];
 
-	std::unique_ptr<Model> modelEarth_;
+	std::unique_ptr<Model> modelEarth_[2];
 
 	float earthPos_;
 	bool isSelectEarth = false;

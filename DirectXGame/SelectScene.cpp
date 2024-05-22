@@ -25,11 +25,12 @@ void SelectScene::Initialize() {
 
 	earthPos_ = 0.0f;
 
-	modelEarth_.reset(Model::CreateFromOBJ("aas", true));
+	modelEarth_[0].reset(Model::CreateFromOBJ("namekku", true));
+	modelEarth_[1].reset(Model::CreateFromOBJ("aas", true));
 	earth_[0] = std::make_unique<Earth>();
 	earth_[1] = std::make_unique<Earth>();
-	earth_[0]->Initialize(modelEarth_.get(), earthPos_);
-	earth_[1]->Initialize(modelEarth_.get(), earthPos_ + 30.0f);
+	earth_[0]->Initialize(modelEarth_[0].get(), earthPos_);
+	earth_[1]->Initialize(modelEarth_[1].get(), earthPos_ + 30.0f);
 
 	earth_[0]->SetScale({15.0f, 15.0f, 15.0f});
 
