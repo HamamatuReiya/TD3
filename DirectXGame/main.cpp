@@ -161,7 +161,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (input->TriggerKey(DIK_F)) {
 			win->SetFullscreen(true);
 		}
-		if (input->TriggerKey(DIK_D)) {
+		if (input->TriggerKey(DIK_ESCAPE)) {
 			win->SetFullscreen(false);
 		}
 
