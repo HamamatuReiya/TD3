@@ -15,6 +15,7 @@ void Player::Initialize(const std::vector<Model*>& models)
 		isItemGetFlag[x] = {false};
 		offFlag[x] = {false};
 		itemGetCount[x] = {0};
+		
 	}
 	
 	// 初期化

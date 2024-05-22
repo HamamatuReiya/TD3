@@ -142,6 +142,8 @@ public:
 	bool GetOutMoveFlag10() { return outMoveFlag[9]; }
 	bool GetOutMoveFlag11() { return outMoveFlag[10]; }
 
+	bool GetIsItemGetFlag1() { return isItemGetFlag[0]; }
+
 private:
 	//ワールド変換
 	WorldTransform worldTransform_;

@@ -37,6 +37,9 @@ void GameScene::Initialize() {
 		houseCollisionSwitchFlag[i] = true;
 	}
 
+	srand(time);
+	randNumber_ = 0;
+
 	// 3Dモデル生成
 	model_.reset(Model::Create());
 	// ワールドトランスフォームの初期化
@@ -160,10 +163,14 @@ void GameScene::Initialize() {
 		isExclamation_[i] = false;
 	}
 
-	for (int i = 0; i < 11; i++) {
+	for (int i = 0; i < 12; i++) {
 		isDoorOpen[i] = false;
 	}
-	
+
+	for (int i = 0; i < 11; i++) {
+		isHouseItemGetFlag[i];
+	}
+
 	//所持数UIの生成
 	itemCounter_ = std::make_unique<ItemCounter>();
 	itemCounter_->Initialize();
@@ -638,6 +645,10 @@ void GameScene::SceneReset() {
 		houseCollisionSwitchFlag[i] = true;
 	}
 
+	for (int i = 0; i < 11; i++) {
+		isHouseItemGetFlag[i];
+	}
+
 	isWindow_ = false;
 	for (int i = 0; i < 18; i++) {
 		isExclamation_[i] = false;
@@ -674,7 +685,7 @@ void GameScene::SceneReset() {
 	for (int i = 0; i < 18; i++) {
 		isExclamation_[i] = false;
 	}
-	for (int i = 0; i < 11; i++) {
+	for (int i = 0; i < 12; i++) {
 		isDoorOpen[i] = false;
 	}
 	isSceneEnd_ = false;
@@ -698,6 +709,22 @@ void GameScene::HouseCollision() {
 	Vector3 posL = door2_[0]->GetWorldPosition();
 	Vector3 posM = door_[10]->GetWorldPosition();
 	Vector3 posN = door2_[1]->GetWorldPosition();
+
+	if (isRandNumber_ == true) {
+		if (randNumber_ == 1) {
+			stoneCount_++;
+		} 
+		if (randNumber_ == 2) {
+			goldCount_++;
+		} 
+		if (randNumber_ == 3) {
+			jushiCount_++;
+		} 
+		if (randNumber_ == 4) {
+			shellCount_++;
+		}
+		isRandNumber_ = false;
+	}
 
 	// ドアの判定
 	if (posB.x + 7.0f >= posA.x && posB.x <= posA.x && posB.z <= posA.z - 1.5f &&
@@ -727,6 +754,11 @@ void GameScene::HouseCollision() {
 		houseCollisionSwitchFlag[0] = false;
 	}
 
+	if (player_->GetIsItemGetFlag1() == true && isHouseItemGetFlag[0] == false) {
+		isHouseItemGetFlag[0] = true;
+		isRandNumber_ = true;
+		randNumber_ = rand() % randNumberMAX_ + 2;
+	}
 
 	// ドアの判定
 	if (posC.x + 7.0f >= posA.x && posC.x <= posA.x && posC.z <= posA.z - 1.5f &&
