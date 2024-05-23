@@ -15,7 +15,8 @@ void Player::Initialize(const std::vector<Model*>& models)
 		isItemGetFlag[x] = {false};
 		offFlag[x] = {false};
 		itemGetCount[x] = {0};
-		
+		itemGetFlag2[x] = {false};
+		itemGetFlag3[x] = {false};
 	}
 	
 	// 初期化
@@ -458,9 +459,17 @@ void Player::InHouseZ(int number, Vector3 pos, float rotate, float translate) {
 	}
 	if (inMoveFlag[number] == false && isItemGetFlag[number] == false) {
 		itemGetCount[number]++;
+		if (itemGetCount[number] >= 60) {
+			    itemGetFlag2[number] = true;
+		}
+		if (itemGetCount[number] >= 120) {
+			    itemGetFlag3[number] = true;
+		}
 	}
 	if (itemGetCount[number] >= itemCount) {
 		isItemGetFlag[number] = true;
+		itemGetFlag2[number] = false;
+		itemGetFlag3[number] = false;
 	}
 	if (isItemGetFlag[number] == true && outMoveFlag[number] == true) {
 		worldTransform_.translation_.z += 0.3f;
@@ -491,9 +500,17 @@ void Player::InHouseZ2(int number, Vector3 pos, float rotate, float translate) {
 	}
 	if (inMoveFlag[number] == false && isItemGetFlag[number] == false) {
 		itemGetCount[number]++;
+		if (itemGetCount[number] >= 60) {
+			    itemGetFlag2[number] = true;
+		}
+		if (itemGetCount[number] >= 120) {
+			    itemGetFlag3[number] = true;
+		}
 	}
 	if (itemGetCount[number] >= itemCount) {
 		isItemGetFlag[number] = true;
+		itemGetFlag2[number] = false;
+		itemGetFlag3[number] = false;
 	}
 	if (isItemGetFlag[number] == true && outMoveFlag[number] == true) {
 		worldTransform_.translation_.z -= 0.3f;
@@ -524,9 +541,17 @@ void Player::InHouseX(int number,Vector3 pos,float rotate,float translate) {
 	}
 	if (inMoveFlag[number] == false && isItemGetFlag[number] == false) {
 		itemGetCount[number]++;
+		if (itemGetCount[number] >= 60) {
+			    itemGetFlag2[number] = true;
+		}
+		if (itemGetCount[number] >= 120) {
+			    itemGetFlag3[number] = true;
+		}
 	}
 	if (itemGetCount[number] >= itemCount) {
 		isItemGetFlag[number] = true;
+		itemGetFlag2[number] = false;
+		itemGetFlag3[number] = false;
 	}
 	if (isItemGetFlag[number] == true && outMoveFlag[number] == true) {
 		worldTransform_.translation_.x -= 0.3f;
@@ -557,9 +582,17 @@ void Player::InHouseX2(int number, Vector3 pos, float rotate, float translate) {
 	}
 	if (inMoveFlag[number] == false && isItemGetFlag[number] == false) {
 		itemGetCount[number]++;
+		if (itemGetCount[number] >= 60) {
+			    itemGetFlag2[number] = true;
+		}
+		if (itemGetCount[number] >= 120) {
+			    itemGetFlag3[number] = true;
+		}
 	}
 	if (itemGetCount[number] >= itemCount) {
 		isItemGetFlag[number] = true;
+		itemGetFlag2[number] = false;
+		itemGetFlag3[number] = false;
 	}
 	if (isItemGetFlag[number] == true && outMoveFlag[number] == true) {
 		worldTransform_.translation_.x += 0.3f;
