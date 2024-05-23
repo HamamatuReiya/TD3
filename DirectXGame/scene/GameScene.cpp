@@ -706,6 +706,8 @@ void GameScene::SceneReset() {
 	}
 	isSceneEnd_ = false;
 	clearFlag = false;
+	fadeColor_.w = 0.0f;
+	isFade = false;
 }
 
 void GameScene::HouseCollision() {
