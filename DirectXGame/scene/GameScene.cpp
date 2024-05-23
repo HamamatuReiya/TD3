@@ -186,7 +186,7 @@ void GameScene::Initialize() {
 	//素材のモデル
 	modelStone_.reset(Model::CreateFromOBJ("stone", true));
 	modelGold_.reset(Model::CreateFromOBJ("gold", true));
-	modelJushi_.reset(Model::CreateFromOBJ("jushi", true));
+	modelJushi_.reset(Model::CreateFromOBJ("Clock", true));
 	modelShell_.reset(Model::CreateFromOBJ("shell", true));
 
 	// 爆弾モデル
@@ -702,6 +702,7 @@ void GameScene::SceneReset() {
 		isDoorOpen[i] = false;
 	}
 	isSceneEnd_ = false;
+	clearFlag = false;
 }
 
 void GameScene::HouseCollision() {
