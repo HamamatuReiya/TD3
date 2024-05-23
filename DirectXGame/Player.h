@@ -98,6 +98,9 @@ public:
 	bool GetIsController() { return isController; }
 	bool SetIsController(bool controllerFlag) { return isController = controllerFlag; }
 
+	float GetIsSpeed() { return Speed; }
+	float SetIsSpeed(float speed) { return Speed = speed; }
+
 	// 中心座標を取得
 	Vector3 GetCenterPosition() const override;
 
@@ -219,4 +222,7 @@ private:
 	bool offFlag[11] = {false};
 	int itemGetCount[11] = {0};
 	int itemCount = 180;
+
+	//速さ
+	float Speed;
 };

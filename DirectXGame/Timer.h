@@ -18,6 +18,7 @@ public:
 	/// </summary>
 	void Draw();
 
+
 private:
 	// 数字の画像の読み込み
 	uint32_t numHandle_[10];
