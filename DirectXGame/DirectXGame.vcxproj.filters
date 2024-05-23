@@ -17,7 +17,6 @@
     <ClCompile Include="BaseCharacter.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
-    <ClCompile Include="DesertStage.cpp" />
     <ClCompile Include="Bomm.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
@@ -46,7 +45,6 @@
     <ClCompile Include="Stone.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UI.cpp" />
-    <ClCompile Include="VolcanoStage.cpp" />
     <ClCompile Include="WorldTransformEx.cpp" />
     <ClCompile Include="ItemCounter.cpp" />
     <ClCompile Include="Tutorial.cpp" />
@@ -54,6 +52,8 @@
     <ClCompile Include="BommEnhance.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="FixedCamera.cpp" />
+    <ClCompile Include="Earth.cpp" />
+    <ClCompile Include="Explosion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\ImGuiManager.h" />
@@ -80,7 +80,6 @@
     <ClInclude Include="base\StringUtility.h" />
     <ClInclude Include="base\TextureManager.h" />
     <ClInclude Include="base\WinApp.h" />
-    <ClInclude Include="DesertStage.h" />
     <ClInclude Include="Bomm.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
@@ -115,13 +114,14 @@
     <ClInclude Include="Stone.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UI.h" />
-    <ClInclude Include="VolcanoStage.h" />
     <ClInclude Include="ItemCounter.h" />
     <ClInclude Include="Tutorial.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="BommEnhance.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="FixedCamera.h" />
+    <ClInclude Include="Earth.h" />
+    <ClInclude Include="Explosion.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Obj.hlsli" />

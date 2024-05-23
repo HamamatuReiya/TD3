@@ -343,7 +343,7 @@ void GameScene::Update() {
 	// 所持数UIの更新
 	itemCounter_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
 
-	time--;
+	//time--;
 	//時間更新
 	timer_->Update(time);
 
