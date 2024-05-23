@@ -213,8 +213,6 @@ void Player::MotionRunUpdate() {
 	XINPUT_STATE joyState;
 
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		// 速さ
-		Speed = 0.6f;
 		worldTransformBody_.parent_ = &worldTransform_;
 		worldTransformHead_.parent_ = &worldTransform_;
 		worldTransformL_arm.parent_ = &worldTransform_;
@@ -350,6 +348,7 @@ void Player::Debug() {
 	ImGui::SliderFloat3("Rot", playerRot, -28.0f, 28.0f);
 	ImGui::SliderFloat3("AxeP", axePos, -28.0f, 28.0f);
 	ImGui::SliderFloat3("AxeR", axeRot, -28.0f, 28.0f);
+	ImGui::Text("%f", Speed);
 	ImGui::End();
 	// 移動
 	worldTransform_.translation_.x = playerPos[0];

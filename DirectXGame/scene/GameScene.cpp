@@ -355,13 +355,17 @@ void GameScene::Update() {
 	// 所持数UIの更新
 	itemCounter_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
 
+	//重さ
 	if (stoneCount_ + goldCount_ + jushiCount_ + shellCount_ >= 3) {
-		player_->GetIsSpeed();
+		player_->SetIsSpeed(0.4f);
+		if (stoneCount_ + goldCount_ + jushiCount_ + shellCount_ >= 5) {
+			player_->SetIsSpeed(0.3f);
+		}
+	} else {
+		player_->SetIsSpeed(0.6f);
 	}
 
-	if (stoneCount_+goldCount_+jushiCount_+shellCount_>= 5) {
-		player_->GetIsSpeed();
-	}
+	
 
 	//時間更新
 	time--;
