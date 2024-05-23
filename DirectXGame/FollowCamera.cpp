@@ -19,6 +19,8 @@ void FollowCamera::Initialize() {
 
 	offsetZ = 20.0f;
 	offsetY = 55.0f;
+
+	
 }
 
 void FollowCamera::Update() {
@@ -37,7 +39,7 @@ void FollowCamera::Update() {
 		// 速さ
 		if (isController == true) {
 			const float rotate = 0.04f;
-			viewProjection_.rotation_.y += joyState.Gamepad.sThumbRX / SHRT_MAX * rotate;
+			viewProjection_.rotation_.y += float( joyState.Gamepad.sThumbRX )/ SHRT_MAX * rotate;
 		}
 	}
 	
@@ -60,8 +62,6 @@ void FollowCamera::LowView() {
 	offsetY = 55.0f;
 	offsetZ = 20.0f;
 }
-
-
 
 void FollowCamera::Debug() {
 

@@ -29,6 +29,8 @@ private:
 	WorldTransform worldTransform_;
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
-
+	// シェイク
+	bool isShake_;
+	float ShakeTimer_;
 	
 };

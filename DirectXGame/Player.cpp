@@ -14,6 +14,8 @@ void Player::Initialize(const std::vector<Model*>& models)
 		outMoveFlag[x] = {true};
 		isItemGetFlag[x] = {false};
 		offFlag[x] = {false};
+		itemGetCount[x] = {0};
+		
 	}
 	
 	// 初期化
@@ -67,6 +69,8 @@ void Player::Initialize(const std::vector<Model*>& models)
 	    Sprite::Create(textureButton, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 	//
 	isStartTimer_ = 0;
+
+	Speed = 0.6f;
 }
 	
 
@@ -209,8 +213,6 @@ void Player::MotionRunUpdate() {
 	XINPUT_STATE joyState;
 
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		// 速さ
-		const float speed = 0.6f;
 		worldTransformBody_.parent_ = &worldTransform_;
 		worldTransformHead_.parent_ = &worldTransform_;
 		worldTransformL_arm.parent_ = &worldTransform_;
@@ -221,11 +223,11 @@ void Player::MotionRunUpdate() {
 		// 移動量
 		if (isController == true) {
 			    Vector3 move = {
-			        (float)joyState.Gamepad.sThumbLX / SHRT_MAX * -speed, 0.0f,
-			        (float)joyState.Gamepad.sThumbLY / SHRT_MAX * -speed};
+			        (float)joyState.Gamepad.sThumbLX / SHRT_MAX * -Speed, 0.0f,
+			        (float)joyState.Gamepad.sThumbLY / SHRT_MAX * -Speed};
 
 			    // 移動量に速さを反映
-			    move = Multiply(speed, Normalize(move));
+			    move = Multiply(Speed, Normalize(move));
 
 			    move = TransformNormal(move, MakeRotateYmatrix(viewProjection_->rotation_.y));
 
@@ -346,6 +348,7 @@ void Player::Debug() {
 	ImGui::SliderFloat3("Rot", playerRot, -28.0f, 28.0f);
 	ImGui::SliderFloat3("AxeP", axePos, -28.0f, 28.0f);
 	ImGui::SliderFloat3("AxeR", axeRot, -28.0f, 28.0f);
+	ImGui::Text("%f", Speed);
 	ImGui::End();
 	// 移動
 	worldTransform_.translation_.x = playerPos[0];
@@ -432,6 +435,7 @@ void Player::RoopInitialize() {
 		outMoveFlag[x] = {true};
 		isItemGetFlag[x] = {false};
 		offFlag[x] = {false};
+		itemGetCount[x] = {0};
 	}
 	inHouseControllerFlag = true;
 
