@@ -146,6 +146,40 @@ public:
 	bool GetOutMoveFlag11() { return outMoveFlag[10]; }
 
 	bool GetIsItemGetFlag1() { return isItemGetFlag[0]; }
+	bool GetIsItemGetFlag2() { return isItemGetFlag[1]; }
+	bool GetIsItemGetFlag3() { return isItemGetFlag[2]; }
+	bool GetIsItemGetFlag4() { return isItemGetFlag[3]; }
+	bool GetIsItemGetFlag5() { return isItemGetFlag[4]; }
+	bool GetIsItemGetFlag6() { return isItemGetFlag[5]; }
+	bool GetIsItemGetFlag7() { return isItemGetFlag[6]; }
+	bool GetIsItemGetFlag8() { return isItemGetFlag[7]; }
+	bool GetIsItemGetFlag9() { return isItemGetFlag[8]; }
+	bool GetIsItemGetFlag10() { return isItemGetFlag[9]; }
+	bool GetIsItemGetFlag11() { return isItemGetFlag[10]; }
+
+	bool GetItemGetFlag21() { return itemGetFlag2[0]; }
+	bool GetItemGetFlag22() { return itemGetFlag2[1]; }
+	bool GetItemGetFlag23() { return itemGetFlag2[2]; }
+	bool GetItemGetFlag24() { return itemGetFlag2[3]; }
+	bool GetItemGetFlag25() { return itemGetFlag2[4]; }
+	bool GetItemGetFlag26() { return itemGetFlag2[5]; }
+	bool GetItemGetFlag27() { return itemGetFlag2[6]; }
+	bool GetItemGetFlag28() { return itemGetFlag2[7]; }
+	bool GetItemGetFlag29() { return itemGetFlag2[8]; }
+	bool GetItemGetFlag210() { return itemGetFlag2[9]; }
+	bool GetItemGetFlag211() { return itemGetFlag2[10]; }
+
+	bool GetItemGetFlag31() { return itemGetFlag3[0]; }
+	bool GetItemGetFlag32() { return itemGetFlag3[1]; }
+	bool GetItemGetFlag33() { return itemGetFlag3[2]; }
+	bool GetItemGetFlag34() { return itemGetFlag3[3]; }
+	bool GetItemGetFlag35() { return itemGetFlag3[4]; }
+	bool GetItemGetFlag36() { return itemGetFlag3[5]; }
+	bool GetItemGetFlag37() { return itemGetFlag3[6]; }
+	bool GetItemGetFlag38() { return itemGetFlag3[7]; }
+	bool GetItemGetFlag39() { return itemGetFlag3[8]; }
+	bool GetItemGetFlag310() { return itemGetFlag3[9]; }
+	bool GetItemGetFlag311() { return itemGetFlag3[10]; }
 
 private:
 	//ワールド変換
@@ -209,6 +243,8 @@ private:
 	bool outMoveFlag[11] = {true};
 	bool inHouseControllerFlag = true;
 	bool isItemGetFlag[11] = {false};
+	bool itemGetFlag2[11] = {false};
+	bool itemGetFlag3[11] = {false};
 	bool offFlag[11] = {false};
 	int itemGetCount[11] = {0};
 	int itemCount = 180;

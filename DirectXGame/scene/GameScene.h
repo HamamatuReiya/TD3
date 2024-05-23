@@ -36,7 +36,6 @@
 #include "Timer.h"
 #include "FixedCamera.h"
 #include "Explosion.h"
-#include <time.h>
 
 /// <summary>
 /// ゲームシーン
@@ -200,6 +199,8 @@ private: // メンバ変数
 	bool houseCollisionSwitchFlag[11] = {true};
 
 	bool isHouseItemGetFlag[11] = {false};
+	bool isHouseItemGetFlag2[11] = {false};
+	bool isHouseItemGetFlag3[11] = {false};
 
 	//素材
 	//std::list<BommParts*> bommParts_;
@@ -283,10 +284,9 @@ private: // メンバ変数
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
 
-	const int randNumberMAX_ = 4;
+	const int randNumberMAX_ = 10;
 	int randNumber_ = 0;
 	bool isRandNumber_ = false;
-
 
 	//フェード
 	Sprite* fadeSprite_ = nullptr;
