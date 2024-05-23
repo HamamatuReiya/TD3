@@ -143,6 +143,16 @@ public:
 	bool GetOutMoveFlag11() { return outMoveFlag[10]; }
 
 	bool GetIsItemGetFlag1() { return isItemGetFlag[0]; }
+	bool GetIsItemGetFlag2() { return isItemGetFlag[1]; }
+	bool GetIsItemGetFlag3() { return isItemGetFlag[2]; }
+	bool GetIsItemGetFlag4() { return isItemGetFlag[3]; }
+	bool GetIsItemGetFlag5() { return isItemGetFlag[4]; }
+	bool GetIsItemGetFlag6() { return isItemGetFlag[5]; }
+	bool GetIsItemGetFlag7() { return isItemGetFlag[6]; }
+	bool GetIsItemGetFlag8() { return isItemGetFlag[7]; }
+	bool GetIsItemGetFlag9() { return isItemGetFlag[8]; }
+	bool GetIsItemGetFlag10() { return isItemGetFlag[9]; }
+	bool GetIsItemGetFlag11() { return isItemGetFlag[10]; }
 
 private:
 	//ワールド変換

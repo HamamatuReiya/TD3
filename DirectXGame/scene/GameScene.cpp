@@ -37,7 +37,6 @@ void GameScene::Initialize() {
 		houseCollisionSwitchFlag[i] = true;
 	}
 
-	srand(time);
 	randNumber_ = 0;
 
 	// 3Dモデル生成
@@ -648,7 +647,7 @@ void GameScene::SceneReset() {
 	}
 
 	for (int i = 0; i < 11; i++) {
-		isHouseItemGetFlag[i];
+		isHouseItemGetFlag[i]=false;
 	}
 
 	isWindow_ = false;
@@ -724,6 +723,8 @@ void GameScene::HouseCollision() {
 		isRandNumber_ = false;
 	}
 
+	randNumber_ = int(rand() % randNumberMAX_ + 1);
+
 	// ドアの判定
 	if (posB.x + 7.0f >= posA.x && posB.x <= posA.x && posB.z <= posA.z - 1.5f &&
 	    posB.z + 4.0f >= posA.z) {
@@ -751,13 +752,11 @@ void GameScene::HouseCollision() {
 		houseCollisionFlag = true;
 		houseCollisionSwitchFlag[0] = false;
 	}
-
 	if (player_->GetIsItemGetFlag1() == true && isHouseItemGetFlag[0] == false) {
 		isHouseItemGetFlag[0] = true;
-		isRandNumber_ = true;
-		randNumber_ = rand() % randNumberMAX_ + 1;
+		isRandNumber_ = true;	
 	}
-
+	
 	// ドアの判定
 	if (posC.x + 7.0f >= posA.x && posC.x <= posA.x && posC.z <= posA.z - 1.5f &&
 	    posC.z + 4.0f >= posA.z) {
@@ -786,7 +785,10 @@ void GameScene::HouseCollision() {
 		houseCollisionFlag = true;
 		houseCollisionSwitchFlag[1] = false;
 	}
-
+	if (player_->GetIsItemGetFlag2() == true && isHouseItemGetFlag[1] == false) {
+		isHouseItemGetFlag[1] = true;
+		isRandNumber_ = true;
+	}
 
 	// ドアの判定
 	if (posD.x + 7.0f >= posA.x && posD.x <= posA.x && posD.z <= posA.z - 0.5f &&
@@ -815,6 +817,10 @@ void GameScene::HouseCollision() {
 	if (player_->GetOutMoveFlag3() == false && houseCollisionSwitchFlag[2] == true) {
 		houseCollisionFlag = true;
 		houseCollisionSwitchFlag[2] = false;
+	}
+	if (player_->GetIsItemGetFlag3() == true && isHouseItemGetFlag[2] == false) {
+		isHouseItemGetFlag[2] = true;
+		isRandNumber_ = true;
 	}
 
 	// ドアの判定
@@ -845,6 +851,10 @@ void GameScene::HouseCollision() {
 		houseCollisionFlag = true;
 		houseCollisionSwitchFlag[3] = false;
 	}
+	if (player_->GetIsItemGetFlag4() == true && isHouseItemGetFlag[3] == false) {
+		isHouseItemGetFlag[3] = true;
+		isRandNumber_ = true;
+	}
 
 	// ドアの判定
 	if (posG.x + 3.0f >= posA.x && posG.x - 5.0f <= posA.x && posG.z <= posA.z &&
@@ -874,7 +884,10 @@ void GameScene::HouseCollision() {
 		houseCollisionFlag = true;
 		houseCollisionSwitchFlag[4] = false;
 	}
-
+	if (player_->GetIsItemGetFlag5() == true && isHouseItemGetFlag[4] == false) {
+		isHouseItemGetFlag[4] = true;
+		isRandNumber_ = true;
+	}
 
 	// ドアの判定
 	if (posH.x >= posA.x && posH.x - 7.0f <= posA.x && posH.z - 3.0f <= posA.z &&
@@ -904,7 +917,10 @@ void GameScene::HouseCollision() {
 		houseCollisionFlag = true;
 		houseCollisionSwitchFlag[5] = false;
 	}
-
+	if (player_->GetIsItemGetFlag6() == true && isHouseItemGetFlag[5] == false) {
+		isHouseItemGetFlag[5] = true;
+		isRandNumber_ = true;
+	}
 
 	// ドアの判定
 	if (posI.x+5.0f >= posA.x && posI.x - 3.0f <= posA.x && posI.z-7.0f  <= posA.z &&
@@ -933,6 +949,10 @@ void GameScene::HouseCollision() {
 	if (player_->GetOutMoveFlag7() == false && houseCollisionSwitchFlag[6] == true) {
 		houseCollisionFlag = true;
 		houseCollisionSwitchFlag[6] = false;
+	}
+	if (player_->GetIsItemGetFlag7() == true && isHouseItemGetFlag[6] == false) {
+		isHouseItemGetFlag[6] = true;
+		isRandNumber_ = true;
 	}
 
 	// ドアの判定
@@ -963,7 +983,10 @@ void GameScene::HouseCollision() {
 		houseCollisionFlag = true;
 		houseCollisionSwitchFlag[7] = false;
 	}
-
+	if (player_->GetIsItemGetFlag8() == true && isHouseItemGetFlag[7] == false) {
+		isHouseItemGetFlag[7] = true;
+		isRandNumber_ = true;
+	}
 
 	// ドアの判定
 	if (posK.x + 3.0f >= posA.x && posK.x - 5.0f <= posA.x && posK.z <= posA.z &&
@@ -992,6 +1015,10 @@ void GameScene::HouseCollision() {
 	if (player_->GetOutMoveFlag9() == false && houseCollisionSwitchFlag[8] == true) {
 		houseCollisionFlag = true;
 		houseCollisionSwitchFlag[8] = false;
+	}
+	if (player_->GetIsItemGetFlag9() == true && isHouseItemGetFlag[8] == false) {
+		isHouseItemGetFlag[8] = true;
+		isRandNumber_ = true;
 	}
 
 	// ドアの判定
@@ -1044,6 +1071,10 @@ void GameScene::HouseCollision() {
 	if (player_->GetOutMoveFlag10() == false && houseCollisionSwitchFlag[9] == true) {
 		houseCollisionFlag = true;
 		houseCollisionSwitchFlag[9] = false;
+	}
+	if (player_->GetIsItemGetFlag10() == true && isHouseItemGetFlag[9] == false) {
+		isHouseItemGetFlag[9] = true;
+		isRandNumber_ = true;
 	}
 
 	// ドアの判定

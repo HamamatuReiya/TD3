@@ -36,7 +36,6 @@
 #include "Timer.h"
 #include "FixedCamera.h"
 #include "Explosion.h"
-#include <time.h>
 
 /// <summary>
 /// ゲームシーン
