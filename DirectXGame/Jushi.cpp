@@ -1,5 +1,6 @@
 ﻿#include "Jushi.h"
 #include <assert.h>
+#include <ImGuiManager.h>
 
 void Jushi::Initialize(Model* model, Vector3 position) {
 	// 引数から受け取ったモデルが読み込まれているかチェック
@@ -15,7 +16,9 @@ void Jushi::Initialize(Model* model, Vector3 position) {
 	worldTransform_.Initialize();
 }
 
-void Jushi::Update() { worldTransform_.UpdateMatrix(); }
+void Jushi::Update() { 
+	worldTransform_.UpdateMatrix();
+}
 
 void Jushi::Draw(const ViewProjection& viewProjection) {
 	model_->Draw(worldTransform_, viewProjection);

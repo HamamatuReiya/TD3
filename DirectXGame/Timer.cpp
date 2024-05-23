@@ -13,6 +13,8 @@ void Timer::Initialize() {
 	numHandle_[7] = TextureManager::Load("./Resources/number/7.png");
 	numHandle_[8] = TextureManager::Load("./Resources/number/8.png");
 	numHandle_[9] = TextureManager::Load("./Resources/number/9.png");
+
+
 	
 	// 取得した数
 	for (int i = 0; i < 3; i++) {
