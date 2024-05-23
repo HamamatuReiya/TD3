@@ -210,6 +210,10 @@ void GameScene::Initialize() {
 	// 爆発の初期化
 	explosion_->Initialize(explosionModel_.get());
 
+	// サウンド読み込み
+	bgmHandle_ = audio_->LoadWave("BGM/Incandescent.mp3");
+	playBgm_ = audio_->PlayWave(bgmHandle_, true, 0.5f);
+
 }
 
 void GameScene::Update() {

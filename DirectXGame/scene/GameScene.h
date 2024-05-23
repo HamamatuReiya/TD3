@@ -293,6 +293,12 @@ private: // メンバ変数
 
 	//クリアフラグ
 	bool clearFlag = false;
+
+	// サウンド
+	uint32_t bgmHandle_;
+	uint32_t playBgm_;
+	bool isBgm_;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
