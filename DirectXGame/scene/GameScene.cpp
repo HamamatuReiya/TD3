@@ -368,7 +368,7 @@ void GameScene::Update() {
 	
 
 	//時間更新
-	time--;
+	//time--;
 	timer_->Update(time);
 
 	if (time <= 0) {
