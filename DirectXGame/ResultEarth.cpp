@@ -1,4 +1,4 @@
-#include "ResultEarth.h"
+﻿#include "ResultEarth.h"
 
 void ResultEarth::Initialize(
     Model* model, Model* model1, Model* model2, Model* model3, Model* model4, Model* model5,
