@@ -30,12 +30,12 @@ void BommEnhance::Initialize() {
 
 void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
 	exp += stone * 2;
-	exp += gold * 2;
-	exp += jushi * 2;
+	exp += gold * 5;
+	exp += jushi * 1;
 	exp += shell * 2;
 
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 9; i++) {
 		if (exp >= expMax[i] && bommLv == i + 1) {
 			bommLv += 1;
 
@@ -49,10 +49,12 @@ void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
 		}
 	}
 
-	Level[0] = bommLv / 10;
-	bommLv = bommLv % 10;
+	int Lv = bommLv;
 
-	Level[1] = bommLv;
+	Level[0] = Lv / 10;
+	Lv = Lv % 10;
+
+	Level[1] = Lv;
 
 	for (int i = 0; i < 2; i++) {
 		textureLevel_[i]->SetTextureHandle(numHandle_[Level[i]]);
@@ -123,9 +125,10 @@ void BommEnhance::Draw() {
 	/*for (int i = 0; i < 2; i++) {
 		textureLevel_[i]->Draw();
 	}*/
-	if (bommLv >= 10) {
+	if (bommLv < 10) {
+		textureLevel_[1]->Draw();
+	} else if (bommLv >= 10) {
 		textureLevel_[0]->Draw();
+		textureLevel_[1]->Draw();
 	}
-
-	textureLevel_[1]->Draw();
 }
