@@ -219,9 +219,10 @@ void GameScene::Initialize() {
 	explosion_->Initialize(explosionModel_.get());
 
 	// サウンド読み込み
-	bgmHandle_ = audio_->LoadWave("BGM/Incandescent.mp3");
-	playBgm_ = audio_->PlayWave(bgmHandle_, true, 0.5f);
+	titlebgmHandle_ = audio_->LoadWave("BGM/Sound_Wave.mp3");
+	playTitleBgm_ = audio_->PlayWave(titlebgmHandle_, true, 0.1f);
 
+	
 }
 
 void GameScene::Update() {
