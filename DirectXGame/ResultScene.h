@@ -8,6 +8,8 @@
 #include <Stage.h>
 #include "Scene.h"
 
+#include "Spacedome.h"
+
 class ResultScene {
 public: // メンバ関数
 	/// <summary>
@@ -44,6 +46,11 @@ public:
 	SceneType NextScene() { return SceneType::kTitle; }
 
 private: // メンバ変数
+
+	// 天球
+	std::unique_ptr<Spacedome> spacedome_;
+	//  3Dモデル
+	std::unique_ptr<Model> modelSpacedome_;
 
 	DirectXCommon* dxCommon_ = nullptr;
 	// ワールドトランスフォーム

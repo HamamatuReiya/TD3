@@ -183,6 +183,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			// ゲームシーンの描画
 			gameScene->Draw();
 			break;
+		case SceneType::kResult:
+			resultScene->Draw();
+			break;
 		}
 
 		// 軸表示の描画
