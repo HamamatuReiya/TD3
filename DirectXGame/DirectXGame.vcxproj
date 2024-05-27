@@ -134,6 +134,7 @@
     <ClCompile Include="MT.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Ranking.cpp" />
+    <ClCompile Include="ResultEarth.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="Score.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Ranking.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ResultEarth.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="scene\GameScene.h" />

@@ -54,6 +54,9 @@
     <ClCompile Include="BommEnhance.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="FixedCamera.cpp" />
+    <ClCompile Include="Earth.cpp" />
+    <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="ResultEarth.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\ImGuiManager.h" />
@@ -122,6 +125,9 @@
     <ClInclude Include="BommEnhance.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="FixedCamera.h" />
+    <ClInclude Include="Earth.h" />
+    <ClInclude Include="Explosion.h" />
+    <ClInclude Include="ResultEarth.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Obj.hlsli" />

@@ -9,6 +9,7 @@
 #include "Scene.h"
 
 #include "Spacedome.h"
+#include "ResultEarth.h"
 
 class ResultScene {
 public: // メンバ関数
