@@ -302,9 +302,9 @@ private: // メンバ変数
 	bool clearFlag = false;
 
 	// サウンド
-	uint32_t bgmHandle_;
-	uint32_t playBgm_;
-	bool isBgm_;
+	uint32_t titlebgmHandle_;
+	uint32_t playTitleBgm_;
+	bool isTitleBgm_;
 
 	/// <summary>
 	/// ゲームシーン用
