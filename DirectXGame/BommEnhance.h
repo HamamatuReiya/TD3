@@ -26,7 +26,7 @@ public:
 
 private:
 	int exp = 0;
-	int expMax[10];
+	int expMax[12];
 	int bommLv = 1;
 
 	// 数字の画像の読み込み

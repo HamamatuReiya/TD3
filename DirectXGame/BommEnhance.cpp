@@ -22,31 +22,22 @@ void BommEnhance::Initialize() {
 		    numHandle_[i], {630.0f + i * 50.0f, 330.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 	}
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 9; i++) {
 		expMax[i] = 10 * (i + 1);
 	}
-	 
+
+	 expMax[9] = 99999;
 }
 
 void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
-	exp += stone * 2;
+	exp += stone * 100;
 	exp += gold * 5;
 	exp += jushi * 1;
 	exp += shell * 2;
 
-
-	for (int i = 0; i < 9; i++) {
-		if (exp >= expMax[i] && bommLv == i + 1) {
-			bommLv += 1;
-
-			if (exp <= 10) {
-				exp = 0;
-			} 
-			else if (exp > 10) {
-				int num = exp / 10;
-				exp -= 10 * num;
-			}
-		}
+	while (exp >= expMax[bommLv]) {
+		exp -= expMax[bommLv];
+		bommLv++;
 	}
 
 	int Lv = bommLv;
