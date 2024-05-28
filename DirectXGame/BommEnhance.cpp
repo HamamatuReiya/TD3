@@ -22,15 +22,15 @@ void BommEnhance::Initialize() {
 		    numHandle_[i], {630.0f + i * 50.0f, 330.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 	}
 
-	for (int i = 0; i < 9; i++) {
-		expMax[i] = 10 * (i + 1);
+	for (int i = 1; i <= 9; i++) {
+		expMax[i] = 10 * (i);
 	}
 
-	 expMax[9] = 99999;
+	 expMax[10] = 99999;
 }
 
 void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
-	exp += stone * 100;
+	exp += stone * 1;
 	exp += gold * 5;
 	exp += jushi * 1;
 	exp += shell * 2;
@@ -50,52 +50,6 @@ void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
 	for (int i = 0; i < 2; i++) {
 		textureLevel_[i]->SetTextureHandle(numHandle_[Level[i]]);
 	}
-
-	//// 1
-	//if (exp >= expMax[0] && bommLv == 1) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 2 
-	//if (exp >= expMax[1] && bommLv == 2) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 3
-	//if (exp >= expMax[2] && bommLv == 3) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 4
-	//if (exp >= expMax[3] && bommLv == 4) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 5
-	//if (exp >= expMax[4] && bommLv == 5) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 6
-	//if (exp >= expMax[5] && bommLv == 6) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 7
-	//if (exp >= expMax[6] && bommLv == 7) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 8
-	//if (exp >= expMax[7] && bommLv == 8) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 9
-	//if (exp >= expMax[8] && bommLv == 9) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
 
 	// ゲームパッドの状態を得る変数
 	/*XINPUT_STATE joyState;
