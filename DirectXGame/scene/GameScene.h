@@ -84,6 +84,10 @@ public:
 	//素材の配置の読み込み
 	void LoadMaterial();
 
+	void BGMReset();
+
+	void BGMStop();
+
 private:
 	/// <summary>
 	/// 石の発生
@@ -302,9 +306,9 @@ private: // メンバ変数
 	bool clearFlag = false;
 
 	// サウンド
-	uint32_t titlebgmHandle_;
-	uint32_t playTitleBgm_;
-	bool isTitleBgm_;
+	uint32_t bgmHandle_;
+	uint32_t playBgm_;
+	bool isBgm_;
 
 	/// <summary>
 	/// ゲームシーン用
