@@ -53,6 +53,10 @@ private: // メンバ変数
 	//  3Dモデル
 	std::unique_ptr<Model> modelSpacedome_;
 
+	std::unique_ptr<ResultEarth> resultEarth_;
+	// 家ステージのモデル
+	std::unique_ptr<Model> resultEarthModel_[14] = {nullptr};
+
 	DirectXCommon* dxCommon_ = nullptr;
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;

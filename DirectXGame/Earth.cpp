@@ -11,7 +11,7 @@ void Earth::Initialize(Model* model, float pos) {
 
 void Earth::Update() { 
 	worldTransform_.scale_ = scale;
-	worldTransform_.rotation_.y += 0.03f;
+	worldTransform_.rotation_.y += 0.01f;
 	worldTransform_.UpdateMatrix(); }
 
 void Earth::Draw(ViewProjection& viewProjection) { 
