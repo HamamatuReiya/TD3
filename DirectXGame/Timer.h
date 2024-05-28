@@ -22,6 +22,8 @@ public:
 private:
 	// 数字の画像の読み込み
 	uint32_t numHandle_[10];
+	////数字
+	//uint32_t numHandle_[10];
 
 	// 数字の画像
 	Sprite* textureTimer_[5];

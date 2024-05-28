@@ -300,6 +300,12 @@ private: // メンバ変数
 
 	//クリアフラグ
 	bool clearFlag = false;
+
+	// サウンド
+	uint32_t titlebgmHandle_;
+	uint32_t playTitleBgm_;
+	bool isTitleBgm_;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

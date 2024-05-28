@@ -26,7 +26,7 @@ void SelectScene::Initialize() {
 	earthPos_ = 0.0f;
 
 	modelEarth_[0].reset(Model::CreateFromOBJ("namekku", true));
-	modelEarth_[1].reset(Model::CreateFromOBJ("aas", true));
+	modelEarth_[1].reset(Model::CreateFromOBJ("earth", true));
 	earth_[0] = std::make_unique<Earth>();
 	earth_[1] = std::make_unique<Earth>();
 	earth_[0]->Initialize(modelEarth_[0].get(), earthPos_);

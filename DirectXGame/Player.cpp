@@ -309,23 +309,21 @@ void Player::ActionButtonUpdate() {
 }
 
 void Player::Debug() {
-	// ゲームパッドの状態を得る変数
-	XINPUT_STATE joyState;
-	//斧
-	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		if (isController == true) {
-			    if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_DPAD_UP) {
-				    useAxe_ = true;
-			    }
-			    if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_DPAD_DOWN) {
-				    useAxe_ = false;
-			    }
-		}
-	}
+	//// ゲームパッドの状態を得る変数
+	//XINPUT_STATE joyState;
+	////斧
+	//if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+	//	if (isController == true) {
+	//		    if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_DPAD_UP) {
+	//			    useAxe_ = true;
+	//		    }
+	//		    if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_DPAD_DOWN) {
+	//			    useAxe_ = false;
+	//		    }
+	//	}
+	//}
 
 #ifdef _DEBUG
-
-
 
 	// デバック
 	float playerPos[3] = {

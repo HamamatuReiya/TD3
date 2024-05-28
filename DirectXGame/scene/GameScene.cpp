@@ -187,7 +187,7 @@ void GameScene::Initialize() {
 	//素材のモデル
 	modelStone_.reset(Model::CreateFromOBJ("stone", true));
 	modelGold_.reset(Model::CreateFromOBJ("gold", true));
-	modelJushi_.reset(Model::CreateFromOBJ("jushi", true));
+	modelJushi_.reset(Model::CreateFromOBJ("Clock", true));
 	modelShell_.reset(Model::CreateFromOBJ("shell", true));
 
 	// 爆弾モデル
@@ -218,6 +218,11 @@ void GameScene::Initialize() {
 	// 爆発の初期化
 	explosion_->Initialize(explosionModel_.get());
 
+	// サウンド読み込み
+	titlebgmHandle_ = audio_->LoadWave("BGM/Sound_Wave.mp3");
+	playTitleBgm_ = audio_->PlayWave(titlebgmHandle_, true, 0.1f);
+
+	
 }
 
 void GameScene::Update() {
@@ -369,7 +374,7 @@ void GameScene::Update() {
 	
 
 	//時間更新
-	time--;
+	//time--;
 	timer_->Update(time);
 
 	if (time <= 0) {
@@ -705,6 +710,9 @@ void GameScene::SceneReset() {
 		isDoorOpen[i] = false;
 	}
 	isSceneEnd_ = false;
+	clearFlag = false;
+	fadeColor_.w = 0.0f;
+	isFade = false;
 }
 
 void GameScene::HouseCollision() {
