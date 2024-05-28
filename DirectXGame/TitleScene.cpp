@@ -46,6 +46,11 @@ void TitleScene::Initialize() {
 	fade_->Initialize();
 	//フェードインの開始
 	fade_->FadeInStart();
+
+	// サウンド読み込み
+	titlebgmHandle_ = audio_->LoadWave("BGM/Sound_Wave.mp3");
+	playTitleBgm_ = audio_->PlayWave(titlebgmHandle_, true, 0.1f);
+	
 }
 
 void TitleScene::Update() {
@@ -68,6 +73,7 @@ void TitleScene::Update() {
 			}
 
 			if (fadeTimer_ <= 0) {
+				
 				isSceneEnd_ = true;
 			}
 		}
@@ -175,5 +181,12 @@ void TitleScene::SceneReset() {
 	
 	fadeTimerFlag_ = false;
 	fadeTimer_ = kFadeTimer_;
+}
 
+void TitleScene::BGMReset() { 
+	playTitleBgm_ = audio_->PlayWave(titlebgmHandle_, true, 0.1f); 
+}
+
+void TitleScene::BGMStop() { 
+	audio_->StopWave(playTitleBgm_); 
 }
