@@ -22,8 +22,14 @@ void BommEnhance::Initialize() {
 		    numHandle_[i], {630.0f + i * 50.0f, 330.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 	}
 
+	//経験値表示
+	for (int i = 0; i < 3; i++) {
+		textureExp_[i] = Sprite::Create(
+		    numHandle_[i], {5.0f + i * 55.0f, 10.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	}
+
 	for (int i = 1; i <= 9; i++) {
-		expMax[i] = 10 * (i);
+		expMax[i] = 5 * (i);
 	}
 
 	 expMax[10] = 99999;
@@ -51,6 +57,21 @@ void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
 		textureLevel_[i]->SetTextureHandle(numHandle_[Level[i]]);
 	}
 
+	int expTex = exp;
+
+	expP[0] = exp / 100;
+	expTex = expTex % 100;
+
+	expP[1] = exp / 10;
+	expTex = expTex % 10;
+
+	expP[2] = exp;
+
+	for (int i = 0; i < 3; i++) {
+		textureExp_[i]->SetTextureHandle(numHandle_[expP[i]]);
+	}
+
+
 	// ゲームパッドの状態を得る変数
 	/*XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
@@ -75,5 +96,9 @@ void BommEnhance::Draw() {
 	} else if (bommLv >= 10) {
 		textureLevel_[0]->Draw();
 		textureLevel_[1]->Draw();
+	}
+
+	for (int i = 0; i < 3; i++) {
+		textureExp_[i]->Draw();
 	}
 }

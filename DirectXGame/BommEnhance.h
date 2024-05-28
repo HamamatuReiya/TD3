@@ -34,6 +34,8 @@ private:
 
 	// 数字の画像
 	Sprite* textureLevel_[2];
+	Sprite* textureExp_[3];
 
 	int Level[2];
+	int expP[3];
 };
