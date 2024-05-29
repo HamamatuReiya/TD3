@@ -65,7 +65,7 @@ void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
 	expP[1] = exp / 10;
 	expTex = expTex % 10;
 
-	expP[2] = exp;
+	expP[2] = expTex;
 
 	for (int i = 0; i < 3; i++) {
 		textureExp_[i]->SetTextureHandle(numHandle_[expP[i]]);
