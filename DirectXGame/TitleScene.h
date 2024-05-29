@@ -49,6 +49,10 @@ public:
 	bool IsSceneEnd() { return isSceneEnd_; }
 	SceneType NextScene() { return SceneType::kSelect; }
 
+	void BGMReset();
+
+	void BGMStop();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -89,4 +93,9 @@ private: // メンバ変数
 	bool fadeTimerFlag_;
 	const float kFadeTimer_ = 1.657f * 60.0f;
 	float fadeTimer_ = kFadeTimer_;
+
+	// サウンド
+	uint32_t titlebgmHandle_;
+	uint32_t playTitleBgm_;
+	bool isTitleBgm_;
 };

@@ -22,10 +22,17 @@ void BommEnhance::Initialize() {
 		    numHandle_[i], {630.0f + i * 50.0f, 330.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 	}
 
-	for (int i = 0; i < 10; i++) {
-		expMax[i] = 10 * (i + 1);
+	//経験値表示
+	for (int i = 0; i < 3; i++) {
+		textureExp_[i] = Sprite::Create(
+		    numHandle_[i], {5.0f + i * 55.0f, 10.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 	}
-	 
+
+	for (int i = 1; i <= 9; i++) {
+		expMax[i] = 5 * (i);
+	}
+
+	 expMax[10] = 99999;
 }
 
 void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
@@ -34,19 +41,9 @@ void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
 	exp += jushi * 1;
 	exp += shell * 2;
 
-
-	for (int i = 0; i < 9; i++) {
-		if (exp >= expMax[i] && bommLv == i + 1) {
-			bommLv += 1;
-
-			if (exp <= 10) {
-				exp = 0;
-			} 
-			else if (exp > 10) {
-				int num = exp / 10;
-				exp -= 10 * num;
-			}
-		}
+	while (exp >= expMax[bommLv]) {
+		exp -= expMax[bommLv];
+		bommLv++;
 	}
 
 	int Lv = bommLv;
@@ -60,51 +57,20 @@ void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
 		textureLevel_[i]->SetTextureHandle(numHandle_[Level[i]]);
 	}
 
-	//// 1
-	//if (exp >= expMax[0] && bommLv == 1) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 2 
-	//if (exp >= expMax[1] && bommLv == 2) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 3
-	//if (exp >= expMax[2] && bommLv == 3) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 4
-	//if (exp >= expMax[3] && bommLv == 4) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 5
-	//if (exp >= expMax[4] && bommLv == 5) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 6
-	//if (exp >= expMax[5] && bommLv == 6) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 7
-	//if (exp >= expMax[6] && bommLv == 7) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 8
-	//if (exp >= expMax[7] && bommLv == 8) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
-	//// 9
-	//if (exp >= expMax[8] && bommLv == 9) {
-	//	bommLv += 1;
-	//	exp = 0;
-	//}
+	int expTex = exp;
+
+	expP[0] = exp / 100;
+	expTex = expTex % 100;
+
+	expP[1] = exp / 10;
+	expTex = expTex % 10;
+
+	expP[2] = exp;
+
+	for (int i = 0; i < 3; i++) {
+		textureExp_[i]->SetTextureHandle(numHandle_[expP[i]]);
+	}
+
 
 	// ゲームパッドの状態を得る変数
 	/*XINPUT_STATE joyState;
@@ -130,5 +96,9 @@ void BommEnhance::Draw() {
 	} else if (bommLv >= 10) {
 		textureLevel_[0]->Draw();
 		textureLevel_[1]->Draw();
+	}
+
+	for (int i = 0; i < 3; i++) {
+		textureExp_[i]->Draw();
 	}
 }

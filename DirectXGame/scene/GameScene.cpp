@@ -218,10 +218,8 @@ void GameScene::Initialize() {
 	// 爆発の初期化
 	explosion_->Initialize(explosionModel_.get());
 
-	// サウンド読み込み
-	titlebgmHandle_ = audio_->LoadWave("BGM/Sound_Wave.mp3");
-	playTitleBgm_ = audio_->PlayWave(titlebgmHandle_, true, 0.1f);
-
+	bgmHandle_ = audio_->LoadWave("BGM/Shadow_of_the_Enemy.mp3");
+	
 	
 }
 
@@ -1988,6 +1986,14 @@ void GameScene::LoadMaterial() {
 		    "Resources/PopFile/jushiPop.csv", "Resources/PopFile/shellPop.csv");
 		break;
 	}
+}
+
+void GameScene::BGMReset() { 
+	playBgm_ = audio_->PlayWave(bgmHandle_, true, 0.1f);
+}
+
+void GameScene::BGMStop() { 
+	audio_->StopWave(playBgm_);
 }
 
 void GameScene::UpdateStonePopCommands() {
