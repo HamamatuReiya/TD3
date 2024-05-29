@@ -39,6 +39,11 @@ void GameScene::Initialize() {
 
 	randNumber_ = 0;
 
+	stoneMax_ = 0;
+	goldMax_ = 5;
+	jushiMax_ = 0;
+	shellMax_ = 0;
+
 	// 3Dモデル生成
 	model_.reset(Model::Create());
 	// ワールドトランスフォームの初期化
@@ -711,6 +716,17 @@ void GameScene::SceneReset() {
 	clearFlag = false;
 	fadeColor_.w = 0.0f;
 	isFade = false;
+
+	stoneCount_ = 0;
+	goldCount_ = 0;
+	jushiCount_ = 0;
+	shellCount_ = 0;
+
+	stoneMax_ = 0;
+	goldMax_ = 0;
+	jushiMax_ = 0;
+	shellMax_ = 0;
+
 }
 
 void GameScene::HouseCollision() {
@@ -1205,17 +1221,10 @@ void GameScene::HouseCollision() {
 	if ( 165.0f >= posA.x && 155.0f <= posA.x &&2.0f>=posA.y&& 186.0f <= posA.z &&
 	    196.0f >= posA.z) {
 		
-		if (player_->GetIsPushX() == true) {
+		/*if (player_->GetIsPushX() == true) {
 			player_->SetIsController(false);
-		}
+		}*/
 	} 
-	/*if (player_->GetIsController() == false) {
-		claimCount++;
-		if (claimCount >= 180) {
-			claimCount=0;
-			player_->SetIsController(true);
-		}
-	}*/
 	
 	if (houseCollisionFlag == true) {
 
@@ -1892,6 +1901,7 @@ void GameScene::MaterialCheckCollisions() {
 }
 
 void GameScene::StoneSpawn(Vector3 position) { 
+	stoneMax_++;
 	// 生成
 	Stone* stone = new Stone;
 	//初期化
@@ -1901,6 +1911,7 @@ void GameScene::StoneSpawn(Vector3 position) {
 }
 
 void GameScene::GoldSpawn(Vector3 position) {
+	goldMax_++;
 	// 生成
 	Gold* gold = new Gold;
 	// 初期化
@@ -1910,6 +1921,7 @@ void GameScene::GoldSpawn(Vector3 position) {
 }
 
 void GameScene::JushiSpawn(Vector3 position) {
+	jushiMax_++;	
 	// 生成
 	Jushi* jushi = new Jushi;
 	// 初期化
@@ -1919,6 +1931,7 @@ void GameScene::JushiSpawn(Vector3 position) {
 }
 
 void GameScene::ShellSpawn(Vector3 position) { 
+	shellMax_++;
 	// 生成
 	Shell* shell = new Shell;
 	// 初期化
@@ -2006,7 +2019,7 @@ void GameScene::UpdateStonePopCommands() {
 		}
 		return;
 	}
-
+	
 	// 1行分の文字列を入れる変数
 	std::string stoneLine;
 

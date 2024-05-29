@@ -10,8 +10,10 @@
 
 #include "Spacedome.h"
 #include "ResultEarth.h"
+#include "ItemCounter.h"
+#include "GameScene.h"
 
-class ResultScene {
+class ResultScene{
 public: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
@@ -62,6 +64,10 @@ private: // メンバ変数
 	WorldTransform worldTransform_;
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
+
+	std::unique_ptr<ItemCounter> itemCounter_;
+
+	std::unique_ptr<GameScene> gameScene_;
 
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;

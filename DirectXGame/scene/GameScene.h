@@ -88,6 +88,11 @@ public:
 
 	void BGMStop();
 
+	int GetStoneMax() { return stoneMax_; }
+	int GetGoldMax() { return goldMax_; }
+	int GetJushiMax() { return jushiMax_; }
+	int GetShellMax() { return shellMax_; }
+
 private:
 	/// <summary>
 	/// 石の発生
@@ -245,6 +250,12 @@ private: // メンバ変数
 	int goldCount_ = 0;
 	int jushiCount_ = 0;
 	int shellCount_ = 0;
+
+	//素材の最大数
+	int stoneMax_;
+	int goldMax_;
+	int jushiMax_;
+	int shellMax_;
 
 	//爆弾強化
 	std::unique_ptr<BommEnhance> bommEnhance_;

@@ -1,7 +1,6 @@
 ﻿#include "ResultScene.h"
 
 
-
 ResultScene::ResultScene() {}
 
 ResultScene::~ResultScene() {}
@@ -23,6 +22,12 @@ void ResultScene::Initialize() {
 	spacedome_ = std::make_unique<Spacedome>();
 	// 天球の初期化
 	spacedome_->Initialize(modelSpacedome_.get());
+
+	gameScene_ = std::make_unique<GameScene>();
+
+		// 所持数UIの生成
+	itemCounter_ = std::make_unique<ItemCounter>();
+	itemCounter_->Initialize();
 
 	resultEarth_ = std::make_unique<ResultEarth>();
 
@@ -59,6 +64,10 @@ void ResultScene::Update() {
 	spacedome_->Update();
 
 	resultEarth_->Update();
+
+	itemCounter_->Update(
+	    gameScene_->GetStoneMax(), gameScene_->GetGoldMax(), gameScene_->GetJushiMax(),
+	    gameScene_->GetShellMax());
 
 }
 
@@ -105,7 +114,7 @@ void ResultScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
-	
+	itemCounter_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
