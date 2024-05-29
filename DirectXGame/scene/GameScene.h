@@ -77,9 +77,13 @@ public:
 	void SceneReset();
 
 	bool isSceneEnd_ = false;
+	bool isTutorialSceneEnd_ = false;
 
 	bool IsSceneEnd() { return isSceneEnd_; }
+	bool IsTutorialSceneEnd() { return isTutorialSceneEnd_; }
 	SceneType NextScene() { return SceneType::kResult; }
+	SceneType TutorialNextScene() { return SceneType::kTitle; }
+
 
 	//素材の配置の読み込み
 	void LoadMaterial();
@@ -309,6 +313,13 @@ private: // メンバ変数
 	uint32_t bgmHandle_;
 	uint32_t playBgm_;
 	bool isBgm_;
+
+	//素材投入後チュートリアル
+	bool isPowerUpTutorial[2];
+	Sprite* PowerUpTutorialSprite_[2];
+	uint32_t PowerUpTutorialHandle_[2];
+	// ボタンクールダウン
+	int ButtonCoolDown_;
 
 	/// <summary>
 	/// ゲームシーン用

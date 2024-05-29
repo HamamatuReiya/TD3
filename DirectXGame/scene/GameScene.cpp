@@ -32,6 +32,7 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	isSceneEnd_ = false;
+	isTutorialSceneEnd_ = false;
 
 	for (int i = 0; i < 11; i++) {
 		houseCollisionSwitchFlag[i] = true;
@@ -146,9 +147,20 @@ void GameScene::Initialize() {
 	tutorial_ = std::make_unique<Tutorial>();
 	//チュートリアル
 	tutorial_->TutorialInitialize();
-	
+	//強化画面用
+	PowerUpTutorialHandle_[0] = TextureManager::Load("Tutorial0.png");
+	PowerUpTutorialSprite_[0] = Sprite::Create(
+	    PowerUpTutorialHandle_[0], {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 
-	/*森エリア終わり*/
+	PowerUpTutorialHandle_[1] = TextureManager::Load("Tutorial1.png");
+	PowerUpTutorialSprite_[1] = Sprite::Create(
+	    PowerUpTutorialHandle_[1], {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+
+	for (int i = 0; i < 2; i++) {
+		isPowerUpTutorial[i] = false;
+	}
+
+	
 
 	//家ステージの読み込み
 	HouseStage();
@@ -220,7 +232,7 @@ void GameScene::Initialize() {
 
 	bgmHandle_ = audio_->LoadWave("BGM/Shadow_of_the_Enemy.mp3");
 	
-	
+	ButtonCoolDown_ = 60;
 }
 
 void GameScene::Update() {
@@ -238,6 +250,7 @@ void GameScene::Update() {
 		isFade = false;
 		clearFlag = false;
 		isSceneEnd_ = true;
+		isTutorialSceneEnd_ = false;
 	}
 
 	//player_->Update();
@@ -291,7 +304,46 @@ void GameScene::Update() {
 		} else {
 			followCamera_->LowView();
 		}
+		
+		/// 更新
+		if (isWindow_ == false) {
+			player_->Update();
+		} else {
+			if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+				ButtonCoolDown_--;
+				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && isPowerUpTutorial[0]==false) {
+					if (isPowerUpTutorial[0] == true && isPowerUpTutorial[1] == false) {
+						bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
+					}
+					if (ButtonCoolDown_ <= 0) {
+						isPowerUpTutorial[0] = true;
+						isPowerUpTutorial[1] = false;
+						ButtonCoolDown_ = 60;
+					}
+					stoneCount_ = 0;
+					goldCount_ = 0;
+					jushiCount_ = 0;
+					shellCount_ = 0;
+				}
+				if (isPowerUpTutorial[0] == true) {
+					if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+						if (ButtonCoolDown_ <= 0) {
+							isPowerUpTutorial[1] = true;
+							isPowerUpTutorial[0] = false;
+							ButtonCoolDown_ = 60;
+							if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+								isTutorialSceneEnd_ = true;	
+							}
+						}
 
+					}
+				}
+				if (isPowerUpTutorial[1]==true) {
+					
+				}
+			}
+		}
+		
 		break;
 
 	case Stage::kTown:
@@ -310,24 +362,24 @@ void GameScene::Update() {
 		door2_[0]->Update5();
 		door_[10]->Update4();
 		door2_[1]->Update6();
+		/// 更新
+		if (isWindow_ == false) {
+			player_->Update();
+		} else {
+			if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+					bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
+					stoneCount_ = 0;
+					goldCount_ = 0;
+					jushiCount_ = 0;
+					shellCount_ = 0;
+				}
+			}
+		}
 		break;
 	}
 	
-	///更新
-	if (isWindow_==false) {
-		if (clearFlag == false)
-		player_->Update();
-	} else {
-		if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
-				bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
-				stoneCount_ = 0;
-				goldCount_ = 0;
-				jushiCount_ = 0;
-				shellCount_ = 0;
-			}
-		}
-	}
+	
 
 	//player_->SetIsController(false);
 	debugCamera_->Update();
@@ -568,12 +620,24 @@ void GameScene::Draw() {
 	} else {
 		ui_->ButtonHintDraw();
 	}
+	// 爆弾の強化ウィンドウ
+	if (player_->GetActionbutton() == 1 && isWindow_ == true && clearFlag == false) {
+		ui_->Draw();
+		bommEnhance_->Draw();
+	}
 	switch (stageNo) {
 	case Stage::kTutorial:
 		// チュートリアル
 		if (tutorial_->GetIsTutorialEnd_() == false&& clearFlag == false) {
 			tutorial_->TutorialDraw();
 		}
+		if (isPowerUpTutorial[0]==true){
+			PowerUpTutorialSprite_[0]->Draw();
+		}
+		if (isPowerUpTutorial[1] == true) {
+			PowerUpTutorialSprite_[1]->Draw();
+		}
+
 		break;
 	case Stage::kTown:
 		
@@ -590,22 +654,39 @@ void GameScene::Draw() {
 
 	// ゲームパッドの状態を得る変数
 	//XINPUT_STATE joyState;
-	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		// window
-		if (player_->GetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
-			isWindow_ = true;
-			player_->SetMotion();
+	switch (stageNo) {
+	case Stage::kTutorial:
+		if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+			// window
+			if (player_->GetActionbutton() == 1 &&
+			    joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A&&tutorial_->GetisTutorial2Flag()==true) {
+				isWindow_ = true;
+				player_->SetMotion();
+			}
+			if (player_->GetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_B &&
+			    isPowerUpTutorial[0] == false) {
+				isWindow_ = false;
+			}
 		}
-		if (player_->GetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_B) {
-			isWindow_ = false;
+
+		break;
+	case Stage::kTown:
+		if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+			// window
+			if (player_->GetActionbutton() == 1 &&
+			    joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
+				isWindow_ = true;
+				player_->SetMotion();
+			}
+			if (player_->GetActionbutton() == 1 && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_B) {
+				isWindow_ = false;
+			}
 		}
+
+		break;
 	}
-	// 爆弾の強化ウィンドウ
-	if (player_->GetActionbutton() == 1 && isWindow_ == true && clearFlag == false) {
-		ui_->Draw();
-		bommEnhance_->Draw();
-		
-	}
+	
+	
 	if (clearFlag == false) {
 		///!
 		for (int i = 0; i < 18; i++) {
@@ -667,6 +748,9 @@ void GameScene::SceneReset() {
 		isHouseItemGetFlag2[i] = false;
 		isHouseItemGetFlag3[i] = false;
 	}
+	for (int i = 0; i < 2; i++) {
+		isPowerUpTutorial[i] = false;
+	}
 
 	isWindow_ = false;
 	for (int i = 0; i < 18; i++) {
@@ -708,6 +792,7 @@ void GameScene::SceneReset() {
 		isDoorOpen[i] = false;
 	}
 	isSceneEnd_ = false;
+	isTutorialSceneEnd_ = false;
 	clearFlag = false;
 	fadeColor_.w = 0.0f;
 	isFade = false;

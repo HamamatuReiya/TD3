@@ -25,7 +25,10 @@ public:
 	bool SetIsTutorialEnd_(bool tutorialEnd) { return isTutorialEnd_ = tutorialEnd; }
 
 	bool GetIsView_() { return isView_; }
-	bool SetIsView__(bool isview) { return isView_ = isview; }
+	bool SetIsView_(bool isview) { return isView_ = isview; }
+
+	bool GetisTutorial2Flag() { return isTutorial2Flag_; }
+	bool SetisTutorial2Flag(bool isTutorial2Flag) { return isTutorial2Flag_ = isTutorial2Flag; }
 	
 	void RoopInitilize();
 
@@ -43,4 +46,6 @@ private:
 	bool isTutorialEnd_;
 	//
 	bool isView_;
+	//
+	bool isTutorial2Flag_;
 };
