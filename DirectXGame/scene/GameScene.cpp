@@ -39,11 +39,6 @@ void GameScene::Initialize() {
 
 	randNumber_ = 0;
 
-	stoneMax_ = 0;
-	goldMax_ = 5;
-	jushiMax_ = 0;
-	shellMax_ = 0;
-
 	// 3Dモデル生成
 	model_.reset(Model::Create());
 	// ワールドトランスフォームの初期化
@@ -55,9 +50,9 @@ void GameScene::Initialize() {
 	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
 
 	// 軸方向表示の表示を有効にする
-	AxisIndicator::GetInstance()->SetVisible(true);
+	//AxisIndicator::GetInstance()->SetVisible(true);
 	// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
-	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
+	//AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 
 	// 追従カメラの生成
 	followCamera_ = std::make_unique<FollowCamera>();
@@ -467,6 +462,26 @@ void GameScene::ChackAllCollisions() {
 
 }
 
+void GameScene::BommLvReset() { bommEnhance_->RoopInitialize(); }
+
+void GameScene::MaterialReset() {
+	for (Stone* stone : stones_) {
+		stone->OnCollision();
+	}
+
+	for (Gold* gold : golds_) {
+		gold->OnCollision();
+	}
+
+	for (Jushi* jushi : jushis_) {
+		jushi->OnCollision();
+	}
+
+	for (Shell* shell : shells_) {
+		shell->OnCollision();
+	}
+}
+
 void GameScene::Draw() {
 
 	// コマンドリストの取得
@@ -721,11 +736,6 @@ void GameScene::SceneReset() {
 	goldCount_ = 0;
 	jushiCount_ = 0;
 	shellCount_ = 0;
-
-	stoneMax_ = 0;
-	goldMax_ = 0;
-	jushiMax_ = 0;
-	shellMax_ = 0;
 
 }
 
@@ -1901,7 +1911,6 @@ void GameScene::MaterialCheckCollisions() {
 }
 
 void GameScene::StoneSpawn(Vector3 position) { 
-	stoneMax_++;
 	// 生成
 	Stone* stone = new Stone;
 	//初期化
@@ -1911,7 +1920,6 @@ void GameScene::StoneSpawn(Vector3 position) {
 }
 
 void GameScene::GoldSpawn(Vector3 position) {
-	goldMax_++;
 	// 生成
 	Gold* gold = new Gold;
 	// 初期化
@@ -1920,8 +1928,7 @@ void GameScene::GoldSpawn(Vector3 position) {
 	golds_.push_back(gold);
 }
 
-void GameScene::JushiSpawn(Vector3 position) {
-	jushiMax_++;	
+void GameScene::JushiSpawn(Vector3 position) {	
 	// 生成
 	Jushi* jushi = new Jushi;
 	// 初期化
@@ -1931,7 +1938,6 @@ void GameScene::JushiSpawn(Vector3 position) {
 }
 
 void GameScene::ShellSpawn(Vector3 position) { 
-	shellMax_++;
 	// 生成
 	Shell* shell = new Shell;
 	// 初期化

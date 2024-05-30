@@ -1,7 +1,10 @@
 ﻿#include "BommEnhance.h"
 #include <ImGuiManager.h>
 #include "TextureManager.h"
-
+static int bommLv = 1;
+// 数字の画像
+static Sprite* textureLevel_[2];
+static Sprite* textureExp_[3];
 void BommEnhance::Initialize() { 
 
 	// 数字の画像
@@ -31,8 +34,8 @@ void BommEnhance::Initialize() {
 	for (int i = 1; i <= 9; i++) {
 		expMax[i] = 5 * (i);
 	}
-
-	 expMax[10] = 99999;
+	
+	expMax[10] = 99999;
 }
 
 void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
@@ -101,4 +104,22 @@ void BommEnhance::Draw() {
 	for (int i = 0; i < 3; i++) {
 		textureExp_[i]->Draw();
 	}
+}
+
+void BommEnhance::ResultDraw() {
+	if (bommLv < 10) {
+		textureLevel_[1]->Draw();
+	} else if (bommLv >= 10) {
+		textureLevel_[0]->Draw();
+		textureLevel_[1]->Draw();
+	}
+}
+
+void BommEnhance::RoopInitialize() { 
+	bommLv = 1;
+	for (int i = 1; i <= 9; i++) {
+		expMax[i] = 5 * (i);
+	}
+	exp = 0;
+	expMax[10] = 99999;
 }

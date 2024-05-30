@@ -11,7 +11,7 @@
 #include "Spacedome.h"
 #include "ResultEarth.h"
 #include "ItemCounter.h"
-#include "GameScene.h"
+#include "BommEnhance.h"
 
 class ResultScene{
 public: // メンバ関数
@@ -67,7 +67,10 @@ private: // メンバ変数
 
 	std::unique_ptr<ItemCounter> itemCounter_;
 
-	std::unique_ptr<GameScene> gameScene_;
+	std::unique_ptr<BommEnhance> bommEnhance_;
+
+	Sprite* bommLv;
+	uint32_t bommLvTex; 
 
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;

@@ -103,6 +103,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (titleScene->IsSceneEnd()) {
 				// 次のシーンの値を代入してシーン切り替え
 				sceneNo = titleScene->NextScene();
+				gameScene->BommLvReset();
 
 				// タイトルシーンの初期化、フラグリセット等
 				titleScene->SceneReset();
@@ -148,6 +149,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (resultScene->IsSceneEnd()) {
 				// 次のシーンの値を代入してシーン切り替え
 				sceneNo = resultScene->NextScene();
+
+				gameScene->MaterialReset();
 
 				// ゲームシーンの初期化、フラグリセット等
 				resultScene->SceneReset();

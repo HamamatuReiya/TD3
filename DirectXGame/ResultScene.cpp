@@ -15,6 +15,9 @@ void ResultScene::Initialize() {
 	viewProjection_.Initialize();
 	isSceneEnd_ = false;
 
+	bommLvTex = TextureManager::Load("./Resources/Lv.png");
+	bommLv = Sprite::Create(bommLvTex, {500, 310}, {1,1,1,1}, {0,0});
+
 	// 天球
 	// 3Dモデルの生成
 	modelSpacedome_.reset(Model::CreateFromOBJ("spacedome", true));
@@ -23,7 +26,7 @@ void ResultScene::Initialize() {
 	// 天球の初期化
 	spacedome_->Initialize(modelSpacedome_.get());
 
-	gameScene_ = std::make_unique<GameScene>();
+	bommEnhance_ = std::make_unique<BommEnhance>();
 
 		// 所持数UIの生成
 	itemCounter_ = std::make_unique<ItemCounter>();
@@ -60,14 +63,19 @@ void ResultScene::Update() {
 		isSceneEnd_ = true;
 	}
 
+	XINPUT_STATE joyState;
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
+			isSceneEnd_ = true;
+		}
+	}
+
 	// 天球の更新
 	spacedome_->Update();
 
 	resultEarth_->Update();
 
-	itemCounter_->Update(
-	    gameScene_->GetStoneMax(), gameScene_->GetGoldMax(), gameScene_->GetJushiMax(),
-	    gameScene_->GetShellMax());
+	//itemCounter_->Update();
 
 }
 
@@ -114,7 +122,9 @@ void ResultScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
-	itemCounter_->Draw();
+	//itemCounter_->Draw();
+	bommEnhance_->ResultDraw();
+	bommLv->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
