@@ -83,6 +83,10 @@ private: // メンバ変数
 	Sprite* textureSubTitle2_;
 	uint32_t subTitleHandle2_;
 
+	//ルール画像
+	Sprite* textureLule_;
+	uint32_t luleHandle_;
+
 	Vector4 subTitleColor_ = {1.0f, 1.0f, 1.0f, 0.0f};
 	Vector4 subTitleColor1_ = {1.0f, 1.0f, 1.0f, 0.0f};
 	Vector4 subTitleColor2_ = {1.0f, 1.0f, 1.0f, 0.0f};
@@ -104,4 +108,11 @@ private: // メンバ変数
 	uint32_t titlebgmHandle_;
 	uint32_t playTitleBgm_;
 	bool isTitleBgm_;
+
+	//ルール説明
+	bool isLule_;
+	
+	// ボタンクールダウン
+	int ButtonCoolDown_;
+
 };

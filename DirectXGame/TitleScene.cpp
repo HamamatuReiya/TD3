@@ -27,6 +27,11 @@ void TitleScene::Initialize() {
 	subTitleHandle2_ = TextureManager::Load("subTitle2.png");
 	textureSubTitle2_ = Sprite::Create(subTitleHandle2_, {0.0f, 0.0f}, subTitleColor2_, {0.0f, 0.0f});
 
+	// ルール説明
+	luleHandle_ = TextureManager::Load("Lule.png");
+	textureLule_ =
+	    Sprite::Create(luleHandle_, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+
 	isSceneEnd_ = false;
 
 	isPush_ = false;
@@ -56,14 +61,14 @@ void TitleScene::Initialize() {
 	titlebgmHandle_ = audio_->LoadWave("BGM/Sound_Wave.mp3");
 	playTitleBgm_ = audio_->PlayWave(titlebgmHandle_, true, 0.1f);
 	
+	isLule_ = false;
+	// ボタンクールダウン
+	ButtonCoolDown_=60;
 }
 
 void TitleScene::Update() {
 	// ゲームパッドの状態を得る変数(XINPUT)
 	XINPUT_STATE joyState;
-
-
-
 	// ゲームパッド状態取得
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 
@@ -94,6 +99,14 @@ void TitleScene::Update() {
 	}
 
 	/*if /*
+
+
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_X && fadeTimerFlag_ == false) {
+		isLule_ = true;
+	}
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && isLule_ == true && fadeTimerFlag_==false) {
+		isLule_ = false;
+	}
 
 
 	//仮
@@ -178,6 +191,9 @@ void TitleScene::Draw() {
 
 	textureFullScreen_->Draw();
 	
+	if (isLule_==true) {
+		textureLule_->Draw();
+	}
 
 	// フェードの描画
 	fade_->Draw();

@@ -192,6 +192,11 @@ void GameScene::Initialize() {
 	timer_ = std::make_unique<Timer>();
 	timer_->Initialize();
 
+	// +3
+	uint32_t addTimeTexHandle = TextureManager::Load("3.png");
+	addTimeSprite_ = Sprite::Create(addTimeTexHandle, {770, 0});
+	addTimeColor_.w = 0.0f;
+
 	// 爆弾強化
 	bommEnhance_ = std::make_unique<BommEnhance>();
 	bommEnhance_->Initialize();
@@ -230,9 +235,6 @@ void GameScene::Initialize() {
 	// 爆発の初期化
 	explosion_->Initialize(explosionModel_.get());
 
-	ButtonCoolDown_ = 60;
-
-	// BGM
 	bgmHandle_ = audio_->LoadWave("BGM/Shadow_of_the_Enemy.mp3");
 
 	// SE
@@ -240,6 +242,9 @@ void GameScene::Initialize() {
 	getHandle_ = audio_->LoadWave("SE/get.mp3");
 	doorHandle_ = audio_->LoadWave("SE/door.mp3");
 	fishingHandle_ = audio_->LoadWave("SE/fishing.mp3");
+	
+	ButtonCoolDown_ = 60;
+	WindowCoolDown_ = 10;
 }
 
 void GameScene::Update() {
@@ -257,11 +262,14 @@ void GameScene::Update() {
 		isDoorTimer = false;
 		doorTimer = 90;
 	}
-
+#ifdef DEBUG
 	if (input_->TriggerKey(DIK_SPACE)) {
 		//clearFlag = true;
 		//isFade = true;
 	}
+#endif // DEBUG
+
+	
 	if (isFade == true) {
 		if (isBoom_ == false) {
 			playboom_ = audio_->PlayWave(boomHandle_, false, 0.5);
@@ -404,21 +412,25 @@ void GameScene::Update() {
 		/// 更新
 		if (isWindow_ == false) {
 			player_->Update();
+			WindowCoolDown_ = 10;
 		} else {
 			if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
-					bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
-					stoneCount_ = 0;
-					goldCount_ = 0;
-					jushiCount_ = 0;
-					shellCount_ = 0;
+				WindowCoolDown_--;
+				if (WindowCoolDown_ <= 0) {
+					if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+						bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
+						stoneCount_ = 0;
+						goldCount_ = 0;
+						jushiCount_ = 0;
+						shellCount_ = 0;
+					}
 				}
 			}
 		}
 		break;
 	}
 	
-	
+	//player_->KeyRun();
 
 	//player_->SetIsController(false);
 	debugCamera_->Update();
@@ -463,7 +475,7 @@ void GameScene::Update() {
 	
 
 	//時間更新
-	//time--;
+	time--;
 	timer_->Update(time);
 
 	if (time <= 0) {
@@ -674,15 +686,20 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	
+	addTimeSprite_->Draw();
+
 	if (player_->GetActionbutton() == 1) {
 		player_->ActionbuttonDraw();
 	} else {
 		ui_->ButtonHintDraw();
 	}
+	itemCounter_->Draw();
 	// 爆弾の強化ウィンドウ
 	if (player_->GetActionbutton() == 1 && isWindow_ == true && clearFlag == false) {
 		ui_->Draw();
 		bommEnhance_->Draw();
+		itemCounter_->WindowDraw();
 	}
 	switch (stageNo) {
 	case Stage::kTutorial:
@@ -704,8 +721,8 @@ void GameScene::Draw() {
 
 		break;
 	}
-	itemCounter_->Draw();
-	// 時間更新
+	
+	// 時間表示
 	timer_->Draw();
 	if (isFade == true) {
 		fadeSprite_->Draw();
@@ -2010,6 +2027,7 @@ void GameScene::MaterialCheckCollisions() {
 				// 樹脂の衝突時コールバックを呼び出す
 				jushi->OnCollision();
 				// 素材の所持数を足す
+				addTimeColor_.w = 1.0f;
 				jushiCount_++;
 				playget_ = audio_->PlayWave(getHandle_, false, 0.5);
 				time += 180;
@@ -2022,6 +2040,11 @@ void GameScene::MaterialCheckCollisions() {
 			jushi->SetIsExclamation(false);
 		}
 	}
+
+	if (addTimeColor_.w > 0.0f) {
+		addTimeColor_.w -= 0.01f;
+	}
+	addTimeSprite_->SetColor(addTimeColor_);
 
 	// 自キャラと貝の当たり判定
 	for (Shell* shell : shells_) {

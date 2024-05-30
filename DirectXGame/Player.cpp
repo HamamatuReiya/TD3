@@ -2,8 +2,8 @@
 #include "MT.h"
 #include <ImGuiManager.h>
 
-void Player::Initialize(const std::vector<Model*>& models)
-{
+void Player::Initialize(const std::vector<Model*>& models) {
+	input_ = Input::GetInstance();
 	BaseCharacter::Initialize(models);
 
 	input_ = Input::GetInstance();
@@ -156,10 +156,12 @@ void Player::Update() {
 		switch (motion_) {
 		case Motion::kRun:
 		default:
+		   
 		    if (inHouseControllerFlag == true) {
-
 			    MotionRunUpdate();
+			    KeyRun();
 		    }
+
 			break;
 		case Motion::kPick:
 		    
@@ -212,66 +214,124 @@ void Player::Update() {
 }
 
 void Player::MotionRunUpdate() {
+	worldTransformBody_.parent_ = &worldTransform_;
+	worldTransformHead_.parent_ = &worldTransform_;
+	worldTransformL_arm.parent_ = &worldTransform_;
+	worldTransformR_arm.parent_ = &worldTransform_;
+	worldTransformL_leg.parent_ = &worldTransform_;
+	worldTransformR_leg.parent_ = &worldTransform_;
+	worldTransformAxe_.parent_ = &worldTransform_;
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
-
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		worldTransformBody_.parent_ = &worldTransform_;
-		worldTransformHead_.parent_ = &worldTransform_;
-		worldTransformL_arm.parent_ = &worldTransform_;
-		worldTransformR_arm.parent_ = &worldTransform_;
-		worldTransformL_leg.parent_ = &worldTransform_;
-		worldTransformR_leg.parent_ = &worldTransform_;
-		worldTransformAxe_.parent_ = &worldTransform_;
 		// 移動量
 		if (isController == true) {
-			    Vector3 move = {
-			        (float)joyState.Gamepad.sThumbLX / SHRT_MAX * -Speed, 0.0f,
-			        (float)joyState.Gamepad.sThumbLY / SHRT_MAX * -Speed};
+			 Vector3 move = {
+			     (float)joyState.Gamepad.sThumbLX / SHRT_MAX * -Speed, 0.0f,
+			     (float)joyState.Gamepad.sThumbLY / SHRT_MAX * -Speed};
 
-			    // 移動量に速さを反映
-			    move = Multiply(Speed, Normalize(move));
+			 // 移動量に速さを反映
+			 move = Multiply(Speed, Normalize(move));
 
-			    move = TransformNormal(move, MakeRotateYmatrix(viewProjection_->rotation_.y));
+			 move = TransformNormal(move, MakeRotateYmatrix(viewProjection_->rotation_.y));
 
-			    // 移動
-			    worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+			 // 移動
+			 worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 
-			    if (Length(move) != 0) {
-				    worldTransform_.rotation_.y = std::atan2(move.x, move.z);
-				    // 左足
-				    if (isLeftLeg_ == false) {
-					    worldTransformL_leg.rotation_.x += 0.1f;
-					    if (worldTransformL_leg.rotation_.x >= 1.0f) {
-						    isLeftLeg_ = true;
-					    }
-				    } else if (isLeftLeg_ == true) {
-					    worldTransformL_leg.rotation_.x -= 0.1f;
-					    if (worldTransformL_leg.rotation_.x <= -1.0f) {
-						    isLeftLeg_ = false;
-					    }
+			 if (Length(move) != 0) {
+			    worldTransform_.rotation_.y = std::atan2(move.x, move.z);
+			    // 左足
+			    if (isLeftLeg_ == false) {
+				    worldTransformL_leg.rotation_.x += 0.1f;
+				    if (worldTransformL_leg.rotation_.x >= 1.0f) {
+					    isLeftLeg_ = true;
 				    }
-				    // 右足
-				    if (isRightLeg_ == false) {
-					    worldTransformR_leg.rotation_.x -= 0.1f;
-					    if (worldTransformR_leg.rotation_.x <= -1.0f) {
-						    isRightLeg_ = true;
-					    }
-				    } else if (isRightLeg_ == true) {
-					    worldTransformR_leg.rotation_.x += 0.1f;
-					    if (worldTransformR_leg.rotation_.x >= 1.0f) {
-						    isRightLeg_ = false;
-					    }
+			    } else if (isLeftLeg_ == true) {
+				    worldTransformL_leg.rotation_.x -= 0.1f;
+				    if (worldTransformL_leg.rotation_.x <= -1.0f) {
+					    isLeftLeg_ = false;
 				    }
-			    } else {
-				    worldTransformL_leg.rotation_.x = 0.0f;
-				    worldTransformR_leg.rotation_.x = 0.0f;
-				    isLeftLeg_ = false;
-				    isRightLeg_ = false;
 			    }
+			    // 右足
+			    if (isRightLeg_ == false) {
+				    worldTransformR_leg.rotation_.x -= 0.1f;
+				    if (worldTransformR_leg.rotation_.x <= -1.0f) {
+					    isRightLeg_ = true;
+				    }
+			    } else if (isRightLeg_ == true) {
+				    worldTransformR_leg.rotation_.x += 0.1f;
+				    if (worldTransformR_leg.rotation_.x >= 1.0f) {
+					    isRightLeg_ = false;
+				    }
+			    }
+			 } /*else {
+			    worldTransformL_leg.rotation_.x = 0.0f;
+			    worldTransformR_leg.rotation_.x = 0.0f;
+			    isLeftLeg_ = false;
+			    isRightLeg_ = false;
+			 }*/
 		}
 	}
-};
+}
+
+void Player::KeyRun() {
+
+	Vector3 move = {0, 0, 0};
+
+	if (input_->PushKey(DIK_W)) {
+		move.z = -1.0f;
+	}
+	if (input_->PushKey(DIK_A)) {
+		move.x = 1.0f;
+	}
+	if (input_->PushKey(DIK_S)) {
+		move.z = 1.0f;
+	}
+	if (input_->PushKey(DIK_D)) {
+		move.x = -1.0f;
+	}
+
+	// 移動量に速さを反映
+	move = Multiply(Speed, Normalize(move));
+
+	move = TransformNormal(move, MakeRotateYmatrix(viewProjection_->rotation_.y));
+
+	  // 移動
+	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+
+	 if (Length(move) != 0) {
+		worldTransform_.rotation_.y = std::atan2(move.x, move.z);
+		// 左足
+		if (isLeftLeg_ == false) {
+			worldTransformL_leg.rotation_.x += 0.1f;
+			if (worldTransformL_leg.rotation_.x >= 1.0f) {
+				isLeftLeg_ = true;
+			}
+		} else if (isLeftLeg_ == true) {
+			worldTransformL_leg.rotation_.x -= 0.1f;
+			if (worldTransformL_leg.rotation_.x <= -1.0f) {
+				isLeftLeg_ = false;
+			}
+		}
+		// 右足
+		if (isRightLeg_ == false) {
+			worldTransformR_leg.rotation_.x -= 0.1f;
+			if (worldTransformR_leg.rotation_.x <= -1.0f) {
+				isRightLeg_ = true;
+			}
+		} else if (isRightLeg_ == true) {
+			worldTransformR_leg.rotation_.x += 0.1f;
+			if (worldTransformR_leg.rotation_.x >= 1.0f) {
+				isRightLeg_ = false;
+			}
+		}
+	} /*else {
+		worldTransformL_leg.rotation_.x = 0.0f;
+		worldTransformR_leg.rotation_.x = 0.0f;
+		isLeftLeg_ = false;
+		isRightLeg_ = false;
+	}*/
+}
 
 void Player::OnCollision() {
 	if (isInvestigatebutton_==false) {
@@ -311,20 +371,6 @@ void Player::ActionButtonUpdate() {
 }
 
 void Player::Debug() {
-	//// ゲームパッドの状態を得る変数
-	//XINPUT_STATE joyState;
-	////斧
-	//if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-	//	if (isController == true) {
-	//		    if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_DPAD_UP) {
-	//			    useAxe_ = true;
-	//		    }
-	//		    if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_DPAD_DOWN) {
-	//			    useAxe_ = false;
-	//		    }
-	//	}
-	//}
-
 #ifdef _DEBUG
 
 	// デバック

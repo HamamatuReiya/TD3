@@ -77,6 +77,9 @@ public:
 		kAxe,
 	};
 
+	///
+	void KeyRun();
+
 	/// <summary>
 	/// Getter&Setter
 	/// </summary>
