@@ -279,16 +279,16 @@ void Player::KeyRun() {
 	Vector3 move = {0, 0, 0};
 
 	if (input_->PushKey(DIK_W)) {
-		move.z = 1.0f;
-	}
-	if (input_->PushKey(DIK_A)) {
-		move.x = -1.0f;
-	}
-	if (input_->PushKey(DIK_S)) {
 		move.z = -1.0f;
 	}
-	if (input_->PushKey(DIK_D)) {
+	if (input_->PushKey(DIK_A)) {
 		move.x = 1.0f;
+	}
+	if (input_->PushKey(DIK_S)) {
+		move.z = 1.0f;
+	}
+	if (input_->PushKey(DIK_D)) {
+		move.x = -1.0f;
 	}
 
 	// 移動量に速さを反映

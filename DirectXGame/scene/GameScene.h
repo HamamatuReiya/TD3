@@ -262,6 +262,7 @@ private: // メンバ変数
 	const int kTime = 100 * 60; 
 	int time = kTime;
 
+
 	// +3
 	Sprite* addTimeSprite_ = nullptr;
 	Vector4 addTimeColor_ = {1.0f, 1.0f, 1.0f, 0.0f};
