@@ -158,9 +158,10 @@ void Player::Update() {
 		default:
 		   
 		    if (inHouseControllerFlag == true) {
-
 			    MotionRunUpdate();
+			    KeyRun();
 		    }
+
 			break;
 		case Motion::kPick:
 		    
@@ -263,21 +264,19 @@ void Player::MotionRunUpdate() {
 					    isRightLeg_ = false;
 				    }
 			    }
-			 } else {
+			 } /*else {
 			    worldTransformL_leg.rotation_.x = 0.0f;
 			    worldTransformR_leg.rotation_.x = 0.0f;
 			    isLeftLeg_ = false;
 			    isRightLeg_ = false;
-			 }
+			 }*/
 		}
 	}
 }
 
 void Player::KeyRun() {
 
-	 Vector3 move = {0,0,0};
-
-	move = TransformNormal(move, MakeRotateYmatrix(viewProjection_->rotation_.y));
+	Vector3 move = {0, 0, 0};
 
 	if (input_->PushKey(DIK_W)) {
 		move.z = 1.0f;
@@ -294,6 +293,8 @@ void Player::KeyRun() {
 
 	// 移動量に速さを反映
 	move = Multiply(Speed, Normalize(move));
+
+	move = TransformNormal(move, MakeRotateYmatrix(viewProjection_->rotation_.y));
 
 	  // 移動
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
@@ -324,12 +325,12 @@ void Player::KeyRun() {
 				isRightLeg_ = false;
 			}
 		}
-	} else {
+	} /*else {
 		worldTransformL_leg.rotation_.x = 0.0f;
 		worldTransformR_leg.rotation_.x = 0.0f;
 		isLeftLeg_ = false;
 		isRightLeg_ = false;
-	}
+	}*/
 }
 
 void Player::OnCollision() {

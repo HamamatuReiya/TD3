@@ -396,7 +396,7 @@ void GameScene::Update() {
 		break;
 	}
 	
-	player_->KeyRun();
+	//player_->KeyRun();
 
 	//player_->SetIsController(false);
 	debugCamera_->Update();
