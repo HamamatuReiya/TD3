@@ -19,16 +19,31 @@ void BommEnhance::Initialize() {
 	numHandle_[8] = TextureManager::Load("./Resources/number/8.png");
 	numHandle_[9] = TextureManager::Load("./Resources/number/9.png");
 
+	//スラッシュ
+	slashHandle_ = TextureManager::Load("./Resources/number/slash.png");
+	textureSlash_ = Sprite::Create(
+	    slashHandle_, {230.0f, 10.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+
+	//exp
+	expHandle_ = TextureManager::Load("./Resources/number/EXP.png");
+	texturePowerUpExp_ = Sprite::Create(expHandle_, {1.0f, 10.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+
 	// 取得した数
 	for (int i = 0; i < 2; i++) {
 		textureLevel_[i] = Sprite::Create(
-		    numHandle_[i], {630.0f + i * 50.0f, 330.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+		    numHandle_[i], {630.0f + i * 55.0f, 330.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 	}
 
 	//経験値表示
 	for (int i = 0; i < 3; i++) {
 		textureExp_[i] = Sprite::Create(
-		    numHandle_[i], {5.0f + i * 55.0f, 10.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+		    numHandle_[i], {75.0f + i * 55.0f, 10.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	}
+
+	//経験値の最大値
+	for (int i = 0; i < 3; i++) {
+		textureMaxexp_[i] = Sprite::Create(
+		    numHandle_[i], {280.0f + i * 55.0f, 10.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 	}
 
 	for (int i = 1; i <= 9; i++) {
@@ -74,6 +89,22 @@ void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
 		textureExp_[i]->SetTextureHandle(numHandle_[expP[i]]);
 	}
 
+	int expMaxDisplay = expMax[bommLv];
+	expMaxP[0] = expMax[bommLv] / 100;
+	expMaxDisplay = expMaxDisplay % 100;
+
+	expMaxP[1] = expMax[bommLv] / 10;
+	expMaxDisplay = expMaxDisplay % 10;
+
+	expMaxP[2] = expMaxDisplay;
+
+	for (int i = 0; i < 3; i++) {
+		textureMaxexp_[i]->SetTextureHandle(numHandle_[expMaxP[i]]);
+	}
+
+	textureSlash_->SetTextureHandle(slashHandle_);
+
+	texturePowerUpExp_->SetTextureHandle(expHandle_);
 
 	// ゲームパッドの状態を得る変数
 	/*XINPUT_STATE joyState;
@@ -92,7 +123,7 @@ void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
 
 void BommEnhance::Draw() {
 	/*for (int i = 0; i < 2; i++) {
-		textureLevel_[i]->Draw();
+	    textureLevel_[i]->Draw();
 	}*/
 	if (bommLv < 10) {
 		textureLevel_[1]->Draw();
@@ -104,6 +135,13 @@ void BommEnhance::Draw() {
 	for (int i = 0; i < 3; i++) {
 		textureExp_[i]->Draw();
 	}
+
+	for (int i = 0; i < 3; i++) {
+		textureMaxexp_[i]->Draw();
+	}
+
+	textureSlash_->Draw();
+	texturePowerUpExp_->Draw();
 }
 
 void BommEnhance::ResultDraw() {

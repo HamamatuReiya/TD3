@@ -262,6 +262,11 @@ private: // メンバ変数
 	const int kTime = 100 * 60; 
 	int time = kTime;
 
+	// +3
+	Sprite* addTimeSprite_ = nullptr;
+	Vector4 addTimeColor_ = {1.0f, 1.0f, 1.0f, 0.0f};
+	bool isAddTime;
+
 	/*森エリア*/
 	// 3Dモデル
 	std::unique_ptr<Model> forestGroundModel_ = nullptr;
@@ -295,6 +300,7 @@ private: // メンバ変数
 
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
+	XINPUT_STATE preJoyState;
 
 	const int randNumberMAX_ = 10;
 	int randNumber_ = 0;
