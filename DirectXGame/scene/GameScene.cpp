@@ -259,8 +259,8 @@ void GameScene::Update() {
 	}
 
 	if (input_->TriggerKey(DIK_SPACE)) {
-		clearFlag = true;
-		isFade = true;
+		//clearFlag = true;
+		//isFade = true;
 	}
 	if (isFade == true) {
 		if (isBoom_ == false) {
@@ -334,13 +334,33 @@ void GameScene::Update() {
 		/// 更新
 		if (isWindow_ == false) {
 			player_->Update();
-		} else {
+		} 
+		else {
+			ButtonCoolDown_--;
+			stoneCount_ = 2;
+			if (isPowerUpTutorial[1] == false) {
+				isPowerUpTutorial[0] = true;
+				if (input_->TriggerKey(DIK_SPACE)) {
+					if (ButtonCoolDown_ <= 0) {
+						isPowerUpTutorial[1] = true;
+						isPowerUpTutorial[0] = false;
+						ButtonCoolDown_ = 60;
+					}
+				}
+			}
+				if (input_->TriggerKey(DIK_SPACE) && isPowerUpTutorial[1] == true &&
+				    ButtonCoolDown_ <= 0) {
+					isTutorialSceneEnd_ = true;
+					isPowerUpTutorial[1] = false;
+					ButtonCoolDown_ = 60;
+				}
+			
 			if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-				ButtonCoolDown_--;
+				
 				/*if (isPowerUpTutorial[0] == true || isPowerUpTutorial[1] == true) {
 					bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
 				}*/
-				stoneCount_ = 2;
+				
 				if (isPowerUpTutorial[1] == false) {
 					isPowerUpTutorial[0] = true;
 					if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
@@ -358,8 +378,10 @@ void GameScene::Update() {
 					ButtonCoolDown_ = 60;
 				}
 				
-			}
+			} 
+			
 		}
+		
 		
 		break;
 

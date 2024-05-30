@@ -48,4 +48,9 @@ private:
 	bool isView_;
 	//
 	bool isTutorial2Flag_;
+
+	bool isPush[4];
+
+	Input* input_ = nullptr;
+
 };

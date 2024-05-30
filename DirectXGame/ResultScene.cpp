@@ -73,8 +73,9 @@ void ResultScene::Initialize() {
 }
 
 void ResultScene::Update() {
-	if (input_->TriggerKey(DIK_SPACE)) {
-		isSceneEnd_ = true;
+	if (input_->TriggerKey(DIK_SPACE) && fadeFlag_ == false) {
+		fadeFlag_ = true;
+		fade_->FadeOutStart();
 	}
 
 	XINPUT_STATE joyState;

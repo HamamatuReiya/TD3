@@ -20,6 +20,12 @@ void Tutorial::TutorialInitialize() {
 		isTuorial_[i] = false;
 	}
 
+	for (int i = 0; i < 4; i++) {
+		isPush[i] = false;
+	}
+
+	input_ = Input::GetInstance();
+
 	ButtonCoolDown_ = 60;
 	//0
 	isTuorial_[0] = true;
@@ -31,10 +37,13 @@ void Tutorial::TutorialInitialize() {
 }
 
 void Tutorial::TutorialUpdate() {
+
+	ButtonCoolDown_--;
+
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		ButtonCoolDown_--;
+		
 		// 1
 		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && isTuorial_[0] == true) {
 		
@@ -83,6 +92,54 @@ void Tutorial::TutorialUpdate() {
 		}
 		
     }
+
+	// 1
+	if (input_->TriggerKey(DIK_SPACE) && isTuorial_[0] == true) {
+
+		if (ButtonCoolDown_ <= 0) {
+			isTuorial_[0] = false;
+			isTuorial_[1] = true;
+			isTuorial_[2] = false;
+			isTuorial_[3] = false;
+			ButtonCoolDown_ = 60;
+			isView_ = true;
+		}
+	}
+	// 2
+	if (input_->TriggerKey(DIK_SPACE) && isTuorial_[1] == true) {
+		if (ButtonCoolDown_ <= 0) {
+			isTuorial_[0] = false;
+			isTuorial_[1] = false;
+			isTuorial_[2] = true;
+			isTuorial_[3] = false;
+			ButtonCoolDown_ = 60;
+			isView_ = false;
+		}
+	}
+	if (input_->TriggerKey(DIK_SPACE) && isTuorial_[2] == true) {
+		if (ButtonCoolDown_ <= 0) {
+			isTuorial_[2] = false;
+			ButtonCoolDown_ = 60;
+			isTutorialEnd_ = true;
+		}
+	}
+
+	// 3
+	if (isTutorialEnd_ == false && isTuorial_[2] == false && isTuorial_[0] == false &&
+	    isTuorial_[1] == false) {
+		if (ButtonCoolDown_ <= 0) {
+			isTuorial_[3] = true;
+			isTuorial_[2] = false;
+			isTuorial_[1] = false;
+			isTuorial_[0] = false;
+			ButtonCoolDown_ = 60;
+		}
+	}
+	if (input_->TriggerKey(DIK_SPACE)&& isTuorial_[3] == true) {
+		isTutorialEnd_ = true;
+		isTutorial2Flag_ = true;
+	}
+
 }
 
 
@@ -110,6 +167,10 @@ void Tutorial::TutorialDraw() {
 void Tutorial::RoopInitilize() {
 	for (int i = 0; i < 4; i++) {
 		isTuorial_[i] = false;
+	}
+
+	for (int i = 0; i < 4; i++) {
+		isPush[i] = false;
 	}
 
 	ButtonCoolDown_ = 60;
