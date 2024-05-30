@@ -73,6 +73,10 @@ private: // メンバ変数
 	Sprite* textureSubTitle_;
 	uint32_t subTitleHandle_;
 
+	// フルスクリーンボタン文字画像
+	Sprite* textureFullScreen_;
+	uint32_t fullScreenHandle_;
+
 	Sprite* textureSubTitle1_;
 	uint32_t subTitleHandle1_;
 
