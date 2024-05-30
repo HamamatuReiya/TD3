@@ -18,6 +18,9 @@ void ResultScene::Initialize() {
 	bommLvTex = TextureManager::Load("./Resources/Lv.png");
 	bommLv = Sprite::Create(bommLvTex, {500, 310}, {1,1,1,1}, {0,0});
 
+	fade_ = std::make_unique<Fade>();
+	fade_->Initialize();
+
 	// 天球
 	// 3Dモデルの生成
 	modelSpacedome_.reset(Model::CreateFromOBJ("spacedome", true));
@@ -68,10 +71,19 @@ void ResultScene::Update() {
 
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
-			isSceneEnd_ = true;
+		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && fadeFlag_ == false) {
+			fadeFlag_ = true;
+			fade_->FadeOutStart();
 		}
 	}
+	if (fadeFlag_ == true) {
+		fadeTimer_--;
+	}
+	if (fadeTimer_ <= 0) {
+		isSceneEnd_ = true;
+	}
+
+	fade_->Update();
 
 	// 天球の更新
 	spacedome_->Update();
@@ -129,13 +141,19 @@ void ResultScene::Draw() {
 	bommEnhance_->ResultDraw();
 	bommLv->Draw();
 
+	fade_->Draw();
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
 #pragma endregion
 }
 
-void ResultScene::SceneReset() { isSceneEnd_ = false; }
+void ResultScene::SceneReset() { 
+	fadeFlag_ = false;
+	isSceneEnd_ = false;
+	fadeTimer_ = kFadeTimer_;
+}
 
 void ResultScene::BGMReset() { 
 	playResultBgm_ = audio_->PlayWave(resultbgmHandle_, true, 0.1f); 

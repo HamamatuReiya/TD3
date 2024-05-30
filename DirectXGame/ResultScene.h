@@ -12,6 +12,7 @@
 #include "ResultEarth.h"
 #include "ItemCounter.h"
 #include "BommEnhance.h"
+#include "fade/Fade.h"
 
 class ResultScene{
 public: // メンバ関数
@@ -72,6 +73,12 @@ private: // メンバ変数
 	std::unique_ptr<ItemCounter> itemCounter_;
 
 	std::unique_ptr<BommEnhance> bommEnhance_;
+
+	std::unique_ptr<Fade> fade_;
+
+	bool fadeFlag_=false;
+	const float kFadeTimer_ = 1.657f * 60.0f;
+	float fadeTimer_ = kFadeTimer_;
 
 	Sprite* bommLv;
 	uint32_t bommLvTex; 
