@@ -300,6 +300,7 @@ private: // メンバ変数
 
 	// ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
+	XINPUT_STATE preJoyState;
 
 	const int randNumberMAX_ = 10;
 	int randNumber_ = 0;
