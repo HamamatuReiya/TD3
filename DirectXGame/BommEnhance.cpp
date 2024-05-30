@@ -123,3 +123,5 @@ void BommEnhance::RoopInitialize() {
 	exp = 0;
 	expMax[10] = 99999;
 }
+
+int BommEnhance::GetBommLv() { return bommLv; }

@@ -6,6 +6,8 @@ void Player::Initialize(const std::vector<Model*>& models)
 {
 	BaseCharacter::Initialize(models);
 
+	input_ = Input::GetInstance();
+
 	isPushX_ = false;
 	isController = true;
 	for (int x = 0; x < 11; x++) {
@@ -178,7 +180,7 @@ void Player::Update() {
 		XINPUT_STATE joyState;
 		if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 			// 拾うモーション
-			if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_X && useAxe_ == false) {
+		    if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_X && useAxe_ == false) {
 				motionRequest_ = Motion::kPick;
 				isPushX_ = true;
 			} else {

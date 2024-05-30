@@ -93,6 +93,10 @@ private: // メンバ変数
 	bool padStateFlag_ = false;
 	bool dPadStateFlag_ = false;
 
+	bool isPushLight_ = false;
+	bool isPushReft_ = false;
+	bool isPush_ = false;
+
 	// フェード
 	std::unique_ptr<Fade> fade_;
 	bool fadeTimerFlag_;

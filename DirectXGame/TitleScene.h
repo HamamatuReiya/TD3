@@ -92,6 +92,8 @@ private: // メンバ変数
 	//  3Dモデル
 	std::unique_ptr<Model> modelSpacedome_;
 
+	bool isPush_ = false;
+
 	// フェード
 	std::unique_ptr<Fade> fade_;
 	bool fadeTimerFlag_;
