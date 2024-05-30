@@ -314,7 +314,7 @@ void GameScene::Update() {
 				/*if (isPowerUpTutorial[0] == true || isPowerUpTutorial[1] == true) {
 					bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
 				}*/
-				stoneCount_ = 2;
+				/*stoneCount_ = 2;*/
 				if (isPowerUpTutorial[1] == false) {
 					isPowerUpTutorial[0] = true;
 					if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
@@ -631,10 +631,12 @@ void GameScene::Draw() {
 	} else {
 		ui_->ButtonHintDraw();
 	}
+	itemCounter_->Draw();
 	// 爆弾の強化ウィンドウ
 	if (player_->GetActionbutton() == 1 && isWindow_ == true && clearFlag == false) {
 		ui_->Draw();
 		bommEnhance_->Draw();
+		itemCounter_->WindowDraw();
 	}
 	switch (stageNo) {
 	case Stage::kTutorial:
@@ -656,8 +658,8 @@ void GameScene::Draw() {
 
 		break;
 	}
-	itemCounter_->Draw();
-	// 時間更新
+	
+	// 時間表示
 	timer_->Draw();
 	if (isFade == true) {
 		fadeSprite_->Draw();
