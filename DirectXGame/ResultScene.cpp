@@ -15,8 +15,16 @@ void ResultScene::Initialize() {
 	viewProjection_.Initialize();
 	isSceneEnd_ = false;
 
+	resultTextTex[0] = TextureManager::Load("./Resources/resultText1.png");
+	resultTextTex[1] = TextureManager::Load("./Resources/resultText2.png");
+	resultTextTex[2] = TextureManager::Load("./Resources/resultText3.png");
+
+	resultText[0] = Sprite::Create(resultTextTex[0], {0, 0}, {1, 1, 1, 1}, {0, 0});
+	resultText[1] = Sprite::Create(resultTextTex[1], {0, 0}, {1, 1, 1, 1}, {0, 0});
+	resultText[2] = Sprite::Create(resultTextTex[2], {-20, 0}, {1, 1, 1, 1}, {0, 0});
+
 	bommLvTex = TextureManager::Load("./Resources/Lv.png");
-	bommLv = Sprite::Create(bommLvTex, {500, 310}, {1,1,1,1}, {0,0});
+	bommLv = Sprite::Create(bommLvTex, {480, 314}, {1,1,1,1}, {0,0});
 
 	fade_ = std::make_unique<Fade>();
 	fade_->Initialize();
@@ -140,6 +148,12 @@ void ResultScene::Draw() {
 	//itemCounter_->Draw();
 	bommEnhance_->ResultDraw();
 	bommLv->Draw();
+	if (bommEnhance_->GetBommLv() <= 9) {
+		resultText[0]->Draw();
+	} else if (bommEnhance_->GetBommLv() >= 10) {
+		resultText[1]->Draw();
+	}
+	resultText[2]->Draw();
 
 	fade_->Draw();
 

@@ -80,6 +80,9 @@ private: // メンバ変数
 	const float kFadeTimer_ = 1.657f * 60.0f;
 	float fadeTimer_ = kFadeTimer_;
 
+	Sprite* resultText[3];
+	uint32_t resultTextTex[3];
+
 	Sprite* bommLv;
 	uint32_t bommLvTex; 
 

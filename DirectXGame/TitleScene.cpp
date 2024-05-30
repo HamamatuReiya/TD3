@@ -29,6 +29,8 @@ void TitleScene::Initialize() {
 
 	isSceneEnd_ = false;
 
+	isPush_ = false;
+
 	/*score_ = std::make_unique<Score>();
 	score_->Initialize();
 
@@ -66,25 +68,32 @@ void TitleScene::Update() {
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 
 		if (subTitleColor2_.w >= 1.0f) {
-			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && fadeTimerFlag_ == false) {
-				fadeTimerFlag_ = true;
-				fade_->FadeOutStart();
-			}
-
-			if (fadeTimerFlag_ == true) {
-				fadeTimer_--;
-			}
-
-			if (fadeTimer_ <= 0) {
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A){
 				
-				isSceneEnd_ = true;
-			}
+					isPush_ = true;
+					
+			}	
+		}
+	}
+	if (subTitleColor2_.w >= 1.0f) {
+		if (input_->TriggerKey(DIK_SPACE)) {
+			isPush_ = true;
 		}
 	}
 
-	if (input_->TriggerKey(DIK_SPACE)) {
+    if (fadeTimerFlag_ == false&&isPush_==true) {
+		fadeTimerFlag_ = true;
+		fade_->FadeOutStart();
+	}
+	if (fadeTimerFlag_ == true) {
+		fadeTimer_--;
+	}
+
+	if (fadeTimer_ <= 0) {
 		isSceneEnd_ = true;
 	}
+
+	/*if /*
 
 
 	//仮
@@ -186,6 +195,7 @@ void TitleScene::SceneReset() {
 	
 	fadeTimerFlag_ = false;
 	fadeTimer_ = kFadeTimer_;
+	isPush_ = false;
 }
 
 void TitleScene::BGMReset() { 

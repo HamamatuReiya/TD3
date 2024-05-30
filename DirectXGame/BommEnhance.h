@@ -23,6 +23,8 @@ public:
 
 	void RoopInitialize();
 
+	int GetBommLv();
+
 	/// <summary>
 	/// 描画
 	/// </summary>
