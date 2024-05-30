@@ -26,6 +26,8 @@ void Tutorial::TutorialInitialize() {
 
 	
 	isTutorialEnd_ = false;
+
+	isTutorial2Flag_ = false;
 }
 
 void Tutorial::TutorialUpdate() {
@@ -77,6 +79,7 @@ void Tutorial::TutorialUpdate() {
 		}
 		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && isTuorial_[3] == true) {
 			isTutorialEnd_ = true;
+			isTutorial2Flag_ = true;
 		}
 		
     }
