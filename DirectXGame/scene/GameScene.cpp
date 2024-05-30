@@ -148,11 +148,11 @@ void GameScene::Initialize() {
 	//チュートリアル
 	tutorial_->TutorialInitialize();
 	//強化画面用
-	PowerUpTutorialHandle_[0] = TextureManager::Load("Tutorial0.png");
+	PowerUpTutorialHandle_[0] = TextureManager::Load("Tutorial4.png");
 	PowerUpTutorialSprite_[0] = Sprite::Create(
 	    PowerUpTutorialHandle_[0], {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 
-	PowerUpTutorialHandle_[1] = TextureManager::Load("Tutorial1.png");
+	PowerUpTutorialHandle_[1] = TextureManager::Load("Tutorial5.png");
 	PowerUpTutorialSprite_[1] = Sprite::Create(
 	    PowerUpTutorialHandle_[1], {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 
@@ -311,35 +311,23 @@ void GameScene::Update() {
 		} else {
 			if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 				ButtonCoolDown_--;
-				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && isPowerUpTutorial[0]==false) {
-					if (isPowerUpTutorial[0] == true && isPowerUpTutorial[1] == false) {
-						bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
-					}
-					if (ButtonCoolDown_ <= 0) {
-						isPowerUpTutorial[0] = true;
-						isPowerUpTutorial[1] = false;
-						ButtonCoolDown_ = 60;
-					}
-					stoneCount_ = 0;
-					goldCount_ = 0;
-					jushiCount_ = 0;
-					shellCount_ = 0;
-				}
-				if (isPowerUpTutorial[0] == true) {
+				/*if (isPowerUpTutorial[0] == true || isPowerUpTutorial[1] == true) {
+					bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
+				}*/
+				stoneCount_ = 2;
+				if (isPowerUpTutorial[1] == false) {
+					isPowerUpTutorial[0] = true;
 					if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 						if (ButtonCoolDown_ <= 0) {
 							isPowerUpTutorial[1] = true;
 							isPowerUpTutorial[0] = false;
-							ButtonCoolDown_ = 60;
-							if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
-								isTutorialSceneEnd_ = true;	
-							}
 						}
-
+						ButtonCoolDown_ = 60;
 					}
 				}
-				if (isPowerUpTutorial[1]==true) {
-					
+				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && isPowerUpTutorial[1] == true &&
+				    ButtonCoolDown_ <= 0) {
+					isTutorialSceneEnd_ = true;
 				}
 			}
 		}
@@ -796,6 +784,10 @@ void GameScene::SceneReset() {
 	clearFlag = false;
 	fadeColor_.w = 0.0f;
 	isFade = false;
+	stoneCount_ = 0;
+	goldCount_ = 0;
+	jushiCount_ = 0;
+	shellCount_ = 0;
 }
 
 void GameScene::HouseCollision() {
