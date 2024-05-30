@@ -15,6 +15,9 @@ void TitleScene::Initialize() {
 	titleHandle_ = TextureManager::Load("title.png");
 	textureTitle_ = Sprite::Create(titleHandle_, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 
+	fullScreenHandle_ = TextureManager::Load("UI.png");
+	textureFullScreen_ = Sprite::Create(fullScreenHandle_, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+
 	subTitleHandle_ = TextureManager::Load("subTitle.png");
 	textureSubTitle_ = Sprite::Create(subTitleHandle_, {0.0f, 0.0f}, subTitleColor_, {0.0f, 0.0f});
 
@@ -163,6 +166,8 @@ void TitleScene::Draw() {
 	textureSubTitle_->Draw();
 	textureSubTitle1_->Draw();
 	textureSubTitle2_->Draw();
+
+	textureFullScreen_->Draw();
 	
 
 	// フェードの描画
