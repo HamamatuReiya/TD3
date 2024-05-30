@@ -27,6 +27,11 @@ void TitleScene::Initialize() {
 	subTitleHandle2_ = TextureManager::Load("subTitle2.png");
 	textureSubTitle2_ = Sprite::Create(subTitleHandle2_, {0.0f, 0.0f}, subTitleColor2_, {0.0f, 0.0f});
 
+	// ルール説明
+	luleHandle_ = TextureManager::Load("Lule.png");
+	textureLule_ =
+	    Sprite::Create(luleHandle_, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+
 	isSceneEnd_ = false;
 
 	/*score_ = std::make_unique<Score>();
@@ -54,36 +59,49 @@ void TitleScene::Initialize() {
 	titlebgmHandle_ = audio_->LoadWave("BGM/Sound_Wave.mp3");
 	playTitleBgm_ = audio_->PlayWave(titlebgmHandle_, true, 0.1f);
 	
+	isLule_ = false;
+	// ボタンクールダウン
+	ButtonCoolDown_=60;
 }
 
 void TitleScene::Update() {
 	// ゲームパッドの状態を得る変数(XINPUT)
 	XINPUT_STATE joyState;
-
-
-
 	// ゲームパッド状態取得
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		ButtonCoolDown_--;
+		if (isLule_ == false) {
+			if (subTitleColor2_.w >= 1.0f) {
+				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && fadeTimerFlag_ == false) {
+					if (ButtonCoolDown_ <= 0) {
+						fadeTimerFlag_ = true;
+						fade_->FadeOutStart();
+						ButtonCoolDown_ = 60;
+					}
+				}
 
-		if (subTitleColor2_.w >= 1.0f) {
-			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && fadeTimerFlag_ == false) {
-				fadeTimerFlag_ = true;
-				fade_->FadeOutStart();
-			}
+				if (fadeTimerFlag_ == true) {
+					fadeTimer_--;
+				}
 
-			if (fadeTimerFlag_ == true) {
-				fadeTimer_--;
-			}
+				if (fadeTimer_ <= 0) {
 
-			if (fadeTimer_ <= 0) {
-				
-				isSceneEnd_ = true;
+					isSceneEnd_ = true;
+				}
 			}
 		}
 	}
 
 	if (input_->TriggerKey(DIK_SPACE)) {
 		isSceneEnd_ = true;
+	}
+
+
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_X && fadeTimerFlag_ == false) {
+		isLule_ = true;
+	}
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && isLule_ == true && fadeTimerFlag_==false) {
+		isLule_ = false;
 	}
 
 
@@ -169,6 +187,9 @@ void TitleScene::Draw() {
 
 	textureFullScreen_->Draw();
 	
+	if (isLule_==true) {
+		textureLule_->Draw();
+	}
 
 	// フェードの描画
 	fade_->Draw();
@@ -186,6 +207,7 @@ void TitleScene::SceneReset() {
 	
 	fadeTimerFlag_ = false;
 	fadeTimer_ = kFadeTimer_;
+	ButtonCoolDown_ = 60;
 }
 
 void TitleScene::BGMReset() { 
