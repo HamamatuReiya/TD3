@@ -262,11 +262,14 @@ void GameScene::Update() {
 		isDoorTimer = false;
 		doorTimer = 90;
 	}
-
+#ifdef DEBUG
 	if (input_->TriggerKey(DIK_SPACE)) {
 		clearFlag = true;
 		isFade = true;
 	}
+#endif // DEBUG
+
+	
 	if (isFade == true) {
 		if (isBoom_ == false) {
 			playboom_ = audio_->PlayWave(boomHandle_, false, 0.5);
