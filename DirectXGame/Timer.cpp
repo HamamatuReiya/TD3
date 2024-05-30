@@ -19,7 +19,7 @@ void Timer::Initialize() {
 	// 取得した数
 	for (int i = 0; i < 3; i++) {
 		textureTimer_[i] = Sprite::Create(
-		    numHandle_[i], {600.0f + i * 50.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+		    numHandle_[i], {570.0f + i * 50.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 	}
 }
 

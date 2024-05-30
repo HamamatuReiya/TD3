@@ -192,6 +192,11 @@ void GameScene::Initialize() {
 	timer_ = std::make_unique<Timer>();
 	timer_->Initialize();
 
+	// +3
+	uint32_t addTimeTexHandle = TextureManager::Load("3.png");
+	addTimeSprite_ = Sprite::Create(addTimeTexHandle, {770, 0});
+	addTimeColor_.w = 0.0f;
+
 	// 爆弾強化
 	bommEnhance_ = std::make_unique<BommEnhance>();
 	bommEnhance_->Initialize();
@@ -340,7 +345,7 @@ void GameScene::Update() {
 				/*if (isPowerUpTutorial[0] == true || isPowerUpTutorial[1] == true) {
 					bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
 				}*/
-				stoneCount_ = 2;
+				/*stoneCount_ = 2;*/
 				if (isPowerUpTutorial[1] == false) {
 					isPowerUpTutorial[0] = true;
 					if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
@@ -652,15 +657,20 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	
+	addTimeSprite_->Draw();
+
 	if (player_->GetActionbutton() == 1) {
 		player_->ActionbuttonDraw();
 	} else {
 		ui_->ButtonHintDraw();
 	}
+	itemCounter_->Draw();
 	// 爆弾の強化ウィンドウ
 	if (player_->GetActionbutton() == 1 && isWindow_ == true && clearFlag == false) {
 		ui_->Draw();
 		bommEnhance_->Draw();
+		itemCounter_->WindowDraw();
 	}
 	switch (stageNo) {
 	case Stage::kTutorial:
@@ -682,8 +692,8 @@ void GameScene::Draw() {
 
 		break;
 	}
-	itemCounter_->Draw();
-	// 時間更新
+	
+	// 時間表示
 	timer_->Draw();
 	if (isFade == true) {
 		fadeSprite_->Draw();
@@ -1988,6 +1998,7 @@ void GameScene::MaterialCheckCollisions() {
 				// 樹脂の衝突時コールバックを呼び出す
 				jushi->OnCollision();
 				// 素材の所持数を足す
+				addTimeColor_.w = 1.0f;
 				jushiCount_++;
 				playget_ = audio_->PlayWave(getHandle_, false, 0.5);
 				time += 180;
@@ -2000,6 +2011,11 @@ void GameScene::MaterialCheckCollisions() {
 			jushi->SetIsExclamation(false);
 		}
 	}
+
+	if (addTimeColor_.w > 0.0f) {
+		addTimeColor_.w -= 0.01f;
+	}
+	addTimeSprite_->SetColor(addTimeColor_);
 
 	// 自キャラと貝の当たり判定
 	for (Shell* shell : shells_) {
