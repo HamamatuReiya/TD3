@@ -6,6 +6,8 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	input_ = Input::GetInstance();
 	BaseCharacter::Initialize(models);
 
+	input_ = Input::GetInstance();
+
 	isPushX_ = false;
 	isController = true;
 	for (int x = 0; x < 11; x++) {
@@ -223,50 +225,50 @@ void Player::MotionRunUpdate() {
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		// 移動量
 		if (isController == true) {
-			    Vector3 move = {
-			        (float)joyState.Gamepad.sThumbLX / SHRT_MAX * -Speed, 0.0f,
-			        (float)joyState.Gamepad.sThumbLY / SHRT_MAX * -Speed};
+			 Vector3 move = {
+			     (float)joyState.Gamepad.sThumbLX / SHRT_MAX * -Speed, 0.0f,
+			     (float)joyState.Gamepad.sThumbLY / SHRT_MAX * -Speed};
 
-			    // 移動量に速さを反映
-			    move = Multiply(Speed, Normalize(move));
+			 // 移動量に速さを反映
+			 move = Multiply(Speed, Normalize(move));
 
-			    move = TransformNormal(move, MakeRotateYmatrix(viewProjection_->rotation_.y));
+			 move = TransformNormal(move, MakeRotateYmatrix(viewProjection_->rotation_.y));
 
-			    // 移動
-			    worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+			 // 移動
+			 worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 
-			    if (Length(move) != 0) {
-				    worldTransform_.rotation_.y = std::atan2(move.x, move.z);
-				    // 左足
-				    if (isLeftLeg_ == false) {
-					    worldTransformL_leg.rotation_.x += 0.1f;
-					    if (worldTransformL_leg.rotation_.x >= 1.0f) {
-						    isLeftLeg_ = true;
-					    }
-				    } else if (isLeftLeg_ == true) {
-					    worldTransformL_leg.rotation_.x -= 0.1f;
-					    if (worldTransformL_leg.rotation_.x <= -1.0f) {
-						    isLeftLeg_ = false;
-					    }
+			 if (Length(move) != 0) {
+			    worldTransform_.rotation_.y = std::atan2(move.x, move.z);
+			    // 左足
+			    if (isLeftLeg_ == false) {
+				    worldTransformL_leg.rotation_.x += 0.1f;
+				    if (worldTransformL_leg.rotation_.x >= 1.0f) {
+					    isLeftLeg_ = true;
 				    }
-				    // 右足
-				    if (isRightLeg_ == false) {
-					    worldTransformR_leg.rotation_.x -= 0.1f;
-					    if (worldTransformR_leg.rotation_.x <= -1.0f) {
-						    isRightLeg_ = true;
-					    }
-				    } else if (isRightLeg_ == true) {
-					    worldTransformR_leg.rotation_.x += 0.1f;
-					    if (worldTransformR_leg.rotation_.x >= 1.0f) {
-						    isRightLeg_ = false;
-					    }
+			    } else if (isLeftLeg_ == true) {
+				    worldTransformL_leg.rotation_.x -= 0.1f;
+				    if (worldTransformL_leg.rotation_.x <= -1.0f) {
+					    isLeftLeg_ = false;
 				    }
-			    } else {
-				    worldTransformL_leg.rotation_.x = 0.0f;
-				    worldTransformR_leg.rotation_.x = 0.0f;
-				    isLeftLeg_ = false;
-				    isRightLeg_ = false;
 			    }
+			    // 右足
+			    if (isRightLeg_ == false) {
+				    worldTransformR_leg.rotation_.x -= 0.1f;
+				    if (worldTransformR_leg.rotation_.x <= -1.0f) {
+					    isRightLeg_ = true;
+				    }
+			    } else if (isRightLeg_ == true) {
+				    worldTransformR_leg.rotation_.x += 0.1f;
+				    if (worldTransformR_leg.rotation_.x >= 1.0f) {
+					    isRightLeg_ = false;
+				    }
+			    }
+			 } else {
+			    worldTransformL_leg.rotation_.x = 0.0f;
+			    worldTransformR_leg.rotation_.x = 0.0f;
+			    isLeftLeg_ = false;
+			    isRightLeg_ = false;
+			 }
 		}
 	}
 }

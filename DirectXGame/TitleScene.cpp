@@ -34,6 +34,8 @@ void TitleScene::Initialize() {
 
 	isSceneEnd_ = false;
 
+	isPush_ = false;
+
 	/*score_ = std::make_unique<Score>();
 	score_->Initialize();
 
@@ -69,32 +71,34 @@ void TitleScene::Update() {
 	XINPUT_STATE joyState;
 	// ゲームパッド状態取得
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		ButtonCoolDown_--;
-		if (isLule_ == false) {
-			if (subTitleColor2_.w >= 1.0f) {
-				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && fadeTimerFlag_ == false) {
-					if (ButtonCoolDown_ <= 0) {
-						fadeTimerFlag_ = true;
-						fade_->FadeOutStart();
-						ButtonCoolDown_ = 60;
-					}
-				}
 
-				if (fadeTimerFlag_ == true) {
-					fadeTimer_--;
-				}
-
-				if (fadeTimer_ <= 0) {
-
-					isSceneEnd_ = true;
-				}
-			}
+		if (subTitleColor2_.w >= 1.0f) {
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A){
+				
+					isPush_ = true;
+					
+			}	
+		}
+	}
+	if (subTitleColor2_.w >= 1.0f) {
+		if (input_->TriggerKey(DIK_SPACE)) {
+			isPush_ = true;
 		}
 	}
 
-	if (input_->TriggerKey(DIK_SPACE)) {
+    if (fadeTimerFlag_ == false&&isPush_==true) {
+		fadeTimerFlag_ = true;
+		fade_->FadeOutStart();
+	}
+	if (fadeTimerFlag_ == true) {
+		fadeTimer_--;
+	}
+
+	if (fadeTimer_ <= 0) {
 		isSceneEnd_ = true;
 	}
+
+	/*if /*
 
 
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_X && fadeTimerFlag_ == false) {
@@ -207,7 +211,7 @@ void TitleScene::SceneReset() {
 	
 	fadeTimerFlag_ = false;
 	fadeTimer_ = kFadeTimer_;
-	ButtonCoolDown_ = 60;
+	isPush_ = false;
 }
 
 void TitleScene::BGMReset() { 

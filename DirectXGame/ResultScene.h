@@ -10,8 +10,11 @@
 
 #include "Spacedome.h"
 #include "ResultEarth.h"
+#include "ItemCounter.h"
+#include "BommEnhance.h"
+#include "fade/Fade.h"
 
-class ResultScene {
+class ResultScene{
 public: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
@@ -66,6 +69,22 @@ private: // メンバ変数
 	WorldTransform worldTransform_;
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
+
+	std::unique_ptr<ItemCounter> itemCounter_;
+
+	std::unique_ptr<BommEnhance> bommEnhance_;
+
+	std::unique_ptr<Fade> fade_;
+
+	bool fadeFlag_=false;
+	const float kFadeTimer_ = 1.657f * 60.0f;
+	float fadeTimer_ = kFadeTimer_;
+
+	Sprite* resultText[3];
+	uint32_t resultTextTex[3];
+
+	Sprite* bommLv;
+	uint32_t bommLvTex; 
 
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;

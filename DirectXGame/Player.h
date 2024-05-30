@@ -6,6 +6,7 @@
 #include <optional>
 #include "BaseCharacter.h"
 #include "UI.h"
+#include "Audio.h"
 
 class Player : public BaseCharacter {
 public:
@@ -198,6 +199,8 @@ private:
 	const ViewProjection* viewProjection_ = nullptr;
 	//インプット
 	Input* input_ = nullptr;
+	// オーディオ
+	Audio* audio_ = nullptr;
 	// 3Dモデル
 	Model* model_ = nullptr;
 	Model* modelFighterBody_;
@@ -254,4 +257,6 @@ private:
 
 	//速さ
 	float Speed;
+
+	
 };

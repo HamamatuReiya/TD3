@@ -25,6 +25,10 @@ void SelectScene::Initialize() {
 
 	earthPos_ = 0.0f;
 
+	isPushLight_ = false;
+	isPushReft_ = false;
+	isPush_ = false;
+
 	modelEarth_[0].reset(Model::CreateFromOBJ("namekku", true));
 	modelEarth_[1].reset(Model::CreateFromOBJ("earth", true));
 	earth_[0] = std::make_unique<Earth>();
@@ -43,6 +47,10 @@ void SelectScene::Initialize() {
 }
 
 void SelectScene::Update() {
+
+	isPushLight_ = false;
+	isPushReft_ = false;
+	isPush_ = false;
 
 	// ゲームパッドの状態を得る変数(XINPUT)
 	XINPUT_STATE joyState;
@@ -85,28 +93,25 @@ void SelectScene::Update() {
 			}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 		}
 		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && fadeTimerFlag_ == false) {
-			fadeTimerFlag_ = true;
-			fade_->FadeOutStart();
-		}
-
-		if (fadeTimerFlag_ == true) {
-			fadeTimer_--;
-		}
-
-		if (fadeTimer_ <= 0) {
-			isSceneEnd_ = true;
+			isPush_ = true;
 		}
 	}
 
-	if (input_->TriggerKey(DIK_SPACE)) {
-		isSceneEnd_ = true;
+	if (input_->TriggerKey(DIK_SPACE) && fadeTimerFlag_ == false) {
+		isPush_ = true;
 	}
 
-	if (stageCount_ >= 0 || stageCount_ <= kMaxStage_) {
-		if (input_->TriggerKey(DIK_LEFT)) {
+	if (stageCount_ >= 0 || stageCount_ <= kMaxStage_ ) {
+		if (input_->TriggerKey(DIK_LEFT) && fadeTimerFlag_ == false) {
 			stageCount_ -= 1;
-		} else if (input_->TriggerKey(DIK_RIGHT)) {
+			earth_[1]->SetScale({10.0f, 10.0f, 10.0f});
+
+			isSelectEarth = false;
+		} else if (input_->TriggerKey(DIK_RIGHT) && fadeTimerFlag_ == false) {
 			stageCount_ += 1;
+			earth_[0]->SetScale({10.0f, 10.0f, 10.0f});
+
+			isSelectEarth = true;
 		}
 	}
 
@@ -124,6 +129,19 @@ void SelectScene::Update() {
 			earthPos_ = -30.0f;
 			earth_[1]->SetScale({15.0f, 15.0f, 15.0f});
 		}
+	}
+
+	if (isPush_ == true) {
+		fadeTimerFlag_ = true;
+		fade_->FadeOutStart();
+	}
+
+	if (fadeTimerFlag_ == true) {
+		fadeTimer_--;
+	}
+
+	if (fadeTimer_ <= 0) {
+		isSceneEnd_ = true;
 	}
 
 	earth_[0]->SetPos(earthPos_);
@@ -267,4 +285,7 @@ void SelectScene::SceneReset() {
 	isSceneEnd_ = false;
 	fadeTimerFlag_ = false;
 	fadeTimer_ = kFadeTimer_;
+	isPushLight_ = false;
+	isPushReft_ = false;
+	isPush_ = false;
 }

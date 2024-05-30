@@ -1,7 +1,6 @@
 ﻿#include "ResultScene.h"
 
 
-
 ResultScene::ResultScene() {}
 
 ResultScene::~ResultScene() {}
@@ -16,6 +15,20 @@ void ResultScene::Initialize() {
 	viewProjection_.Initialize();
 	isSceneEnd_ = false;
 
+	resultTextTex[0] = TextureManager::Load("./Resources/resultText1.png");
+	resultTextTex[1] = TextureManager::Load("./Resources/resultText2.png");
+	resultTextTex[2] = TextureManager::Load("./Resources/resultText3.png");
+
+	resultText[0] = Sprite::Create(resultTextTex[0], {0, 0}, {1, 1, 1, 1}, {0, 0});
+	resultText[1] = Sprite::Create(resultTextTex[1], {0, 0}, {1, 1, 1, 1}, {0, 0});
+	resultText[2] = Sprite::Create(resultTextTex[2], {-20, 0}, {1, 1, 1, 1}, {0, 0});
+
+	bommLvTex = TextureManager::Load("./Resources/Lv.png");
+	bommLv = Sprite::Create(bommLvTex, {480, 314}, {1,1,1,1}, {0,0});
+
+	fade_ = std::make_unique<Fade>();
+	fade_->Initialize();
+
 	// 天球
 	// 3Dモデルの生成
 	modelSpacedome_.reset(Model::CreateFromOBJ("spacedome", true));
@@ -23,6 +36,12 @@ void ResultScene::Initialize() {
 	spacedome_ = std::make_unique<Spacedome>();
 	// 天球の初期化
 	spacedome_->Initialize(modelSpacedome_.get());
+
+	bommEnhance_ = std::make_unique<BommEnhance>();
+
+		// 所持数UIの生成
+	itemCounter_ = std::make_unique<ItemCounter>();
+	itemCounter_->Initialize();
 
 	resultEarth_ = std::make_unique<ResultEarth>();
 
@@ -58,10 +77,28 @@ void ResultScene::Update() {
 		isSceneEnd_ = true;
 	}
 
+	XINPUT_STATE joyState;
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && fadeFlag_ == false) {
+			fadeFlag_ = true;
+			fade_->FadeOutStart();
+		}
+	}
+	if (fadeFlag_ == true) {
+		fadeTimer_--;
+	}
+	if (fadeTimer_ <= 0) {
+		isSceneEnd_ = true;
+	}
+
+	fade_->Update();
+
 	// 天球の更新
 	spacedome_->Update();
 
 	resultEarth_->Update();
+
+	//itemCounter_->Update();
 
 }
 
@@ -108,7 +145,17 @@ void ResultScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
-	
+	//itemCounter_->Draw();
+	bommEnhance_->ResultDraw();
+	bommLv->Draw();
+	if (bommEnhance_->GetBommLv() <= 9) {
+		resultText[0]->Draw();
+	} else if (bommEnhance_->GetBommLv() >= 10) {
+		resultText[1]->Draw();
+	}
+	resultText[2]->Draw();
+
+	fade_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -116,7 +163,11 @@ void ResultScene::Draw() {
 #pragma endregion
 }
 
-void ResultScene::SceneReset() { isSceneEnd_ = false; }
+void ResultScene::SceneReset() { 
+	fadeFlag_ = false;
+	isSceneEnd_ = false;
+	fadeTimer_ = kFadeTimer_;
+}
 
 void ResultScene::BGMReset() { 
 	playResultBgm_ = audio_->PlayWave(resultbgmHandle_, true, 0.1f); 
