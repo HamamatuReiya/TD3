@@ -314,6 +314,25 @@ private: // メンバ変数
 	uint32_t playBgm_;
 	bool isBgm_;
 
+	// 効果音
+	uint32_t boomHandle_;
+	uint32_t playboom_;
+	bool isBoom_;
+	
+	uint32_t getHandle_;
+	uint32_t playget_;
+
+	uint32_t doorHandle_;
+	uint32_t playdoor_;
+	bool isDoor_;
+	float doorTimer = 90;
+	bool isDoorTimer;
+
+	uint32_t fishingHandle_;
+	uint32_t playfishing_;
+	bool isFishing_;
+
+
 	//素材投入後チュートリアル
 	bool isPowerUpTutorial[2];
 	Sprite* PowerUpTutorialSprite_[2];
