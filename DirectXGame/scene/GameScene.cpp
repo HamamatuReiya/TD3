@@ -328,7 +328,10 @@ void GameScene::Update() {
 				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && isPowerUpTutorial[1] == true &&
 				    ButtonCoolDown_ <= 0) {
 					isTutorialSceneEnd_ = true;
+					isPowerUpTutorial[1] = false;
+					ButtonCoolDown_ = 60;
 				}
+				
 			}
 		}
 		
@@ -619,7 +622,7 @@ void GameScene::Draw() {
 		if (tutorial_->GetIsTutorialEnd_() == false&& clearFlag == false) {
 			tutorial_->TutorialDraw();
 		}
-		if (isPowerUpTutorial[0]==true){
+		if (isPowerUpTutorial[0] == true){
 			PowerUpTutorialSprite_[0]->Draw();
 		}
 		if (isPowerUpTutorial[1] == true) {
@@ -727,6 +730,11 @@ void GameScene::SceneReset() {
 	explosion_->Initialize(explosionModel_.get());
 
 	houseCollisionFlag = true;
+
+	for (int i = 0; i < 2; i++) {
+		isPowerUpTutorial[i] = false;
+	}
+
 	for (int i = 0; i < 11; i++) {
 		houseCollisionSwitchFlag[i] = true;
 	}
@@ -736,9 +744,7 @@ void GameScene::SceneReset() {
 		isHouseItemGetFlag2[i] = false;
 		isHouseItemGetFlag3[i] = false;
 	}
-	for (int i = 0; i < 2; i++) {
-		isPowerUpTutorial[i] = false;
-	}
+	
 
 	isWindow_ = false;
 	for (int i = 0; i < 18; i++) {
