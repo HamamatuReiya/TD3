@@ -235,9 +235,6 @@ void GameScene::Initialize() {
 	// 爆発の初期化
 	explosion_->Initialize(explosionModel_.get());
 
-	ButtonCoolDown_ = 60;
-
-	// BGM
 	bgmHandle_ = audio_->LoadWave("BGM/Shadow_of_the_Enemy.mp3");
 
 	// SE
@@ -245,6 +242,9 @@ void GameScene::Initialize() {
 	getHandle_ = audio_->LoadWave("SE/get.mp3");
 	doorHandle_ = audio_->LoadWave("SE/door.mp3");
 	fishingHandle_ = audio_->LoadWave("SE/fishing.mp3");
+	
+	ButtonCoolDown_ = 60;
+	WindowCoolDown_ = 10;
 }
 
 void GameScene::Update() {
@@ -390,14 +390,18 @@ void GameScene::Update() {
 		/// 更新
 		if (isWindow_ == false) {
 			player_->Update();
+			WindowCoolDown_ = 10;
 		} else {
 			if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
-					bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
-					stoneCount_ = 0;
-					goldCount_ = 0;
-					jushiCount_ = 0;
-					shellCount_ = 0;
+				WindowCoolDown_--;
+				if (WindowCoolDown_ <= 0) {
+					if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+						bommEnhance_->Update(stoneCount_, goldCount_, jushiCount_, shellCount_);
+						stoneCount_ = 0;
+						goldCount_ = 0;
+						jushiCount_ = 0;
+						shellCount_ = 0;
+					}
 				}
 			}
 		}

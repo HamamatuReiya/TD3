@@ -46,11 +46,38 @@ void BommEnhance::Initialize() {
 		    numHandle_[i], {280.0f + i * 55.0f, 10.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 	}
 
+	exp = 0;
 	for (int i = 1; i <= 9; i++) {
 		expMax[i] = 5 * (i);
 	}
 	
 	expMax[10] = 99999;
+	int expTex = exp;
+
+	expP[0] = exp / 100;
+	expTex = expTex % 100;
+
+	expP[1] = exp / 10;
+	expTex = expTex % 10;
+
+	expP[2] = expTex;
+
+	for (int i = 0; i < 3; i++) {
+		textureExp_[i]->SetTextureHandle(numHandle_[expP[i]]);
+	}
+
+	int expMaxDisplay = expMax[bommLv];
+	expMaxP[0] = expMax[bommLv] / 100;
+	expMaxDisplay = expMaxDisplay % 100;
+
+	expMaxP[1] = expMax[bommLv] / 10;
+	expMaxDisplay = expMaxDisplay % 10;
+
+	expMaxP[2] = expMaxDisplay;
+
+	for (int i = 0; i < 3; i++) {
+		textureMaxexp_[i]->SetTextureHandle(numHandle_[expMaxP[i]]);
+	}
 }
 
 void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
