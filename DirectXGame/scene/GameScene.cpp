@@ -230,24 +230,50 @@ void GameScene::Initialize() {
 	// 爆発の初期化
 	explosion_->Initialize(explosionModel_.get());
 
-	bgmHandle_ = audio_->LoadWave("BGM/Shadow_of_the_Enemy.mp3");
-	
 	ButtonCoolDown_ = 60;
+
+	// BGM
+	bgmHandle_ = audio_->LoadWave("BGM/Shadow_of_the_Enemy.mp3");
+
+	// SE
+	boomHandle_ = audio_->LoadWave("SE/boom.mp3");
+	getHandle_ = audio_->LoadWave("SE/get.mp3");
+	doorHandle_ = audio_->LoadWave("SE/door.mp3");
+	fishingHandle_ = audio_->LoadWave("SE/fishing.mp3");
 }
 
 void GameScene::Update() {
+	if (isDoor_ == true && doorTimer >= 90) {
+		playdoor_ = audio_->PlayWave(doorHandle_, false, 0.5);
+		isDoorTimer = true;
+		isDoor_ = false;
+	}
+	if (isDoorTimer == true) {
+		doorTimer -= 1;
+	}
+	if (doorTimer <= 0) {
+		playfishing_ = audio_->PlayWave(fishingHandle_, false, 1.0);
+		isDoor_ = false;
+		isDoorTimer = false;
+		doorTimer = 90;
+	}
+
 	if (input_->TriggerKey(DIK_SPACE)) {
 		clearFlag = true;
 		isFade = true;
 	}
 	if (isFade == true) {
-		
+		if (isBoom_ == false) {
+			playboom_ = audio_->PlayWave(boomHandle_, false, 0.5);
+			isBoom_ = true;
+		}
 		fadeColor_.w += 0.01f;
 		fadeSprite_->SetColor(fadeColor_);
 	}
 	if (fadeColor_.w >= 1.0f) {
 		fadeColor_.w = 0.0f;
 		isFade = false;
+		isBoom_ = false;
 		clearFlag = false;
 		isSceneEnd_ = true;
 		isTutorialSceneEnd_ = false;
@@ -747,6 +773,10 @@ void GameScene::SceneReset() {
 
 	time = kTime;
 
+	doorTimer = 90;
+
+	isDoorTimer = false;
+
 	explosion_->Initialize(explosionModel_.get());
 
 	houseCollisionFlag = true;
@@ -853,6 +883,7 @@ void GameScene::HouseCollision() {
 	if (posB.x + 7.0f >= posA.x && posB.x <= posA.x && posB.z <= posA.z - 1.5f &&
 	    posB.z + 4.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
+			isDoor_ = true;
 			isDoorOpen[0] = true;
 			door_[0]->SetKeyFlag(true);
 		}
@@ -893,6 +924,7 @@ void GameScene::HouseCollision() {
 	if (posC.x + 7.0f >= posA.x && posC.x <= posA.x && posC.z <= posA.z - 1.5f &&
 	    posC.z + 4.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
+			isDoor_ = true;
 			door_[1]->SetKeyFlag(true);
 			isDoorOpen[1] = true;
 		} 
@@ -934,6 +966,7 @@ void GameScene::HouseCollision() {
 	if (posD.x + 7.0f >= posA.x && posD.x <= posA.x && posD.z <= posA.z - 0.5f &&
 	    posD.z + 4.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
+			isDoor_ = true;
 			door_[2]->SetKeyFlag(true);
 			isDoorOpen[2] = true;
 		}
@@ -975,6 +1008,7 @@ void GameScene::HouseCollision() {
 	if (posF.x+3.0f >= posA.x && posF.x-5.0f <= posA.x && posF.z <= posA.z &&
 	    posF.z+8.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
+			isDoor_ = true;
 			door_[4]->SetKeyFlag(true);
 			isDoorOpen[3] = true;
 		}
@@ -1016,6 +1050,7 @@ void GameScene::HouseCollision() {
 	if (posG.x + 3.0f >= posA.x && posG.x - 5.0f <= posA.x && posG.z <= posA.z &&
 	    posG.z+7.0f  >= posA.z) {
 		if (player_->GetIsPushX() == true) {
+			isDoor_ = true;
 			door_[5]->SetKeyFlag(true);
 			isDoorOpen[4] = true;
 		} 
@@ -1057,6 +1092,7 @@ void GameScene::HouseCollision() {
 	if (posH.x >= posA.x && posH.x - 7.0f <= posA.x && posH.z - 3.0f <= posA.z &&
 	    posH.z+5.0f  >= posA.z) {
 		if (player_->GetIsPushX() == true) {
+			isDoor_ = true;
 			door_[6]->SetKeyFlag(true);
 			isDoorOpen[5] = true;
 		}
@@ -1098,6 +1134,7 @@ void GameScene::HouseCollision() {
 	if (posI.x+5.0f >= posA.x && posI.x - 3.0f <= posA.x && posI.z-7.0f  <= posA.z &&
 	    posI.z  >= posA.z) {
 		if (player_->GetIsPushX() == true) {
+			isDoor_ = true;
 			door_[7]->SetKeyFlag(true);
 			isDoorOpen[6] = true;
 		}
@@ -1139,6 +1176,7 @@ void GameScene::HouseCollision() {
 	if (posJ.x + 5.0f >= posA.x && posJ.x - 3.0f <= posA.x && posJ.z - 7.0f <= posA.z &&
 	    posJ.z >= posA.z) {
 		if (player_->GetIsPushX() == true) {
+			isDoor_ = true;
 			door_[8]->SetKeyFlag(true);
 			isDoorOpen[7] = true;
 		}
@@ -1180,6 +1218,7 @@ void GameScene::HouseCollision() {
 	if (posK.x + 3.0f >= posA.x && posK.x - 5.0f <= posA.x && posK.z <= posA.z &&
 	    posK.z + 14.0f >= posA.z) {
 		if (player_->GetIsPushX() == true) {
+			isDoor_ = true;
 			door_[9]->SetKeyFlag(true);
 			isDoorOpen[8] = true;
 		}
@@ -1244,6 +1283,7 @@ void GameScene::HouseCollision() {
 	if (posM.x + 3.0f >= posA.x && posM.x - 5.0f <= posA.x && posM.z - 14.0f <= posA.z &&
 	    posM.z >= posA.z) {
 		if (player_->GetIsPushX() == true) {
+			isDoor_ = true;
 			door_[10]->SetKeyFlag(true);
 			isDoorOpen[10] = true;
 		}
@@ -1881,6 +1921,7 @@ void GameScene::MaterialCheckCollisions() {
 				stone->OnCollision();
 				//素材の所持数を足す
 				stoneCount_++;
+				playget_ = audio_->PlayWave(getHandle_, false, 0.5);
 				switch (stageNo) {
 				case Stage::kTutorial:
 					// チュートリアル用
@@ -1919,6 +1960,7 @@ void GameScene::MaterialCheckCollisions() {
 				gold->OnCollision();
 				// 素材の所持数を足す
 				goldCount_++;
+				playget_ = audio_->PlayWave(getHandle_, false, 0.5);
 				gold->SetIsExclamation(false);
 			}
 		} else {
@@ -1947,6 +1989,7 @@ void GameScene::MaterialCheckCollisions() {
 				jushi->OnCollision();
 				// 素材の所持数を足す
 				jushiCount_++;
+				playget_ = audio_->PlayWave(getHandle_, false, 0.5);
 				time += 180;
 
 				jushi->SetIsExclamation(false);
@@ -1979,6 +2022,7 @@ void GameScene::MaterialCheckCollisions() {
 				shell->OnCollision();
 				// 素材の所持数を足す
 				shellCount_++;
+				playget_ = audio_->PlayWave(getHandle_, false, 0.5);
 				shell->SetIsExclamation(false);
 			}
 		} else {
