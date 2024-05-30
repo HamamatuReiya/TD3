@@ -136,7 +136,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				// ゲームシーンの初期化、フラグリセット等
 				gameScene->SceneReset();
+
+				//BGM
 				gameScene->BGMStop();
+				resultScene->BGMReset();
 			}
 
 			break;
@@ -152,6 +155,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				// ゲームシーンの初期化、フラグリセット等
 				resultScene->SceneReset();
 				// BGM
+				resultScene->BGMStop();
 				titleScene->BGMReset();
 			}
 

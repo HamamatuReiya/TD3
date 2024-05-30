@@ -43,6 +43,10 @@ public:
 	bool IsSceneEnd() { return isSceneEnd_; }
 	SceneType NextScene() { return SceneType::kTitle; }
 
+	void BGMReset();
+
+	void BGMStop();
+
 private: // メンバ変数
 
 	DirectXCommon* dxCommon_ = nullptr;
@@ -53,4 +57,9 @@ private: // メンバ変数
 
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+
+	// サウンド
+	uint32_t resultbgmHandle_;
+	uint32_t playResultBgm_;
+	bool isResultBgm_;
 };
