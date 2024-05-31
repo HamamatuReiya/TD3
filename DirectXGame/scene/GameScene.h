@@ -350,7 +350,6 @@ private: // メンバ変数
 	uint32_t PowerUpTutorialHandle_[2];
 	// ボタンクールダウン
 	int ButtonCoolDown_;
-	int WindowCoolDown_;
 
 	/// <summary>
 	/// ゲームシーン用
