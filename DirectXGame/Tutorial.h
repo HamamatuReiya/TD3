@@ -51,6 +51,7 @@ private:
 
 	bool isPush[4];
 
+	// インプット
 	Input* input_ = nullptr;
 
 };

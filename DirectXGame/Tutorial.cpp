@@ -26,7 +26,7 @@ void Tutorial::TutorialInitialize() {
 
 	input_ = Input::GetInstance();
 
-	ButtonCoolDown_ = 60;
+	ButtonCoolDown_ = 30;
 	//0
 	isTuorial_[0] = true;
 
@@ -52,7 +52,7 @@ void Tutorial::TutorialUpdate() {
 				isTuorial_[1] = true;
 				isTuorial_[2] = false;
 				isTuorial_[3] = false;
-				ButtonCoolDown_ = 60;
+				ButtonCoolDown_ = 30;
 				isView_ = true;
 			}
 		}
@@ -63,14 +63,14 @@ void Tutorial::TutorialUpdate() {
 				isTuorial_[1] = false;
 				isTuorial_[2] = true;
 				isTuorial_[3] = false;
-				ButtonCoolDown_ = 60;
+				ButtonCoolDown_ = 30;
 				isView_ = false;
 			}
 		}
 		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && isTuorial_[2] == true) {
 			if (ButtonCoolDown_ <= 0) {
 				isTuorial_[2] = false;
-				ButtonCoolDown_ = 60;
+				ButtonCoolDown_ = 30;
 				isTutorialEnd_ = true;
 			}
 		}
@@ -83,7 +83,7 @@ void Tutorial::TutorialUpdate() {
 				isTuorial_[2] = false;
 				isTuorial_[1] = false;
 				isTuorial_[0] = false;
-				ButtonCoolDown_ = 60;
+				ButtonCoolDown_ = 30;
 			}
 		}
 		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A && isTuorial_[3] == true) {
@@ -101,7 +101,7 @@ void Tutorial::TutorialUpdate() {
 			isTuorial_[1] = true;
 			isTuorial_[2] = false;
 			isTuorial_[3] = false;
-			ButtonCoolDown_ = 60;
+			ButtonCoolDown_ = 30;
 			isView_ = true;
 		}
 	}
@@ -112,14 +112,14 @@ void Tutorial::TutorialUpdate() {
 			isTuorial_[1] = false;
 			isTuorial_[2] = true;
 			isTuorial_[3] = false;
-			ButtonCoolDown_ = 60;
+			ButtonCoolDown_ = 30;
 			isView_ = false;
 		}
 	}
 	if (input_->TriggerKey(DIK_SPACE) && isTuorial_[2] == true) {
 		if (ButtonCoolDown_ <= 0) {
 			isTuorial_[2] = false;
-			ButtonCoolDown_ = 60;
+			ButtonCoolDown_ = 30;
 			isTutorialEnd_ = true;
 		}
 	}
@@ -132,7 +132,7 @@ void Tutorial::TutorialUpdate() {
 			isTuorial_[2] = false;
 			isTuorial_[1] = false;
 			isTuorial_[0] = false;
-			ButtonCoolDown_ = 60;
+			ButtonCoolDown_ = 30;
 		}
 	}
 	if (input_->TriggerKey(DIK_SPACE)&& isTuorial_[3] == true) {
@@ -173,7 +173,7 @@ void Tutorial::RoopInitilize() {
 		isPush[i] = false;
 	}
 
-	ButtonCoolDown_ = 60;
+	ButtonCoolDown_ = 30;
 	// 0
 	isTuorial_[0] = true;
 	isTutorialEnd_ = false;

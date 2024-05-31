@@ -81,10 +81,10 @@ void BommEnhance::Initialize() {
 }
 
 void BommEnhance::Update(int stone, int gold, int jushi, int shell) {
-	exp += stone * 2;
-	exp += gold * 5;
-	exp += jushi * 1;
-	exp += shell * 2;
+	exp += stone * 5;
+	exp += gold * 12;
+	exp += jushi * 3;
+	exp += shell * 5;
 
 	while (exp >= expMax[bommLv]) {
 		exp -= expMax[bommLv];

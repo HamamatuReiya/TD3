@@ -704,16 +704,6 @@ void Player::MotionJumpUpdate() {
 }
 
 void Player::MotionAxeUpdate() {
-	// ゲームパッドの状態を得る変数
-	XINPUT_STATE joyState;
-
-	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		//モーション
-		if (useAxe_ == true && joyState.Gamepad.wButtons == XINPUT_GAMEPAD_X) {
-			    motionRequest_ = Motion::kAxe;
-		}
-		
-	}
 
 }
 

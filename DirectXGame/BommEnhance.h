@@ -39,7 +39,7 @@ private:
 	// 数字の画像の読み込み
 	uint32_t numHandle_[10];
 
-	Sprite* textureMaxexp_[3];
+	Sprite * textureMaxexp_[3];
 
 	uint32_t slashHandle_;
 	Sprite* textureSlash_;

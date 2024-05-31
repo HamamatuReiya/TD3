@@ -427,6 +427,9 @@ void GameScene::Update() {
 				}
 			}
 		}
+		// 時間更新
+		time--;
+		timer_->Update(time);
 		break;
 	}
 	
@@ -474,9 +477,7 @@ void GameScene::Update() {
 
 	
 
-	//時間更新
-	time--;
-	timer_->Update(time);
+	
 
 	if (time <= 0) {
 		clearFlag = true;
@@ -587,6 +588,7 @@ void GameScene::MaterialReset() {
 
 void GameScene::Draw() {
 
+
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
@@ -602,6 +604,7 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 	// 深度バッファクリア
 	dxCommon_->ClearDepthBuffer();
+
 #pragma endregion
 
 #pragma region 3Dオブジェクト描画
@@ -716,17 +719,16 @@ void GameScene::Draw() {
 
 		break;
 	case Stage::kTown:
-		
-
+		// 時間表示
+		timer_->Draw();
+		if (isFade == true) {
+			fadeSprite_->Draw();
+		}
 
 		break;
 	}
 	
-	// 時間表示
-	timer_->Draw();
-	if (isFade == true) {
-		fadeSprite_->Draw();
-	}
+	
 
 	// ゲームパッドの状態を得る変数
 	//XINPUT_STATE joyState;
@@ -2030,7 +2032,7 @@ void GameScene::MaterialCheckCollisions() {
 				addTimeColor_.w = 1.0f;
 				jushiCount_++;
 				playget_ = audio_->PlayWave(getHandle_, false, 0.5);
-				time += 180;
+				time += 300;
 
 				jushi->SetIsExclamation(false);
 				

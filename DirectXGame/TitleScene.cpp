@@ -63,7 +63,7 @@ void TitleScene::Initialize() {
 	
 	isLule_ = false;
 	// ボタンクールダウン
-	ButtonCoolDown_=60;
+	ButtonCoolDown_=30;
 }
 
 void TitleScene::Update() {
@@ -75,8 +75,7 @@ void TitleScene::Update() {
 		if (subTitleColor2_.w >= 1.0f) {
 			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A){
 				
-					isPush_ = true;
-					
+				isPush_ = true;
 			}	
 		}
 	}
@@ -97,9 +96,6 @@ void TitleScene::Update() {
 	if (fadeTimer_ <= 0) {
 		isSceneEnd_ = true;
 	}
-
-	/*if /*
-
 
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_X && fadeTimerFlag_ == false) {
 		isLule_ = true;
@@ -212,6 +208,8 @@ void TitleScene::SceneReset() {
 	fadeTimerFlag_ = false;
 	fadeTimer_ = kFadeTimer_;
 	isPush_ = false;
+	// ボタンクールダウン
+	ButtonCoolDown_ = 30;
 }
 
 void TitleScene::BGMReset() { 

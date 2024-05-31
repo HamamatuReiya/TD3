@@ -30,7 +30,7 @@ public:
 	// 再生データ
 	struct Voice {
 		uint32_t handle = 0u;
-		IXAudio2SourceVoice* sourceVoice = nullptr;
+		IXAudio2SourceVoice * sourceVoice = nullptr;
 	};
 
 	/// <summary>
