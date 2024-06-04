@@ -208,6 +208,7 @@ void TitleScene::SceneReset() {
 	fadeTimerFlag_ = false;
 	fadeTimer_ = kFadeTimer_;
 	isPush_ = false;
+	isLule_ = false;
 	// ボタンクールダウン
 	ButtonCoolDown_ = 30;
 }
